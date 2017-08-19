@@ -1,0 +1,38 @@
+.uam_new_article{
+	margin-bottom: 10px;
+}
+
+.icon-featured::before, 
+.icon-expired::before, 
+.icon-pending::before {
+    color: #c67605;
+}
+.icon-publish::before {
+    color: #378137;
+}
+.icon-unpublish::before {
+    color: #942a25;
+}
+.menuitem .icon-publish::before,
+.menuitem .icon-unpublish::before,
+.menuitem .icon-featured::before {
+	color: #333333
+}
+
+.disabled .icon-publish::before,
+.disabled .icon-unpublish::before,
+.disabled .icon-featured::before,
+.disabled .icon-pending::before,
+.disabled .icon-expired::before {
+	color: #999999
+}
+
+#fual_edit_alias_form {
+    width: 450px;
+    left: 50%;
+    top: 50%;
+    margin-left: -225px;
+    margin-top: -75px;
+	display: none;
+	position: absolute;
+}

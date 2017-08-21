@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     0.19
  * @package     com_juam
@@ -62,42 +62,11 @@ $uam_jversion = new JVersion();
     </div>
     <?php
     if ($this->params->get('new_article_button')) {
-        $custom_link = trim($this->params->get('link_new_article'));
-        //default link
-        if($this->params->get('link_new_article_default') || (!$this->params->get('link_new_article_default') && strlen($custom_link) == 0)) {
-            $app = JFactory::getApplication();
-            $menuid =  $app->getMenu()->getActive()->id;
-            $uri = JFactory::getURI();
-            
-            if (($this->params->get('useallcategories') == 0) && ($this->params->get('restrict_to_category') == 1)) {
-                $catid = '&catid='.$this->params->get('mycategory');
-            }
-            else {
-                $catid = '';
-            }
-            if ($this->params->get('utf8_url_fix') ) {
-                $ret = base64_encode(urlencode($uri->toString()));
-            } 
-            else {
-                $ret = base64_encode($uri->toString());
-            }
-            $link_new_article = JRoute::_('index.php?option=com_content&task=article.add&Itemid='.$menuid.$catid.'&return='.$ret);
-        }
-        //custom link
-        else { 
-            $link_new_article = $custom_link;
-        }
-        if ($this->params->get('new_article_button_custom')) {
-            $button_text = $this->params->get('new_article_button_text');
-        }
-        else {
-            $button_text = JText::_('COM_UAM_NEW_ARTICLE');
-        }
-	
+		$button = $this->getNewArticleButton($this->params);
     ?>
     <div class="uam_new_article">
-        <button class="btn" type="button" id="bt_new_article" onclick="location.href='<?php echo $link_new_article; ?>';">
-            <span class="icon-plus"> </span><?php echo $button_text; ?>
+        <button class="btn" type="button" id="bt_new_article" onclick="location.href='<?php echo $button['link']; ?>';">
+            <span class="icon-plus"> </span><?php echo $button['text']; ?>
         </button>
     </div>
 	<?php
@@ -209,31 +178,7 @@ $uam_jversion = new JVersion();
                     <div class="btn-group">
                     <?php
                     echo $this->getPublishedIcon($row, $row->params, $this->access);
-                    $override = false;
-                    
-                    if (($this->access->canEdit || $this->access->canEditOwn) && $this->params->get('user_can_feature')) {
-                        $override = true;
-                    }
-                    if (($this->access->canPublish && $row->state != -2) ||	($this->user->id == $row->created_by && $override)) {
-                        $url = "index.php?option=com_uam&view=uam&task=unFeature&cid={$row->id}&Itemid=" . JRequest::getInt('Itemid');
-                        $link = JRoute::_($url);
-                        if ($row->featured > 0) {
-                            $icon = "icon-featured";
-                            $class = "active";
-                            $title = JText::_('COM_UAM_TOOLTIP_FEATURED');
-                        } 
-                        else {
-                            $icon = "icon-unfeatured";
-                            $class = "";
-                            $title = JText::_('COM_UAM_TOOLTIP_NOT_FEATURED');
-                        }
-                        echo "<a class='btn btn-micro hasTooltip $class' href='$link' title='$title'><span class='$icon'></span></a>";
-                    }
-                    else {
-                        $icon = ($row->featured > 0) ? "icon-featured" : "icon-unfeatured";
-                        $title = ($row->state > 0) ? JText::_('COM_UAM_TOOLTIP_FEATURED') : JText::_('COM_UAM_TOOLTIP_NOT_FEATURED');
-                        echo "<a class='btn btn-micro disabled hasTooltip' title='$title'><span class='$icon'></span></a>";
-                    }
+                    echo $this->getFeaturedIcon($row, $row->params, $this->access);
                     ?>                   
                         <a class="btn dropdown-toggle btn-micro" data-toggle="dropdown" href="#">
                             <span class="caret"></span>
@@ -246,24 +191,11 @@ $uam_jversion = new JVersion();
                         endif;
                         // Copy Item
                         if ($this->params->get('copy_column')) :
-                            if ($row->state != -2) {
-                                $url = "index.php?option=com_uam&controller=&task=copy&cid={$row->id}&Itemid=" . JRequest::getInt('Itemid');
-                                $link = JRoute::_($url);
-                                $msg_confirm = JText::_('COM_UAM_WOULD_YOU_LIKE_TO_CREATE_AN_ARTICLE_COPY', true);
-                                $title = JText::_('COM_UAM_CREATE_A_COPY', true);
-                                echo "<li><a href='$link' onclick=\"if(!confirm('$msg_confirm')) { return false; }\" title='$title'><span class='icon-copy'></span>".$title."</a>";
-                                }
+                            echo $this->getCopy($row, $row->params, $this->access);
                         endif;
                         // Edit alias Item
                         if ($this->params->get('edit_alias_column')) :
-                            if ($row->state != -2 && ($this->access->canEdit || $this->access->canEditOwn)) {
-                                $item_txt = JText::_('COM_UAM_EDIT_ALIAS');
-                                echo "<li><a data-toggle='modal' href='#fual_edit_alias_form' onclick='fualEditAlias({$row->id},event);'><span class='icon-share-alt'></span>".$item_txt."</a></li>";
-                            }
-                            else {
-                                $item_txt = JText::_('COM_UAM_EDIT_ALIAS');
-                                echo "<li class='disabled' id='img_alias_{$row->id}'><a href='#'><span class='icon-share-alt'></span>".$item_txt."</a></li>";
-                            }
+                            echo $this->getEditAlias($row, $row->params, $this->access);
                         endif;          
                         // Public Item
                         if ($this->params->get('published_column')) :
@@ -271,56 +203,16 @@ $uam_jversion = new JVersion();
                         endif;
                         // Featured Item
                         if ($this->params->get('featured_column')) :
-                            $override = false;
-                            if (($this->access->canEdit || $this->access->canEditOwn) && $this->params->get('user_can_feature')){
-                                $override = true;
-                            }
-                            if (($this->access->canPublish && $row->state != -2) || ($this->user->id == $row->created_by && $override)) {
-                                $url = "index.php?option=com_uam&view=uam&task=unFeature&cid={$row->id}&Itemid=" . JRequest::getInt('Itemid');
-                                $link = JRoute::_($url);
-                                $item_txt = ($row->featured > 0) ? JText::_('COM_UAM_UNFEATURE') : JText::_('COM_UAM_FEATURE');
-                                $icon = ($row->featured > 0) ? 'icon-featured' : 'icon-unfeatured';
-                                echo "<li class='menuitem'><a href='$link'><span class='$icon'></span>".$item_txt."</a></li>";
-                            }
-                            else {
-                                $item_txt = ($row->featured > 0) ? JText::_('COM_UAM_UNFEATURE') : JText::_('COM_UAM_FEATURE');
-                                $icon = ($row->featured > 0) ? 'icon-featured' : 'icon-unfeatured';
-                                echo "<li class='disabled menuitem'><a href='#'><span class='$icon'></span>".$item_txt."</a></li>";
-                            }
+          					echo $this->getFeatured($row, $row->params, $this->access);
                         endif;          
                         ?>
                             <li class="divider"></li>
                         <?php
                         // Trash / Restore Item
                         if ($this->params->get('trash_column')) :
-                            $override = false;
-                            if (($this->access->canEdit || $this->access->canEditOwn) && $this->params->get('user_can_trash')){
-                                $override = true;
-                            }
-                            if ($this->access->canPublish || ($this->user->id == $row->created_by && $override)){
-                                if ($row->state == -2) {
-                                    $msg_confirm = JText::_('COM_UAM_RESTORE_CONFIRM', true);
-                                    $item_txt = JText::_('COM_UAM_RESTORE_FROM_TRASH');
-                                }
-                                else {
-                                    $msg_confirm = JText::_('COM_UAM_TRASH_CONFIRM', true);
-                                    $item_txt = JText::_('COM_UAM_MOVE_TO_TRASH');
-                                }
-                                $link = JRoute::_("index.php?option=com_uam&controller=&task=trash&cid={$row->id}&Itemid=" . JRequest::getInt('Itemid'));
-                                echo "<li><a href='$link' onclick=\"if(!confirm('$msg_confirm')) { return false; }\"><span class='icon-trash'></span>".$item_txt."</a></li>";
-                            }
-                            else {
-                                if ($row->state == -2) {
-                                    $msg_confirm = JText::_('COM_UAM_RESTORE_CONFIRM', true);
-                                }
-                                else {
-                                    $msg_confirm = JText::_('COM_UAM_TRASH_CONFIRM', true);
-                                    $item_txt = JText::_('COM_UAM_MOVE_TO_TRASH');
-                                }
-                                echo "<li class='disabled'><a href='#'><span class='icon-trash'></span>".$item_txt."</a></li>";
-                            }
-                            endif;
-                            ?>
+                            echo $this->getTrash($row, $row->params, $this->access);
+                        endif;
+                        ?>
                         </ul>
                     </div>        
                 </td>
@@ -341,7 +233,7 @@ $uam_jversion = new JVersion();
                 if ($this->params->get('category_column')) :
                 ?>
                 <td class="small">
-                    <a href="<?php echo ContentHelperRoute::getCategoryRoute($row->catid); ?>" style="font-weight:normal;">
+                    <a href="<?php echo ContentHelperRoute::getCategoryRoute($row->catid); ?>">
                         <?php echo $row->category; ?>
                     </a>
                 </td>

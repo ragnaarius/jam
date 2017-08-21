@@ -1,5 +1,15 @@
-<?php // no direct access
+<?php 
+/**
+ * @version     0.19
+ * @package     com_juam
+ * @copyright   Copyright (C) 2017. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @author      Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov
+ * @link        https://github.com/ragnaarius/juam
+ */
+// No direct access
 defined('_JEXEC') or die('Restricted access');
+
 $user = JFactory::getUser();
 $uam_jversion = new JVersion();
 ?>
@@ -32,25 +42,17 @@ $uam_jversion = new JVersion();
                     ?>
                     <div class="control-group">
                     <?php
-                    $add_break = 0;
                     if ((($this->params->get('useallcategories') == 1) || ($this->params->get('allow_subcategories') == 1)) && ($this->params->get('showcategoryfilter') == 1)) {
                         echo $this->lists['catid'];
-                        $add_break = 1;
                     }
                     if (($this->canEditOwnOnly == false) && ($this->params->get('showauthorfilter') == 1)) {
                         echo $this->lists['authorid'];
-                        $add_break = 1;
                     }
                     if ($this->params->get('showpublishedstatefilter') == 1) {
                         echo $this->lists['state'];
-                        $add_break = 1;
                     }
                     if ($this->params->get('showlanguagefilter') == 1) {
                         echo $this->lists['langs'];
-                        $add_break = 1;
-                    }
-                    if ($add_break == 1) {
-                        echo '<br />';
                     }
                     ?>
                     </div>

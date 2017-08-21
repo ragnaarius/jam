@@ -1,12 +1,20 @@
 <?php
-// no direct access
+/**
+ * @version     0.19
+ * @package     com_juam
+ * @copyright   Copyright (C) 2017. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @author      Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov
+ * @link        https://github.com/ragnaarius/juam
+ */
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.view');
 jimport ('joomla.html.parameter');
 
 if (!defined('DIRECTORY_SEPARATOR'))
-	define('DIRECTORY_SEPARATOR', DS);
+    define('DIRECTORY_SEPARATOR', DS);
 
 if (!function_exists('class_alias')) {
     function class_alias($original, $alias) {
@@ -15,13 +23,13 @@ if (!function_exists('class_alias')) {
 }
 
 if (!class_exists('JViewLegacy')) {
-  class_alias('JView', 'JViewLegacy');
+    class_alias('JView', 'JViewLegacy');
 } 
 
 class UAMViewUAM extends JViewLegacy {
 
 	function display($tpl = null) {
-		$mainframe = JFactory::getApplication();
+        $mainframe = JFactory::getApplication();
 		$params = $mainframe->getParams('com_uam');
 		$user = JFactory::getUser();
 		$uri = JFactory::getURI();
@@ -114,7 +122,7 @@ class UAMViewUAM extends JViewLegacy {
 	}
 	
 	function _getLists() {
-		$mainframe =  JFactory::getApplication();
+        $mainframe =  JFactory::getApplication();
 		$params = $mainframe->getParams('com_uam');
 		$option = JRequest::getCMD('option'); 
 		

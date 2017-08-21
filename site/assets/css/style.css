@@ -2,6 +2,12 @@
 	margin-bottom: 10px;
 }
 
+#filter_catid,
+#filter_authorid,
+#filter_state,
+#filter_langid {
+	margin-bottom: 5px;
+}
 .icon-featured::before, 
 .icon-expired::before, 
 .icon-pending::before {

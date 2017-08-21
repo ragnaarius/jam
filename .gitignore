@@ -1,5 +1,6 @@
 # eclipse specific git ignore
 .project
+.buildpath
 .metadata
 bin/**
 tmp/**
@@ -11,5 +12,4 @@ tmp/**/*
 local.properties
 .classpath
 .settings/
-.buildpath/
 .loadpath

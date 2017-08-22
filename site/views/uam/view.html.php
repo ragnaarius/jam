@@ -513,28 +513,6 @@ if (!defined('DIRECTORY_SEPARATOR'))
             return $button;
         }
         
-        function getFeatured($article, $params, $access, $attribs = array()){
-            $user = JFactory::getUser();
-            
-            $override = false;
-            if (($access->canEdit || $ccess->canEditOwn) && $params->get('user_can_feature')){
-                $override = true;
-            }
-            if (($access->canPublish && $article->state != -2) || ($user->id == $article->created_by && $override)) {
-                $url = "index.php?option=com_uam&view=uam&task=unFeature&cid={$article->id}&Itemid=" . JRequest::getInt('Itemid');
-                $link = JRoute::_($url);
-                $item_txt = ($article->featured > 0) ? JText::_('COM_UAM_UNFEATURE') : JText::_('COM_UAM_FEATURE');
-                $icon = ($article->featured > 0) ? 'icon-featured' : 'icon-unfeatured';
-                echo "<li class='menuitem'><a href='$link'><span class='$icon'></span>".$item_txt."</a></li>";
-            }
-            else {
-                $item_txt = ($article->featured > 0) ? JText::_('COM_UAM_UNFEATURE') : JText::_('COM_UAM_FEATURE');
-                $icon = ($article->featured > 0) ? 'icon-featured' : 'icon-unfeatured';
-                echo "<li class='disabled menuitem'><a href='#'><span class='$icon'></span>".$item_txt."</a></li>";
-            }
-            
-        }
-        
         function getTrash ($article, $params, $access, $attribs = array()){
             $user = JFactory::getUser();
             $override = false;
@@ -591,7 +569,7 @@ if (!defined('DIRECTORY_SEPARATOR'))
             }
         }
         
-        function getFeaturedIcon($article, $params, $access){
+        function getFeatured($article, $params, $access, $attribs = array()){
             $user = JFactory::getUser();
             $override = false;
             
@@ -599,25 +577,37 @@ if (!defined('DIRECTORY_SEPARATOR'))
                 $override = true;
             }
             if (($access->canPublish && $article->state != -2) || ($user->id == $article->created_by && $override)) {
-                $url = "index.php?option=com_uam&view=uam&task=unFeature&cid={$article->id}&Itemid=" . JRequest::getInt('Itemid');
+                $url = "index.php?option=com_uam&view=uam&task=unFeature&cid={$article->id}&Itemid=".JRequest::getInt('Itemid');
                 $link = JRoute::_($url);
                 if ($article->featured > 0) {
                     $icon = "icon-featured";
-                    $class = "active";
                     $title = JText::_('COM_UAM_TOOLTIP_FEATURED');
+                    $item_txt = JText::_('COM_UAM_UNFEATURE');
+                    if ($attribs == "button"){
+                        $class = "active";
+                    }
+                    else {
+                        $class = "";
+                    }
                 }
                 else {
                     $icon = "icon-unfeatured";
                     $class = "";
                     $title = JText::_('COM_UAM_TOOLTIP_NOT_FEATURED');
+                    $item_txt = JText::_('COM_UAM_FEATURE');
                 }
-                echo "<a class='btn btn-micro hasTooltip $class' href='$link' title='$title'><span class='$icon'></span></a>";
             }
             else {
+                $link = "#";
+                $item_txt = ($article->featured > 0) ? JText::_('COM_UAM_UNFEATURE') : JText::_('COM_UAM_FEATURE');
                 $icon = ($article->featured > 0) ? "icon-featured" : "icon-unfeatured";
                 $title = ($article->state > 0) ? JText::_('COM_UAM_TOOLTIP_FEATURED') : JText::_('COM_UAM_TOOLTIP_NOT_FEATURED');
-                echo "<a class='btn btn-micro disabled hasTooltip' title='$title'><span class='$icon'></span></a>";
+                $class = "disabled";
             }
+            $featured = ['icon' => $icon, 'title' => $title, 'class' => $class, 'link' => $link, 'item_txt' => $item_txt];
+            
+            return $featured;
         }
+        
     }
-    ?>
+?>

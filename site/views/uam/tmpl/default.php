@@ -178,7 +178,9 @@ $uam_jversion = new JVersion();
                     <div class="btn-group">
                     <?php
                     echo $this->getPublishedIcon($row, $row->params, $this->access);
-                    echo $this->getFeaturedIcon($row, $row->params, $this->access);
+
+          			$featured = $this->getFeatured($row, $row->params, $this->access, 'button');
+          			echo "<a class='btn btn-micro {$featured['class']} hasTooltip' href='{$featured['link']}' title='{$featured['title']}'><span class='{$featured['icon']}'></span></a>";
                     ?>                   
                         <a class="btn dropdown-toggle btn-micro" data-toggle="dropdown" href="#">
                             <span class="caret"></span>
@@ -203,7 +205,8 @@ $uam_jversion = new JVersion();
                         endif;
                         // Featured Item
                         if ($this->params->get('featured_column')) :
-          					echo $this->getFeatured($row, $row->params, $this->access);
+                            $featured = $this->getFeatured($row, $row->params, $this->access);
+                        	echo "<li class='menuitem {$featured['class']}'><a href='{$featured['link']}'><span class='{$featured['icon']}'></span>{$featured['item_txt']}</a></li>";
                         endif;          
                         ?>
                             <li class="divider"></li>

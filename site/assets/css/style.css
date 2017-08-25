@@ -1,4 +1,4 @@
-.uam_new_article {
+.uam_new_article{
 	margin-bottom: 10px;
 }
 #filter_catid,
@@ -7,7 +7,6 @@
 #filter_langid {
 	margin-bottom: 5px;
 }
-
 .icon-featured::before, 
 .icon-expired::before, 
 .icon-pending::before {
@@ -19,25 +18,26 @@
 .icon-unpublish::before {
     color: #942a25;
 }
-
+.disabled a{
+	pointer-events: none;
+}
 .menuitem .icon-publish::before,
 .menuitem .icon-unpublish::before,
-.menuitem .icon-featured::before {
+.menuitem .icon-featured::before{
 	color: #333333;
 }
-
 .menuitem:hover .icon-publish::before,
 .menuitem:hover .icon-unpublish::before,
-.menuitem:hover .icon-featured::before {
+.menuitem:hover .icon-featured::before{
 	color: #FFFFFF;
 }
-
 .disabled .icon-publish::before,
 .disabled .icon-unpublish::before,
 .disabled .icon-featured::before,
-.disabled .icon-pending::before,
-.disabled .icon-expired::before {
-	color: #999999
+.menuitem.disabled:hover .icon-publish::before,
+.menuitem.disabled:hover .icon-unpublish::before,
+.menuitem.disabled:hover .icon-featured::before{
+	color: #999999;
 }
 
 #fual_edit_alias_form {

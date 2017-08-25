@@ -161,7 +161,7 @@ $uam_jversion = new JVersion();
             </tr>
         </thead>
         <tbody>
-       <?php
+		<?php
     	for ($i=0; $i < $count_itens; $i++) {
             $row = $this->getItem($i, $this->params);
             $asset	= 'com_content.article.'.$row->id;
@@ -176,13 +176,18 @@ $uam_jversion = new JVersion();
             <tr>
                 <td align="center">
                     <div class="btn-group">
-                    <?php
-                    echo $this->getPublishedIcon($row, $row->params, $this->access);
+					<?php
+                        $published = $this->getPublished($row, $row->params, $this->access, 'button');
+                        echo   "<a class=\"btn btn-micro hasTooltip " . $published['class'] . "\" href=\"" . $published['link'] . "\" title=\"" . $published['title'] . "\">
+                                    <span class=\"" . $published['icon'] . "\"></span>
+                                </a>";
 
-          			$featured = $this->getFeatured($row, $row->params, $this->access, 'button');
-          			echo "<a class='btn btn-micro {$featured['class']} hasTooltip' href='{$featured['link']}' title='{$featured['title']}'><span class='{$featured['icon']}'></span></a>";
+                        $featured = $this->getFeatured($row, $row->params, $this->access, 'button');
+                        echo   "<a class=\"btn btn-micro  hasTooltip " . $featured['class'] . "\" href=\"" . $featured['link'] . "\" title=\"" . $featured['title'] . "\">
+                                    <span class=\"" . $featured['icon'] ."\"></span>
+                                </a>";
                     ?>                   
-                        <a class="btn dropdown-toggle btn-micro" data-toggle="dropdown" href="#">
+                        <a class="btn btn-micro dropdown-toggle" data-toggle="dropdown" href="#">
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
@@ -193,27 +198,51 @@ $uam_jversion = new JVersion();
                         endif;
                         // Copy Item
                         if ($this->params->get('copy_column')) :
-                            echo $this->getCopy($row, $row->params, $this->access);
+                            $copy = $this->getCopy($row, $row->params, $this->access);
+                            echo   "<li class=\"menuitem " . $copy['class'] . "\">
+                                        <a href=\"" . $copy['link'] . "\" onclick=\"if(!confirm('" . $copy['msg_confirm'] . "')) { return false; }\">
+                                            <span class=\"icon-copy\"></span>" . $copy['item_txt'] . "
+                                        </a>
+                                    </li>";
                         endif;
                         // Edit alias Item
                         if ($this->params->get('edit_alias_column')) :
-                            echo $this->getEditAlias($row, $row->params, $this->access);
+                            $editalias = $this->getEditAlias($row, $row->params, $this->access);
+                            echo   "<li class=\"menuitem " . $editalias['class'] . "\">
+                                        <a href=\"" . $editalias['link'] . "\" data-toggle=\"modal\" onclick=\"fualEditAlias(" . $editalias['article_id'] . ",event);\">
+                                            <span class=\"icon-share-alt\"></span>" . $editalias['item_txt'] . "
+                                        </a>
+                                    </li>";
                         endif;          
                         // Public Item
                         if ($this->params->get('published_column')) :
-                            echo $this->getPublished($row, $row->params, $this->access);
+                            $published = $this->getPublished($row, $row->params, $this->access, 'menuitem');
+                            echo   "<li class=\"menuitem " . $published['class'] . "\">
+                                        <a href=\"" . $published['link'] . "\">
+                                            <span class=\"" . $published['icon'] . "\"></span>" . $published['item_txt'] . "
+                                        </a>
+                                    </li>";
                         endif;
                         // Featured Item
                         if ($this->params->get('featured_column')) :
-                            $featured = $this->getFeatured($row, $row->params, $this->access);
-                        	echo "<li class='menuitem {$featured['class']}'><a href='{$featured['link']}'><span class='{$featured['icon']}'></span>{$featured['item_txt']}</a></li>";
+                            $featured = $this->getFeatured($row, $row->params, $this->access, 'menuitem');
+                        	echo   "<li class=\"menuitem " . $featured['class'] . "\">
+                                        <a href=\"" . $featured['link'] . "\">
+                                            <span class=\"" . $featured['icon'] . "\"></span>" . $featured['item_txt'] . "
+                                        </a>
+                                    </li>";
                         endif;          
                         ?>
                             <li class="divider"></li>
                         <?php
                         // Trash / Restore Item
                         if ($this->params->get('trash_column')) :
-                            echo $this->getTrash($row, $row->params, $this->access);
+                            $trash = $this->getTrash($row, $row->params, $this->access);
+                            echo   "<li class=\"menuitem " . $trash['class'] . "\">
+                                        <a href=\"" . $trash['link'] . "\" onclick=\"if(!confirm('" . $trash['msg_confirm'] . "')) { return false; }\">
+                                            <span class=\"icon-trash\"></span>" . $trash['item_txt'] . "
+                                        </a>
+                                    </li>";
                         endif;
                         ?>
                         </ul>
@@ -285,7 +314,14 @@ $uam_jversion = new JVersion();
 				if ($this->params->get('start_publishing_column')) :
                 ?>
                 <td class="small">
-                    <?php echo JHTML::_('date', $row->publish_up, JText::_('DATE_FORMAT_LC4')); ?>
+                <?php
+                    if ($row->publish_up == '0000-00-00 00:00:00') {
+                        echo JText::_('COM_UAM_NEVER_PUBLISHED');
+                    }
+                    else {
+                        echo JHTML::_('date', $row->publish_up, JText::_('DATE_FORMAT_LC4'));
+                    }
+                ?>
                 </td>
                 <?php
                 endif;

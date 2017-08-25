@@ -245,182 +245,7 @@ if (!defined('DIRECTORY_SEPARATOR'))
             return $category;
         }
         
-        
-        // ********** function for menu view
-        function getEdit($article, $params, $access, $attribs = array()) {
-            $user = JFactory::getUser();
-            $uri = JFactory::getURI();
-            $ret = $uri->toString();
-            
-            if ($params->get('popup')) {
-                return;
-            }
-            
-            if ($article->state < 0) {
-                return;
-            }
-            
-            JHTML::_('behavior.tooltip');
-            
-            // Show checked_out icon if the article is checked out by a different user
-            if ($article->checked_out > 0 && $article->checked_out != $user->get('id')) {
-                $checkoutUser = JFactory::getUser($article->checked_out);
-                $date = JHTML::_('date',$article->checked_out_time);
-                $tooltip = JText::_('COM_UAM_CHECKED_OUT').' :: '.$checkoutUser->name.' <br /> '.$date;
-                return "<li class='disabled hasTip' title='".htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8')."'><a href='#'><span class='icon-lock' aria-hidden='true'></span>".JText::_('COM_UAM_CHECKED_OUT')."</a></li>";
-            }
-            
-            if ($article->state == 0) {
-                $overlib = JText::_('COM_UAM_TOOLTIP_UNPUBLISHED');
-            } else {
-                $overlib = JText::_('COM_UAM_TOOLTIP_PUBLISHED');
-            }
-            $date = JHTML::_('date', $article->created);
-            $author = $article->created_by_alias ? $article->created_by_alias : $article->author;
-            
-            $overlib .= '&lt;br /&gt;';
-            $overlib .= JText::_($article->groups);
-            $overlib .= '&lt;br /&gt;';
-            $overlib .= $date;
-            $overlib .= '&lt;br /&gt;';
-            $overlib .= htmlspecialchars($author, ENT_COMPAT, 'UTF-8');
-            
-            // if canedit OR if own article in ubliblished state
-            
-            if ( ($access->canEdit) ||
-                ( $params->get('user_can_editpublished') && ($access->canEdit || ($access->canEditOwn && ($article->created_by == $user->get('id')))) ||
-                    ( !$params->get('user_can_editpublished') && $article->state != 1 && $access->canEditOwn && ($article->created_by == $user->get('id'))))) {
-                        $app = JFactory::getApplication();
-                        $menuid =  $app->getMenu()->getActive()->id;
-                        if ($params->get('utf8_url_fix') ) {
-                            $url = 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&Itemid='.$menuid.'&return='.base64_encode(urlencode($ret));
-                        } else {
-                            $url = 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&Itemid='.$menuid.'&return='.base64_encode($ret);
-                        }
-                        $link = JRoute::_($url);
-                        $output = "<li class='hasTip' title='$overlib'><a href='$link'><span class='icon-edit' aria-hidden='true'></span>".JText::_( 'COM_UAM_EDIT' )."</a></li>";
-                    }
-                    else {
-                        $output = "<li class='disabled hasTip' title='".JText::_( 'COM_UAM_EDIT' )." :: ".$overlib."'><a href='#'><span class='icon-edit' aria-hidden='true'></span>".JText::_( 'COM_UAM_EDIT' )."</a></li>";
-                    }
-                    return $output;
-        }
-        
-        // ********** function for menu view
-        function getPublished($article, $params, $access, $attribs = array()) {
-            $user = JFactory::getUser();
-            $uri = JFactory::getURI();
-            $ret = $uri->toString();
-            
-            $override = false;
-            
-            if(($access->canEdit || $access->canEditOwn) && $params->get('user_can_publish'))
-            {
-                $override = true;
-            }
-            
-            // Special state for dates
-            if ($article->publish_up || $article->publish_down)
-            {
-                $nullDate   = JFActory::getDBO()->getNullDate();
-                $nowDate    = JFactory::getDate()->toUnix();
-                
-                $tz = JFactory::getApplication()->getCfg('offset');
-                
-                $publish_up     = ($article->publish_up      != $nullDate) ? JFactory::getDate($article->publish_up, $tz)     : false;
-                $publish_down   = ($article->publish_down    != $nullDate) ? JFactory::getDate($article->publish_down, $tz)   : false;
-                
-                if ($article->state == 1) {
-                    $item_txt = JText::_('COM_UAM_UNPUBLISH');
-                    $icon = "icon-unpublish";
-                }
-                else {
-                    $item_txt = JText::_('COM_UAM_PUBLISH');
-                    $icon = "icon-publish";
-                }
-            }
-            else {
-                
-                $item_txt = ($article->state > 0) ? JText::_('COM_UAM_PUBLISH') : JText::_('COM_UAM_UNPUBLISH');
-            }
-            
-            if(($access->canPublish && $article->state != -2) || ($user->id == $article->created_by && $override)) {
-                $url = "index.php?option=com_uam&view=uam&task=unPublish&cid={$article->id}&Itemid=" . JRequest::getInt('Itemid');
-                $link = JRoute::_($url);
-                $output = "<li class='menuitem'><a href='$link'><span class='$icon' aria-hidden='true'></span>".$item_txt."</a></li>";
-            }
-            else {
-                $output = "<li class='disabled menuitem'><a href='#'><span class='$icon' aria-hidden='true'></span>".$item_txt."</a></li>";
-            }
-            return $output;
-        }
-        
-        
-        function getPublishedIcon($article, $params, $access, $attribs = array()) {
-            $user = JFactory::getUser();
-            $uri = JFactory::getURI();
-            $ret = $uri->toString();
-            
-            $override = false;
-            
-            if(($access->canEdit || $access->canEditOwn) && $params->get('user_can_publish'))
-            {
-                $override = true;
-            }
-            
-            // Special state for dates
-            if ($article->publish_up || $article->publish_down)
-            {
-                $nullDate   = JFActory::getDBO()->getNullDate();
-                $nowDate    = JFactory::getDate()->toUnix();
-                
-                $tz = JFactory::getApplication()->getCfg('offset');
-                
-                $publish_up     = ($article->publish_up      != $nullDate) ? JFactory::getDate($article->publish_up, $tz)     : false;
-                $publish_down   = ($article->publish_down    != $nullDate) ? JFactory::getDate($article->publish_down, $tz)   : false;
-                
-                if ($article->state == 1) {
-                    if ($publish_up && $nowDate < $publish_up->toUnix()) {
-                        $title = JText::_('JLIB_HTML_PUBLISHED_PENDING_ITEM');
-                        $icon = "icon-pending";
-                        $class = "active";
-                    }
-                    else if ($publish_down && $nowDate > $publish_down->toUnix()) {
-                        $title = JText::_('JLIB_HTML_PUBLISHED_EXPIRED_ITEM');
-                        $icon = "icon-expired";
-                        $class = "active";
-                    }
-                    else {
-                        $icon = "icon-publish";
-                        $title = JText::_('COM_UAM_TOOLTIP_PUBLISHED');
-                        $class = "active";
-                    }
-                }
-                else {
-                    $icon = "icon-unpublish";
-                    $title = JText::_('COM_UAM_TOOLTIP_UNPUBLISHED');
-                    $class = "";
-                }
-            }
-            else {
-                
-                $icon = ($article->state > 0) ? "icon-unpublish" : "icon-publish";
-                $title = ($article->state > 0) ? JText::_('COM_UAM_TOOLTIP_PUBLISHED') : JText::_('COM_UAM_TOOLTIP_UNPUBLISHED');
-                $class = ($article->state > 0) ? "active" : "";
-            }
-            
-            if(($access->canPublish && $article->state != -2) || ($user->id == $article->created_by && $override)) {
-                $url = "index.php?option=com_uam&view=uam&task=unPublish&cid={$article->id}&Itemid=" . JRequest::getInt('Itemid');
-                $link = JRoute::_($url);
-                $output = "<a class='btn btn-micro hasTooltip $class' href='$link' title='$title'><span class='$icon' /></span></a>";
-            }
-            else {
-                $output = "<a class='btn btn-micro disabled hasTooltip $class' title='$title'><span class='$icon' /></span></a>";
-            }
-            return $output;
-            
-        }
-        
+
         function getTitle($article, $params, $access, $attribs = array()) {
             $title = htmlentities($article->introtext . $article->fulltext, ENT_COMPAT, "UTF-8");
             $link = JRoute::_(ContentHelperRoute::getArticleRoute($article->id, $article->catslug));
@@ -513,101 +338,360 @@ if (!defined('DIRECTORY_SEPARATOR'))
             return $button;
         }
         
-        function getTrash ($article, $params, $access, $attribs = array()){
+        /**
+         * Method to get Edit article menuitem.
+         *
+         * @return  array
+         *
+         */
+        function getEdit($article, $params, $access, $attribs = array())
+        {
             $user = JFactory::getUser();
-            $override = false;
+            $uri = JFactory::getURI();
+            $ret = $uri->toString();
             
-            if (($access->canEdit || $access->canEditOwn) && $params->get('user_can_trash')){
-                $override = true;
+            if ($params->get('popup')) 
+            {
+                return;
             }
-            if ($access->canPublish || ($user->id == $article->created_by && $override)){
-                if ($article->state == -2) {
-                    $msg_confirm = JText::_('COM_UAM_RESTORE_CONFIRM', true);
-                    $item_txt = JText::_('COM_UAM_RESTORE_FROM_TRASH');
-                }
-                else {
-                    $msg_confirm = JText::_('COM_UAM_TRASH_CONFIRM', true);
-                    $item_txt = JText::_('COM_UAM_MOVE_TO_TRASH');
-                }
-                $link = JRoute::_("index.php?option=com_uam&controller=&task=trash&cid={$article->id}&Itemid=" . JRequest::getInt('Itemid'));
-                echo "<li><a href='$link' onclick=\"if(!confirm('$msg_confirm')) { return false; }\"><span class='icon-trash'></span>".$item_txt."</a></li>";
-            }
-            else {
-                if ($article->state == -2) {
-                    $msg_confirm = JText::_('COM_UAM_RESTORE_CONFIRM', true);
-                }
-                else {
-                    $msg_confirm = JText::_('COM_UAM_TRASH_CONFIRM', true);
-                    $item_txt = JText::_('COM_UAM_MOVE_TO_TRASH');
-                }
-                echo "<li class='disabled'><a href='#'><span class='icon-trash'></span>".$item_txt."</a></li>";
-            }
-        }
-        
-        function getCopy($article, $params, $access){
-            $user = JFactory::getUser();
             
-            if ($article->state != -2) {
-                $url = "index.php?option=com_uam&controller=&task=copy&cid={$article->id}&Itemid=" . JRequest::getInt('Itemid');
-                $link = JRoute::_($url);
-                $msg_confirm = JText::_('COM_UAM_WOULD_YOU_LIKE_TO_CREATE_AN_ARTICLE_COPY', true);
-                $title = JText::_('COM_UAM_CREATE_A_COPY', true);
-                echo "<li><a href='$link' onclick=\"if(!confirm('$msg_confirm')) { return false; }\" title='$title'><span class='icon-copy'></span>".$title."</a>";
+            if ($article->state < 0) 
+            {
+                return;
             }
-        }
-        
-        function getEditAlias($article, $params, $access){
-            $user = JFactory::getUser();
             
-            if ($article->state != -2 && ($access->canEdit || $access->canEditOwn)) {
-                $item_txt = JText::_('COM_UAM_EDIT_ALIAS');
-                echo "<li><a data-toggle='modal' href='#fual_edit_alias_form' onclick='fualEditAlias({$article->id},event);'><span class='icon-share-alt'></span>".$item_txt."</a></li>";
-            }
-            else {
-                $item_txt = JText::_('COM_UAM_EDIT_ALIAS');
-                echo "<li class='disabled'><a href='#'><span class='icon-share-alt'></span>".$item_txt."</a></li>";
-            }
-        }
-        
-        function getFeatured($article, $params, $access, $attribs = array()){
-            $user = JFactory::getUser();
-            $override = false;
+            JHTML::_('behavior.tooltip');
             
-            if (($access->canEdit || $access->canEditOwn) && $params->get('user_can_feature')) {
-                $override = true;
+            // Show checked_out icon if the article is checked out by a different user
+            if ($article->checked_out > 0 
+                && $article->checked_out != $user->get('id')) 
+            {
+                $checkoutUser = JFactory::getUser($article->checked_out);
+                $date = JHTML::_('date',$article->checked_out_time);
+                $tooltip = JText::_('COM_UAM_CHECKED_OUT').' :: '.$checkoutUser->name.' <br /> '.$date;
+                return "<li class='disabled hasTip' title='".htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8')."'><a href='#'><span class='icon-lock' aria-hidden='true'></span>".JText::_('COM_UAM_CHECKED_OUT')."</a></li>";
             }
-            if (($access->canPublish && $article->state != -2) || ($user->id == $article->created_by && $override)) {
-                $url = "index.php?option=com_uam&view=uam&task=unFeature&cid={$article->id}&Itemid=".JRequest::getInt('Itemid');
-                $link = JRoute::_($url);
-                if ($article->featured > 0) {
-                    $icon = "icon-featured";
-                    $title = JText::_('COM_UAM_TOOLTIP_FEATURED');
-                    $item_txt = JText::_('COM_UAM_UNFEATURE');
-                    if ($attribs == "button"){
-                        $class = "active";
+            
+            if ($article->state == 0) 
+            {
+                $overlib = JText::_('COM_UAM_TOOLTIP_UNPUBLISHED');
+            } 
+            else 
+            {
+                $overlib = JText::_('COM_UAM_TOOLTIP_PUBLISHED');
+            }
+            
+            $date = JHTML::_('date', $article->created);
+            $author = $article->created_by_alias ? $article->created_by_alias : $article->author;
+            
+            $overlib .= '&lt;br /&gt;';
+            $overlib .= JText::_($article->groups);
+            $overlib .= '&lt;br /&gt;';
+            $overlib .= $date;
+            $overlib .= '&lt;br /&gt;';
+            $overlib .= htmlspecialchars($author, ENT_COMPAT, 'UTF-8');
+            
+            // if canedit OR if own article in ubliblished state
+            
+            if (($access->canEdit) 
+                || ($params->get('user_can_editpublished') && ($access->canEdit || ($access->canEditOwn && ($article->created_by == $user->get('id'))))
+                || (!$params->get('user_can_editpublished') && $article->state != 1 && $access->canEditOwn && ($article->created_by == $user->get('id'))))) 
+            {
+                        $app = JFactory::getApplication();
+                        $menuid =  $app->getMenu()->getActive()->id;
+                        if ($params->get('utf8_url_fix') ) 
+                        {
+                            $url = 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&Itemid='.$menuid.'&return='.base64_encode(urlencode($ret));
+                        } else 
+                        {
+                            $url = 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&Itemid='.$menuid.'&return='.base64_encode($ret);
+                        }
+                        $link = JRoute::_($url);
+                        $output = "<li class='hasTip' title='$overlib'><a href='$link'><span class='icon-edit' aria-hidden='true'></span>".JText::_( 'COM_UAM_EDIT' )."</a></li>";
                     }
                     else {
-                        $class = "";
+                        $output = "<li class='disabled hasTip' title='".JText::_( 'COM_UAM_EDIT' )." :: ".$overlib."'><a href='#'><span class='icon-edit' aria-hidden='true'></span>".JText::_( 'COM_UAM_EDIT' )."</a></li>";
                     }
-                }
-                else {
-                    $icon = "icon-unfeatured";
-                    $class = "";
-                    $title = JText::_('COM_UAM_TOOLTIP_NOT_FEATURED');
-                    $item_txt = JText::_('COM_UAM_FEATURE');
-                }
+                    return $output;
+        }
+        
+        /**
+         * Method to get Copy article menuitem.
+         *
+         * @return  array
+         *
+         */
+        function getCopy($article, $params, $access)
+        {
+            $user = JFactory::getUser();
+            $class = "";
+            
+            if ($article->state != -2) 
+            {
+                $url = "index.php?option=com_uam&controller=&task=copy&cid=" . $article->id . "&Itemid=" . JRequest::getInt('Itemid');
+                $link = JRoute::_($url);
+                
+                $msg_confirm = JText::_('COM_UAM_WOULD_YOU_LIKE_TO_CREATE_AN_ARTICLE_COPY', true);
+                $item_txt = JText::_('COM_UAM_CREATE_A_COPY', true);
             }
-            else {
+            
+            $output = array(
+                'item_txt' => $item_txt,
+                'class' => $class,
+                'msg_confirm' => $msg_confirm,
+                'link' => $link,
+
+            );
+            
+            return $output;
+        }
+
+        /**
+         * Method to get Edit alias menuitem.
+         *
+         * @return  array
+         *
+         */
+        function getEditAlias($article, $params, $access)
+        {
+            $user = JFactory::getUser();
+            $class = "";
+            $article_id = "";
+            $item_txt = JText::_('COM_UAM_EDIT_ALIAS');
+            
+            if ($article->state != -2 
+                && ($access->canEdit || $access->canEditOwn)) 
+            {
+                $article_id = $article->id;
+                $link = "#fual_edit_alias_form";
+            }
+            else 
+            {
+                $class = "disabled";
                 $link = "#";
-                $item_txt = ($article->featured > 0) ? JText::_('COM_UAM_UNFEATURE') : JText::_('COM_UAM_FEATURE');
-                $icon = ($article->featured > 0) ? "icon-featured" : "icon-unfeatured";
-                $title = ($article->state > 0) ? JText::_('COM_UAM_TOOLTIP_FEATURED') : JText::_('COM_UAM_TOOLTIP_NOT_FEATURED');
+            }
+            
+            $output = array(
+                'item_txt' => $item_txt,
+                'article_id' => $article_id,
+                'class' => $class,
+                'link' => $link
+            );
+            
+            return $output;
+        }
+        
+        /**
+         * Method to get Feature menuitem and button.
+         *
+         * @return  array
+         *
+         */
+        function getFeatured($article, $params, $access, $attribs = array())
+        {
+            $user = JFactory::getUser();
+            $override = false;
+            $class = "";
+            
+            if ($article->featured == 1)
+            {
+                if ($attribs == "menuitem")
+                {
+                    $icon = "icon-unfeatured";
+                }
+                else
+                {
+                    $class = "active";
+                    $icon = "icon-featured";
+                }
+                $title = JText::_('COM_UAM_TOOLTIP_FEATURED');
+                $item_txt = JText::_('COM_UAM_UNFEATURE');
+            }
+            else
+            {
+                if ($attribs == "menuitem")
+                {
+                    $icon = "icon-featured";
+                }
+                else 
+                {
+                    $icon = "icon-unfeatured";
+                }
+                $title = JText::_('COM_UAM_TOOLTIP_NOT_FEATURED');
+                $item_txt = JText::_('COM_UAM_FEATURE');
+            }
+            
+            
+            if (($access->canEdit || $access->canEditOwn)
+                && $params->get('user_can_feature'))
+            {
+                $override = true;
+            }
+            if (($access->canPublish && $article->state != -2)
+                || ($user->id == $article->created_by && $override))
+            {
+                $url = "index.php?option=com_uam&view=uam&task=unFeature&cid=" . $article->id . "&Itemid=" . JRequest::getInt('Itemid');
+                $link = JRoute::_($url);
+            }
+            else
+            {
+                $link = "#";
                 $class = "disabled";
             }
-            $featured = ['icon' => $icon, 'title' => $title, 'class' => $class, 'link' => $link, 'item_txt' => $item_txt];
+            $output = array(
+                'link' => $link,
+                'icon' => $icon,
+                'item_txt' => $item_txt,
+                'title' => $title,
+                'class' => $class
+            );
             
-            return $featured;
+            return $output;
+        }
+        
+        /**
+         * Method to get Publish menuitem and button.
+         *
+         * @return  array
+         *
+         */
+        function getPublished($article, $params, $access, $attribs = array())
+        {
+            $user = JFactory::getUser();
+            $override = false;
+            $class = "";
+            
+            // Special state for dates
+            $nullDate = JFActory::getDBO()->getNullDate();
+            $nowDate = JFactory::getDate()->toUnix();
+                
+            $tz = $user->getTimezone();
+                
+            $publish_up = ($article->publish_up != $nullDate) ? JFactory::getDate($article->publish_up, 'UTC')->setTimeZone($tz) : false;
+            $publish_down = ($article->publish_down != $nullDate) ? JFactory::getDate($article->publish_down, 'UTC')->setTimeZone($tz) : false;
+                
+            if ($article->state == 1)
+            {
+                if ($attribs == "button")
+                {
+                    if ($publish_up && $nowDate < $publish_up->toUnix())
+                    {
+                        $icon = "icon-pending";
+                        $title = JText::_('JLIB_HTML_PUBLISHED_PENDING_ITEM');
+                    }
+                    else if ($publish_down && $nowDate > $publish_down->toUnix())
+                    {
+                        $icon = "icon-expired";
+                        $title = JText::_('JLIB_HTML_PUBLISHED_EXPIRED_ITEM');
+                    }
+                    else
+                    {
+                        $icon = "icon-publish";
+                        $title = JText::_('COM_UAM_TOOLTIP_PUBLISHED');
+                    }
+                    $class = "active";
+                    $item_txt = "";
+                }
+                else
+                {
+                    $icon = "icon-unpublish";
+                    $title = "";
+                    $item_txt = JText::_('COM_UAM_UNPUBLISH');
+                }
+            }
+            else
+            {
+                if ($attribs == "menuitem")
+                {
+                    $icon = "icon-publish";
+                }
+                else{
+                    $icon = "icon-unpublish";
+                }
+                $title = JText::_('COM_UAM_TOOLTIP_UNPUBLISHED');
+                $item_txt = JText::_('COM_UAM_PUBLISH');
+            }
+
+            if (($access->canEdit || $access->canEditOwn) 
+                && $params->get('user_can_publish'))
+            {
+                $override = true;
+            }
+            if (($access->canPublish && $article->state != -2)
+                || ($user->id == $article->created_by && $override))
+            {
+                $url = "index.php?option=com_uam&view=uam&task=unPublish&cid=" . $article->id . "&Itemid=" . JRequest::getInt('Itemid');
+                $link = JRoute::_($url);
+            }
+            else 
+            {
+                $link = "#";
+                $class = "disabled";
+            }
+           
+            $output = array(
+                'link' => $link,
+                'icon' => $icon,
+                'item_txt' => $item_txt,
+                'title' => $title,
+                'class' => $class
+            );
+            
+            return $output;
+            
+        }
+
+        /**
+         * Method to get Trash / Restore menuitem.
+         *
+         * @return  array
+         *
+         */
+        function getTrash ($article, $params, $access)
+        {
+            $user = JFactory::getUser();
+            $override = false;
+            $class = "";
+
+            if ($article->state == -2) 
+            {
+                $msg_confirm = JText::_('COM_UAM_RESTORE_CONFIRM', true);
+                $item_txt = JText::_('COM_UAM_RESTORE_FROM_TRASH');
+            }
+            else 
+            {
+                $msg_confirm = JText::_('COM_UAM_TRASH_CONFIRM', true);
+                $item_txt = JText::_('COM_UAM_MOVE_TO_TRASH');
+            }
+            
+            if (($access->canEdit || $access->canEditOwn) 
+                && $params->get('user_can_trash'))
+            {
+                $override = true;
+            }
+            
+            if ($access->canPublish 
+                || ($user->id == $article->created_by && $override))
+            {
+                $url = "index.php?option=com_uam&controller=&task=trash&cid=" . $article->id . "&Itemid=" . JRequest::getInt('Itemid');
+                $link = JRoute::_($url);
+            }
+            
+            else 
+            {
+                $link = "#";
+                $class = "disabled";
+            }
+            
+            $output = array(
+                'item_txt' => $item_txt,
+                'msg_confirm' => $msg_confirm,
+                'link' => $link,
+                'class' => $class
+            );
+            
+            return $output;
         }
         
     }
-?>
+    ?>

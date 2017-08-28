@@ -123,15 +123,14 @@ if (!defined('DIRECTORY_SEPARATOR'))
         
         function _getLists() {
             $mainframe =  JFactory::getApplication();
-            $params = $mainframe->getParams('com_uam');
-            $option = JRequest::getCMD('option');
+            $option = $mainframe->input->get('option');
+            $params = $mainframe->getParams($option);
             
+                        
             // Initialize variables
             $db = JFactory::getDBO();
             
             // Get some variables from the request
-            $sectionid = JRequest::getVar( 'sectionid', -1, '', 'int' );
-            $redirect = $sectionid;
             $filter_order = $mainframe->getUserStateFromRequest($option.'filter_order', 'filter_order', 'c.id', 'cmd');
             $filter_order_Dir = $mainframe->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', '', 'word');
             $filter_state = $mainframe->getUserStateFromRequest($option.'filter_state', 'filter_state', '', 'word');
@@ -423,12 +422,15 @@ if (!defined('DIRECTORY_SEPARATOR'))
          */
         function getCopy($article, $params, $access)
         {
+            $app = JFactory::getApplication();
+            $itemid = $app->getMenu()->getActive()->id;
+            
             $user = JFactory::getUser();
             $class = "";
             
             if ($article->state != -2) 
             {
-                $url = "index.php?option=com_uam&controller=&task=copy&cid=" . $article->id . "&Itemid=" . JRequest::getInt('Itemid');
+                $url = "index.php?option=com_uam&controller=&task=copy&cid=" . $article->id . "&Itemid=" . $itemid;
                 $link = JRoute::_($url);
                 
                 $msg_confirm = JText::_('COM_UAM_WOULD_YOU_LIKE_TO_CREATE_AN_ARTICLE_COPY', true);
@@ -489,6 +491,9 @@ if (!defined('DIRECTORY_SEPARATOR'))
          */
         function getFeatured($article, $params, $access, $attribs = array())
         {
+            $app = JFactory::getApplication();
+            $itemid = $app->getMenu()->getActive()->id;
+            
             $user = JFactory::getUser();
             $override = false;
             $class = "";
@@ -530,7 +535,7 @@ if (!defined('DIRECTORY_SEPARATOR'))
             if (($access->canPublish && $article->state != -2)
                 || ($user->id == $article->created_by && $override))
             {
-                $url = "index.php?option=com_uam&view=uam&task=unFeature&cid=" . $article->id . "&Itemid=" . JRequest::getInt('Itemid');
+                $url = "index.php?option=com_uam&view=uam&task=unFeature&cid=" . $article->id . "&Itemid=" . $itemid;
                 $link = JRoute::_($url);
             }
             else
@@ -557,6 +562,9 @@ if (!defined('DIRECTORY_SEPARATOR'))
          */
         function getPublished($article, $params, $access, $attribs = array())
         {
+            $app = JFactory::getApplication();
+            $itemid = $app->getMenu()->getActive()->id;
+            
             $user = JFactory::getUser();
             $override = false;
             $class = "";
@@ -620,7 +628,7 @@ if (!defined('DIRECTORY_SEPARATOR'))
             if (($access->canPublish && $article->state != -2)
                 || ($user->id == $article->created_by && $override))
             {
-                $url = "index.php?option=com_uam&view=uam&task=unPublish&cid=" . $article->id . "&Itemid=" . JRequest::getInt('Itemid');
+                $url = "index.php?option=com_uam&view=uam&task=unPublish&cid=" . $article->id . "&Itemid=" . $itemid;
                 $link = JRoute::_($url);
             }
             else 
@@ -649,6 +657,9 @@ if (!defined('DIRECTORY_SEPARATOR'))
          */
         function getTrash ($article, $params, $access)
         {
+            $app = JFactory::getApplication();
+            $itemid = $app->getMenu()->getActive()->id;
+            
             $user = JFactory::getUser();
             $override = false;
             $class = "";
@@ -673,7 +684,7 @@ if (!defined('DIRECTORY_SEPARATOR'))
             if ($access->canPublish 
                 || ($user->id == $article->created_by && $override))
             {
-                $url = "index.php?option=com_uam&controller=&task=trash&cid=" . $article->id . "&Itemid=" . JRequest::getInt('Itemid');
+                $url = "index.php?option=com_uam&controller=&task=trash&cid=" . $article->id . "&Itemid=" . $itemid;
                 $link = JRoute::_($url);
             }
             

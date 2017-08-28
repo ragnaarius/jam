@@ -74,12 +74,9 @@ $uam_jversion = new JVersion();
 	$count_itens = count($this->itens);
 
 	//without article
-	if (!$count_itens) { 
-	?>
-    <div class="alert">
-        <?php echo JText::_('COM_UAM_NO_ARTICLES_FOUND'); ?>
-    </div>
-	<?php
+	if (!$count_itens) 
+	{ 
+        JFactory::getApplication()->enqueueMessage(JText::_('COM_UAM_NO_ARTICLES_FOUND'), 'warning');
 	}
 	else {
     ?>
@@ -194,7 +191,12 @@ $uam_jversion = new JVersion();
                         <?php
                         // Edit Item     
                         if ($this->params->get('edit_column')) :
-                            echo $this->getEdit($row, $row->params, $this->access);
+                            $edit = $this->getEdit($row, $row->params, $this->access);
+							echo   "<li class=\"menuitem " . $edit['class'] . "\">
+                                        <a href=\"" . $edit['link'] . "\">
+                                            <span class=\"" . $edit['icon'] . "\"></span>" . $edit['item_txt'] . "
+                                        </a>
+                                    </li>";
                         endif;
                         // Copy Item
                         if ($this->params->get('copy_column')) :
@@ -255,8 +257,8 @@ $uam_jversion = new JVersion();
                 <td>
                 <?php
                     echo $this->getTitle($row, $row->params, $this->access);
-                    echo "<input type='hidden' id='fual_{$row->id}_title' value='{$row->title}' />";
-                    echo "<input type='hidden' id='fual_{$row->id}_alias' value='{$row->alias}' />";
+                    echo "<input type=\"hidden\" id=\"fual_" . $row->id . "_title\" value=\"" . $row->title . "\" >";
+                    echo "<input type=\"hidden\" id=\"fual_" . $row->id . "_alias\" value=\"" . $row->alias . "\" >";
                 ?>
                 </td>
                 <?php

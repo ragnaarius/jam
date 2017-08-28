@@ -230,7 +230,8 @@ if (!defined('DIRECTORY_SEPARATOR'))
                 return $lists;
         }
         
-        function filterCategory($query, $active = NULL) {
+        function filterCategory($query, $active = NULL) 
+        {
             // Initialize variables
             $db =  JFactory::getDBO();
             
@@ -244,21 +245,30 @@ if (!defined('DIRECTORY_SEPARATOR'))
             return $category;
         }
         
-
-        function getTitle($article, $params, $access, $attribs = array()) {
+        /**
+         * Method to get Title.
+         *
+         * @return  array
+         *
+         */
+        function getTitle ($article, $params, $access, $attribs = array()) 
+        {
             $title = htmlentities($article->introtext . $article->fulltext, ENT_COMPAT, "UTF-8");
             $link = JRoute::_(ContentHelperRoute::getArticleRoute($article->id, $article->catslug));
             $linked = false;
+            
+            $user = JFactory::getUser();
+            
             // Special state for dates
             if ($article->publish_up || $article->publish_down)
             {
-                $nullDate   = JFActory::getDBO()->getNullDate();
-                $nowDate    = JFactory::getDate()->toUnix();
+                $nullDate = JFActory::getDBO()->getNullDate();
+                $nowDate = JFactory::getDate()->toUnix();
                 
-                $tz = JFactory::getApplication()->getCfg('offset');
+                $tz = $user->getTimezone();
                 
-                $publish_up     = ($article->publish_up      != $nullDate) ? JFactory::getDate($article->publish_up, $tz)     : false;
-                $publish_down   = ($article->publish_down    != $nullDate) ? JFactory::getDate($article->publish_down, $tz)   : false;
+                $publish_up = ($article->publish_up != $nullDate) ? JFactory::getDate($article->publish_up, 'UTC')->setTimeZone($tz) : false;
+                $publish_down = ($article->publish_down != $nullDate) ? JFactory::getDate($article->publish_down, 'UTC')->setTimeZone($tz) : false;
                 
                 if ($article->state == 1) {
                     if ($publish_up && $nowDate < $publish_up->toUnix()) {
@@ -282,59 +292,88 @@ if (!defined('DIRECTORY_SEPARATOR'))
             /* Link setting is overridden by backend or menu options */
             $linked = $params->get('title_link');
             
-            
-            if ($params->get('show_content')) {
-                if($linked) {
+            if ($params->get('show_content')) 
+            {
+                if ($linked) 
+                {
                     echo '<span class="hasTip" title="'.JText::_( $article->title ).' :: ' . $title . '"><a href=' . $link . '>' . $article->title . '</a></span>';
                 }
-                else {
+                else 
+                {
                     echo '<span class="hasTip" title="'.JText::_( $article->title ).' :: ' . $title . '">' . $article->title . '</span>';
                 }
             }
-            else {
-                if($linked > 0) {
+            else 
+            {
+                if ($linked > 0) 
+                {
                     echo '<a href=' . $link . '>' . $article->title . '</a>';
                 }
-                else {
+                else 
+                {
                     echo $article->title;
                 }
             }
         }
         
-        /*display  New Artice button */
-        function getNewArticleButton ($params){
+        /**
+         * Method to get New Article button.
+         *
+         * @return  array
+         *
+         */
+        function getNewArticleButton ($params)
+        {
             //default link
-            if($params->get('link_new_article_default') || (!$params->get('link_new_article_default') && strlen($custom_link) == 0)) {
+            if ($params->get('link_new_article_default') 
+                || (!$params->get('link_new_article_default') 
+                && strlen($custom_link) == 0)) 
+            {
                 $app = JFactory::getApplication();
-                $menuid =  $app->getMenu()->getActive()->id;
+                $itemid =  $app->getMenu()->getActive()->id;
                 $uri = JFactory::getURI();
                 
-                if (($params->get('useallcategories') == 0) && ($params->get('restrict_to_category') == 1)) {
-                    $catid = '&catid='.$params->get('mycategory');
+                if (($params->get('useallcategories') == 0) 
+                    && ($params->get('restrict_to_category') == 1)) 
+                {
+                    $catid = "&catid=" . $params->get('mycategory');
                 }
-                else {
-                    $catid = '';
+                else 
+                {
+                    $catid = "";
                 }
-                if ($params->get('utf8_url_fix') ) {
+                if ($params->get('utf8_url_fix') ) 
+                {
                     $ret = base64_encode(urlencode($uri->toString()));
                 }
-                else {
+                else 
+                {
                     $ret = base64_encode($uri->toString());
                 }
-                $link_new_article = JRoute::_('index.php?option=com_content&task=article.add&Itemid='.$menuid.$catid.'&return='.$ret);
+                $url = "index.php?option=com_content&task=article.add&Itemid=" . $itemid . $catid . "&return=" . $ret;
+                $link = JRoute::_($url);
             }
+            
             //custom link
-            else {
-                $link_new_article = trim($params->get('link_new_article'));
+            else 
+            {
+                $link = trim($params->get('link_new_article'));
             }
-            if ($params->get('new_article_button_custom')) {
+            if ($params->get('new_article_button_custom')) 
+            {
                 $button_text = $params->get('new_article_button_text');
             }
-            else {
+            else 
+            {
                 $button_text = JText::_('COM_UAM_NEW_ARTICLE');
             }
-            $button = ['link' => $link_new_article, 'text' => $button_text];
-            return $button;
+            
+            $output = array(
+                'link' => $link,
+                'text' => $button_text
+            );
+            
+            return $output;
         }
         
         /**
@@ -348,70 +387,55 @@ if (!defined('DIRECTORY_SEPARATOR'))
             $user = JFactory::getUser();
             $uri = JFactory::getURI();
             $ret = $uri->toString();
+			
+			$icon = "icon-edit";
+			$item_txt = JText::_( 'COM_UAM_EDIT' );
+			$class = "";
             
-            if ($params->get('popup')) 
-            {
-                return;
-            }
-            
-            if ($article->state < 0) 
-            {
-                return;
-            }
-            
-            JHTML::_('behavior.tooltip');
-            
-            // Show checked_out icon if the article is checked out by a different user
-            if ($article->checked_out > 0 
+			if ($article->state > 0) 
+			{
+				if (($access->canEdit) 
+					|| ($params->get('user_can_editpublished') && ($access->canEdit || ($access->canEditOwn && ($article->created_by == $user->get('id'))))
+					|| (!$params->get('user_can_editpublished') && $article->state != 1 && $access->canEditOwn && ($article->created_by == $user->get('id'))))) 
+				{
+					$app = JFactory::getApplication();
+					$itemid =  $app->getMenu()->getActive()->id;
+                        
+					if ($params->get('utf8_url_fix') ) 
+					{
+						$url = "index.php?option=com_content&task=article.edit&a_id=" . $article->id. "&Itemid=" . $itemid. "&return=" . base64_encode(urlencode($ret));
+					} 
+					else 
+					{
+						$url = "index.php?option=com_content&task=article.edit&a_id=" . $article->id . "&Itemid=" . $itemid. "&return=" .base64_encode($ret);
+					}
+                    
+					$link = JRoute::_($url);
+				}
+			}
+			else 
+			{
+				$link = "#";
+				$class = "disabled";
+			}
+			
+			if ($article->checked_out > 0 
                 && $article->checked_out != $user->get('id')) 
             {
-                $checkoutUser = JFactory::getUser($article->checked_out);
-                $date = JHTML::_('date',$article->checked_out_time);
-                $tooltip = JText::_('COM_UAM_CHECKED_OUT').' :: '.$checkoutUser->name.' <br /> '.$date;
-                return "<li class='disabled hasTip' title='".htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8')."'><a href='#'><span class='icon-lock' aria-hidden='true'></span>".JText::_('COM_UAM_CHECKED_OUT')."</a></li>";
-            }
-            
-            if ($article->state == 0) 
-            {
-                $overlib = JText::_('COM_UAM_TOOLTIP_UNPUBLISHED');
-            } 
-            else 
-            {
-                $overlib = JText::_('COM_UAM_TOOLTIP_PUBLISHED');
-            }
-            
-            $date = JHTML::_('date', $article->created);
-            $author = $article->created_by_alias ? $article->created_by_alias : $article->author;
-            
-            $overlib .= '&lt;br /&gt;';
-            $overlib .= JText::_($article->groups);
-            $overlib .= '&lt;br /&gt;';
-            $overlib .= $date;
-            $overlib .= '&lt;br /&gt;';
-            $overlib .= htmlspecialchars($author, ENT_COMPAT, 'UTF-8');
-            
-            // if canedit OR if own article in ubliblished state
-            
-            if (($access->canEdit) 
-                || ($params->get('user_can_editpublished') && ($access->canEdit || ($access->canEditOwn && ($article->created_by == $user->get('id'))))
-                || (!$params->get('user_can_editpublished') && $article->state != 1 && $access->canEditOwn && ($article->created_by == $user->get('id'))))) 
-            {
-                        $app = JFactory::getApplication();
-                        $menuid =  $app->getMenu()->getActive()->id;
-                        if ($params->get('utf8_url_fix') ) 
-                        {
-                            $url = 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&Itemid='.$menuid.'&return='.base64_encode(urlencode($ret));
-                        } else 
-                        {
-                            $url = 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&Itemid='.$menuid.'&return='.base64_encode($ret);
-                        }
-                        $link = JRoute::_($url);
-                        $output = "<li class='hasTip' title='$overlib'><a href='$link'><span class='icon-edit' aria-hidden='true'></span>".JText::_( 'COM_UAM_EDIT' )."</a></li>";
-                    }
-                    else {
-                        $output = "<li class='disabled hasTip' title='".JText::_( 'COM_UAM_EDIT' )." :: ".$overlib."'><a href='#'><span class='icon-edit' aria-hidden='true'></span>".JText::_( 'COM_UAM_EDIT' )."</a></li>";
-                    }
-                    return $output;
+				$class = "disabled";
+				$icon = "icon-lock";
+				$link = "#";
+				$item_txt = JText::_('COM_UAM_CHECKED_OUT');
+			}
+			
+			$output = array(
+                'link' => $link,
+                'icon' => $icon,
+                'item_txt' => $item_txt,
+                'class' => $class			
+			);
+			
+            return $output;
         }
         
         /**
@@ -427,6 +451,7 @@ if (!defined('DIRECTORY_SEPARATOR'))
             
             $user = JFactory::getUser();
             $class = "";
+            $item_txt = JText::_('COM_UAM_CREATE_A_COPY', true);
             
             if ($article->state != -2) 
             {
@@ -434,7 +459,13 @@ if (!defined('DIRECTORY_SEPARATOR'))
                 $link = JRoute::_($url);
                 
                 $msg_confirm = JText::_('COM_UAM_WOULD_YOU_LIKE_TO_CREATE_AN_ARTICLE_COPY', true);
-                $item_txt = JText::_('COM_UAM_CREATE_A_COPY', true);
+            }
+            else
+            {
+                $link = "#";
+                $class = "disabled";
+                $msg_confirm = "";
+                
             }
             
             $output = array(

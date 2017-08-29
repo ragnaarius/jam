@@ -25,7 +25,8 @@ $uam_jversion = new JVersion();
             <div id="collapseOne" class="accordion-body collapse">
                 <div class="accordion-inner">
                     <?php
-                    if ($this->params->get('showsearchfilter') == 1) {
+                    if ($this->params->get('showsearchfilter') == 1) 
+					{
                     ?>
                     <div class="control-group">
                         <div class="input-append">
@@ -42,16 +43,23 @@ $uam_jversion = new JVersion();
                     ?>
                     <div class="control-group">
                     <?php
-                    if ((($this->params->get('useallcategories') == 1) || ($this->params->get('allow_subcategories') == 1)) && ($this->params->get('showcategoryfilter') == 1)) {
+                    if ((($this->params->get('useallcategories') == 1) 
+						|| ($this->params->get('allow_subcategories') == 1)) 
+						&& ($this->params->get('showcategoryfilter') == 1)) 
+					{
                         echo $this->lists['catid'];
                     }
-                    if (($this->canEditOwnOnly == false) && ($this->params->get('showauthorfilter') == 1)) {
+                    if (($this->canEditOwnOnly == false) 
+						&& ($this->params->get('showauthorfilter') == 1)) 
+					{
                         echo $this->lists['authorid'];
                     }
-                    if ($this->params->get('showpublishedstatefilter') == 1) {
+                    if ($this->params->get('showpublishedstatefilter') == 1) 
+					{
                         echo $this->lists['state'];
                     }
-                    if ($this->params->get('showlanguagefilter') == 1) {
+                    if ($this->params->get('showlanguagefilter') == 1) 
+					{
                         echo $this->lists['langs'];
                     }
                     ?>
@@ -61,7 +69,8 @@ $uam_jversion = new JVersion();
         </div>
     </div>
     <?php
-    if ($this->params->get('new_article_button')) {
+    if ($this->params->get('new_article_button')) 
+	{
 		$button = $this->getNewArticleButton($this->params);
     ?>
     <div class="uam_new_article">
@@ -78,7 +87,8 @@ $uam_jversion = new JVersion();
 	{ 
         JFactory::getApplication()->enqueueMessage(JText::_('COM_UAM_NO_ARTICLES_FOUND'), 'warning');
 	}
-	else {
+	else 
+	{
     ?>
     <table class="table table-striped">
         <thead>
@@ -159,9 +169,10 @@ $uam_jversion = new JVersion();
         </thead>
         <tbody>
 		<?php
-    	for ($i=0; $i < $count_itens; $i++) {
+    	for ($i=0; $i < $count_itens; $i++) 
+		{
             $row = $this->getItem($i, $this->params);
-            $asset	= 'com_content.article.'.$row->id;
+            $asset	= "com_content.article." . $row->id;
             $this->access->canCreate = $user->authorise('core.create', 'com_content.category.'.$row->catid);
             // Check general edit permission first.
             $this->access->canPublish = $user->authorise('core.edit.state', $asset);
@@ -256,7 +267,21 @@ $uam_jversion = new JVersion();
                 ?>
                 <td>
                 <?php
-                    echo $this->getTitle($row, $row->params, $this->access);
+                    $title = $this->getTitle($row, $row->params, $this->access);
+					if ($title['linked'])
+					{
+						echo   "<a href=\"" . $title['link'] . "\">
+									<span class=\"title " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" >" . $title['title'] . "</span>
+								</a>";
+					}
+					else if ($title['checkout'])
+					{
+						echo "<span class=\"btn btn-micro icon-lock " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" ></span><span class=\"title\">" . $title['title'] . "</span>";
+					}
+					else
+					{
+						echo "<span class=\"title " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" >" . $title['title'] . "</span>";
+					}
                     echo "<input type=\"hidden\" id=\"fual_" . $row->id . "_title\" value=\"" . $row->title . "\" >";
                     echo "<input type=\"hidden\" id=\"fual_" . $row->id . "_alias\" value=\"" . $row->alias . "\" >";
                 ?>
@@ -278,9 +303,10 @@ $uam_jversion = new JVersion();
                 ?>
                 <td class="small">
                 <?php
-                    if ((strlen(trim($row->created_by_alias))) && ($this->params->get('show_alias'))) {
+                    if ((strlen(trim($row->created_by_alias))) && ($this->params->get('show_alias'))) 
+					{
                         echo $row->created_by_alias;
-                        echo "<br />({$row->author})";
+                        echo "<br />(" . $row->author . ")";
                     }
                     else {
                         echo $row->author;
@@ -294,10 +320,12 @@ $uam_jversion = new JVersion();
                 ?>
                 <td class="small">
                 <?php 
-                    if ($row->language=='*') {
+                    if ($row->language == '*') 
+					{
                         echo JText::alt('JALL','language');
                     } 
-                    else {
+                    else 
+					{
                         echo $row->language_title ? $row->language_title : JText::_('JUNDEFINED');
                     }
                 ?>
@@ -317,25 +345,29 @@ $uam_jversion = new JVersion();
                 ?>
                 <td class="small">
                 <?php
-                    if ($row->publish_up == '0000-00-00 00:00:00') {
+                    if ($row->publish_up == '0000-00-00 00:00:00') 
+					{
                         echo JText::_('COM_UAM_NEVER_PUBLISHED');
                     }
-                    else {
+                    else 
+					{
                         echo JHTML::_('date', $row->publish_up, JText::_('DATE_FORMAT_LC4'));
                     }
                 ?>
                 </td>
                 <?php
                 endif;
-                // Finish pnblishing column
+                // Finish publishing column
 				if ($this->params->get('finish_publishing_column')) :
                 ?>
                 <td class="small">
                 <?php
-                    if ($row->publish_down == '0000-00-00 00:00:00') {
+                    if ($row->publish_down == '0000-00-00 00:00:00') 
+					{
                         echo JText::_('COM_UAM_NEVER');
                     }
-                    else {
+                    else 
+					{
                         echo JHTML::_('date', $row->publish_down, JText::_('DATE_FORMAT_LC4'));
                     }
                 ?>

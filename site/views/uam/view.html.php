@@ -35,30 +35,12 @@ if (!defined('DIRECTORY_SEPARATOR'))
             $uri = JFactory::getURI();
             
             // Require the com_content helper library
-            //require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'icon.php');
             require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_content'.DIRECTORY_SEPARATOR.'helpers'.DIRECTORY_SEPARATOR.'route.php');
             
             //load stylesheet and javascript
             $document = JFactory::getDocument();
             $document->addStyleSheet(JURI::base(true).'/components/com_uam/assets/css/style.css');
             $document->addScript(JURI::base(true).'/components/com_uam/assets/javascript/script.js');
-            
-            //total of columns to show
-            $total_columns = 0;
-            $total_columns += ($params->get('id_column')) ? 1 : 0;
-            $total_columns += ($params->get('title_column')) ? 1 : 0;
-            $total_columns += ($params->get('published_column')) ? 1 : 0;
-            $total_columns += ($params->get('featured_column')) ? 1 : 0;
-            $total_columns += ($params->get('category_column')) ? 1 : 0;
-            $total_columns += ($params->get('author_column')) ? 1 : 0;
-            $total_columns += ($params->get('created_date_column')) ? 1 : 0;
-            $total_columns += ($params->get('start_publishing_column')) ? 1 : 0;
-            $total_columns += ($params->get('finish_publishing_column')) ? 1 : 0;
-            $total_columns += ($params->get('hits_column')) ? 1 : 0;
-            $total_columns += ($params->get('edit_alias_column')) ? 1 : 0;
-            $total_columns += ($params->get('copy_column')) ? 1 : 0;
-            $total_columns += ($params->get('edit_column')) ? 1 : 0;
-            $total_columns += ($params->get('trash_column')) ? 1 : 0;
             
             // Get data from the model
             $itens = $this->get('Data');
@@ -71,7 +53,6 @@ if (!defined('DIRECTORY_SEPARATOR'))
             
             $this->assign('action', str_replace('&', '&amp;', $uri->toString()));
             $this->assignRef('params', $params);
-            $this->assignRef('total_columns', $total_columns);
             $this->assignRef('itens', $itens);
             $this->assignRef('lists', $lists);
             $this->assignRef('access', $access);
@@ -253,9 +234,11 @@ if (!defined('DIRECTORY_SEPARATOR'))
          */
         function getTitle ($article, $params, $access, $attribs = array()) 
         {
-            $title = htmlentities($article->introtext . $article->fulltext, ENT_COMPAT, "UTF-8");
+            $txt = htmlentities($article->introtext . $article->fulltext, ENT_COMPAT, "UTF-8");
             $link = JRoute::_(ContentHelperRoute::getArticleRoute($article->id, $article->catslug));
             $linked = false;
+			$checkout = false;
+			$class = "";
             
             $user = JFactory::getUser();
             
@@ -270,22 +253,30 @@ if (!defined('DIRECTORY_SEPARATOR'))
                 $publish_up = ($article->publish_up != $nullDate) ? JFactory::getDate($article->publish_up, 'UTC')->setTimeZone($tz) : false;
                 $publish_down = ($article->publish_down != $nullDate) ? JFactory::getDate($article->publish_down, 'UTC')->setTimeZone($tz) : false;
                 
-                if ($article->state == 1) {
-                    if ($publish_up && $nowDate < $publish_up->toUnix()) {
+                if ($article->state == 1) 
+				{
+                    if ($publish_up 
+						&& $nowDate < $publish_up->toUnix()) 
+					{
                         $linked = false;
                     }
-                    else if ($publish_down && $nowDate > $publish_down->toUnix()) {
+                    else if ($publish_down 
+						&& $nowDate > $publish_down->toUnix()) 
+					{
                         $linked = false;
                     }
-                    else {
+                    else 
+					{
                         $linked = true;
                     }
                 }
-                else {
+                else 
+				{
                     $linked = false;
                 }
             }
-            else {
+            else 
+			{
                 $linked = ($article->state > 0) ? true : false;
             }
             
@@ -294,26 +285,31 @@ if (!defined('DIRECTORY_SEPARATOR'))
             
             if ($params->get('show_content')) 
             {
-                if ($linked) 
-                {
-                    echo '<span class="hasTip" title="'.JText::_( $article->title ).' :: ' . $title . '"><a href=' . $link . '>' . $article->title . '</a></span>';
-                }
-                else 
-                {
-                    echo '<span class="hasTip" title="'.JText::_( $article->title ).' :: ' . $title . '">' . $article->title . '</span>';
-                }
+				$tooltip = JText::_( $article->title ) . "<br />" . $txt;
+				$class = "hasTooltip";
             }
-            else 
-            {
-                if ($linked > 0) 
-                {
-                    echo '<a href=' . $link . '>' . $article->title . '</a>';
-                }
-                else 
-                {
-                    echo $article->title;
-                }
-            }
+			
+			if ($article->checked_out > 0 
+				&& $article->checked_out != $user->get('id')) 
+			{
+                $checkoutUser = JFactory::getUser($article->checked_out);
+                $date = JHTML::_('date',$article->checked_out_time);
+                $tooltip = JText::_('COM_UAM_CHECKED_OUT') . "<br />" . $checkoutUser->name . "<br />" . $date;
+				
+				$checkout = true;
+				$linked = false;
+			}
+			
+			$output = array(
+				'link' => $link,
+				'title' => $article->title,
+				'class' => $class,
+				'tooltip' => $tooltip,
+				'linked' => $linked,
+				'checkout' => $checkout
+			);
+			
+			return $output;
         }
         
         /**
@@ -734,6 +730,5 @@ if (!defined('DIRECTORY_SEPARATOR'))
             
             return $output;
         }
-        
     }
     ?>

@@ -274,13 +274,16 @@ $uam_jversion = new JVersion();
 									<span class=\"title " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" >" . $title['title'] . "</span>
 								</a>";
 					}
-					else if ($title['checkout'])
-					{
-						echo "<span class=\"btn btn-micro icon-lock " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" ></span><span class=\"title\">" . $title['title'] . "</span>";
-					}
 					else
 					{
-						echo "<span class=\"title " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" >" . $title['title'] . "</span>";
+						if ($title['checkout'])
+						{
+							echo "<span class=\"btn btn-micro icon-lock " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" ></span><span class=\"title\">" . $title['title'] . "</span>";
+						}
+						else 
+						{
+							echo "<span class=\"title " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" >" . $title['title'] . "</span>";
+						}
 					}
                     echo "<input type=\"hidden\" id=\"fual_" . $row->id . "_title\" value=\"" . $row->title . "\" >";
                     echo "<input type=\"hidden\" id=\"fual_" . $row->id . "_alias\" value=\"" . $row->alias . "\" >";

@@ -51,7 +51,7 @@ class UAMController extends JControllerLegacy {
         $uam_model = $this->getModel();
         $uam_table = $uam_model->getTable();
         $uam_table->load($cid);
-        
+
         $asset	= 'com_content.article.'.$cid;
         // Check general edit permission first.
         $can_publish = $user->authorise('core.edit.state', $asset);
@@ -61,7 +61,8 @@ class UAMController extends JControllerLegacy {
         $can_editOwn = $user->authorise('core.edit.own', $asset) && ($user->id == $uam_table->created_by);
         
         $override = false;
-        if(($can_edit || $can_editOwn) && $params->get('user_can_publish'))
+        if(($can_edit || $can_editOwn) 
+			&& $params->get('user_can_publish'))
         {
             $override = true;
         }
@@ -69,22 +70,40 @@ class UAMController extends JControllerLegacy {
         if($can_publish || $override) {
             
             $publica = false;
-            if(is_object($uam_table) && $override && $uam_table->created_by == $user->id && !$can_publish) {
+			
+            if(is_object($uam_table) && $override && $uam_table->created_by == $user->id && !$can_publish) 
+			{
                 $publica = true;
             }
-            elseif(is_object($uam_table) && $can_publish) {
+            elseif(is_object($uam_table) && $can_publish) 
+			{
                 $publica = true;
             }
             
-            if($publica) {
+            if ($publica) 
+			{
                 //change state to published or unpublished
-                $uam_table->state = ($uam_table->state == 0) ? 1 : 0;
+				if ($uam_table->state == 0)
+				{
+					$uam_table->state = 1;
+                  
+					if ($uam_table->publish_up == '0000-00-00 00:00:00')
+					{
+                    	$uam_table->publish_up = JFactory::getDate()->toSql();
+					}
+					$message = JText::_('COM_UAM_MSG_PUBLISH_SUCCESSFULLY');
+				}
+				else 
+				{
+					$uam_table->state = 0;
+                	$message = JText::_('COM_UAM_MSG_UNPUBLISH_SUCCESSFULLY');
+				}
+	
                 $uam_table->save(array());
             }
         }
-        
         $this->setRedirect("index.php?option=com_uam&view=uam&Itemid=$itemid");
-        
+        JFactory::getApplication()->enqueueMessage($message, 'message');
     }
     
     function unFeature() {
@@ -114,19 +133,30 @@ class UAMController extends JControllerLegacy {
         if($can_publish || $override) {
             
             $feature = false;
-            if(is_object($uam_table) && $override && $uam_table->created_by == $user->id && !$can_publish) {
+            if (is_object($uam_table) && $override && $uam_table->created_by == $user->id && !$can_publish) {
                 $feature = true;
             }
-            elseif(is_object($uam_table) && $can_publish) {
+            elseif (is_object($uam_table) && $can_publish) {
                 $feature = true;
             }
             
-            if($feature) {
-                $uam_model->featured($cid, ($uam_table->featured == 0) ? 1 : 0);
+            if ($feature) {
+				if ($uam_table->featured == 0)
+				{
+					$uam_table->featured = 1;
+					$message = JText::_('COM_UAM_MSG_FEATURE_SUCCESSFULLY');
+				}
+				else 
+				{
+					$uam_table->featured = 0;
+					$message = JText::_('COM_UAM_MSG_UNFEATURE_SUCCESSFULLY');
+				}
+                $uam_table->save(array());
             }
         }
         
         $this->setRedirect("index.php?option=com_uam&view=uam&Itemid=$itemid");
+		JFactory::getApplication()->enqueueMessage($message, 'message');
     }
     
     function trash() {
@@ -214,19 +244,26 @@ class UAMController extends JControllerLegacy {
         // Now check if edit.own is available.
         $can_edit_own = $user->authorise('core.edit.own', $asset) && ($user->id == $uam_table->created_by);
         
-        if(is_object($uam_table) && ($can_edit || $can_edit_own)) {
+        if(is_object($uam_table) && ($can_edit || $can_edit_own)) 
+		{
             $uam_table->id = 0;
             $uam_table->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
-            if ($params->get('copy_uses_todays_date')) {
-                $uam_table->created = JFactory::getDate()->format('Y-m-d-H-i-s');
+			
+            if ($params->get('copy_uses_todays_date')) 
+			{
+                $uam_table->created = JFactory::getDate()->toSql();
             }
-            if ($params->get('copy_uses_current_user')) {
+            if ($params->get('copy_uses_current_user')) 
+			{
                 $uam_table->created_by = $user->id;
                 $uam_table->created_by_alias = '';
             }
+			
+			$message = JText::_('COM_UAM_MSG_COPIED_SUCCESSFULLY');
             $uam_table->save(array());
         }
         $this->setRedirect("index.php?option=com_uam&view=uam&Itemid=$itemid");
+		JFactory::getApplication()->enqueueMessage($message, 'message');
     }
 }
 ?>

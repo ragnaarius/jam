@@ -1,5 +1,8 @@
+.uam_info p {
+	clear: both;
+}
 .uam_logo {
-	width: 100px;
+	width: 200px;
 	float: left;
-	margin: 0 7px 7px 0; 
-	}
+	margin: 0 15px 10px 0; 
+}

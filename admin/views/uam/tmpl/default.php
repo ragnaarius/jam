@@ -10,11 +10,11 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 ?>
-<div class="container">
-	<h3>
-		<?php echo JText::_('COM_UAM_WELCOME')." ".$this->params->get('version'); ?>
-	</h3>
+<div class="container uam_info">
 	<img class="uam_logo" src="/administrator/components/com_uam/assets/images/logouam.png" alt="<?php echo JText::_('COM_UAM'); ?>" />
+  	<h3>
+		<?php echo JText::_('COM_UAM_WELCOME') . " " . $this->params->get('version'); ?>
+	</h3>
 	<p><?php echo JText::_('COM_UAM_MESSAGE'); ?></p>
   	<h4><?php echo JText::_('COM_UAM_TRANSLATIONS_BY'); ?></h4>
 	<ul>

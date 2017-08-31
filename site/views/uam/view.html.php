@@ -254,6 +254,7 @@ if (!defined('DIRECTORY_SEPARATOR')) {
             $linked = false;
 			$checkout = false;
 			$class = "";
+			$tooltip = "";
             
             $user = JFactory::getUser();
             
@@ -310,7 +311,8 @@ if (!defined('DIRECTORY_SEPARATOR')) {
                 $checkoutUser = JFactory::getUser($article->checked_out);
                 $date = JHTML::_('date',$article->checked_out_time);
                 $tooltip = JText::_('COM_UAM_CHECKED_OUT') . "<br />" . $checkoutUser->name . "<br />" . $date;
-				
+                $class = "hasTooltip";
+                
 				$checkout = true;
 				$linked = false;
 			}

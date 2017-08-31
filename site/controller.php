@@ -12,13 +12,16 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controllerform');
 
-if (!function_exists('class_alias')) {
-    function class_alias($original, $alias) {
+if (!function_exists('class_alias')) 
+{
+    function class_alias($original, $alias) 
+    {
         eval('class ' . $alias . ' extends ' . $original . ' {}');
     }
 }
 
-if (!class_exists('JControllerLegacy')) {
+if (!class_exists('JControllerLegacy')) 
+{
     class_alias('JController', 'JControllerLegacy');
 }
 
@@ -28,11 +31,13 @@ class UAMController extends JControllerLegacy {
      * Method to display the view
      * @access public
      */
-    function display($cachable = false, $urlparams = array()) {
+    function display($cachable = false, $urlparams = array()) 
+    {
         parent::display($cachable, $urlparams);
     }
     
-    function edit() {
+    function edit() 
+    {
         $uri = JFactory::getURI();
         $uri_query = $uri->getQuery();
         parse_str($uri_query, $uri_params);
@@ -42,7 +47,8 @@ class UAMController extends JControllerLegacy {
         $this->setRedirect('index.php?' . $new_query);
     }
     
-    function unPublish() {
+    function unPublish() 
+    {
         $cid = JRequest::getInt('cid');
         $itemid = JRequest::getInt('Itemid');
         $user = JFactory::getUser();
@@ -61,21 +67,22 @@ class UAMController extends JControllerLegacy {
         $can_editOwn = $user->authorise('core.edit.own', $asset) && ($user->id == $uam_table->created_by);
         
         $override = false;
-        if(($can_edit || $can_editOwn) 
+        
+        if (($can_edit || $can_editOwn) 
 			&& $params->get('user_can_publish'))
         {
             $override = true;
         }
         
-        if($can_publish || $override) {
-            
+        if ($can_publish || $override) 
+        {
             $publica = false;
 			
-            if(is_object($uam_table) && $override && $uam_table->created_by == $user->id && !$can_publish) 
+            if (is_object($uam_table) && $override && $uam_table->created_by == $user->id && !$can_publish) 
 			{
                 $publica = true;
             }
-            elseif(is_object($uam_table) && $can_publish) 
+            elseif (is_object($uam_table) && $can_publish) 
 			{
                 $publica = true;
             }
@@ -102,11 +109,12 @@ class UAMController extends JControllerLegacy {
                 $uam_table->save(array());
             }
         }
-        $this->setRedirect("index.php?option=com_uam&view=uam&Itemid=$itemid");
+        $this->setRedirect('index.php?option=com_uam&view=uam&Itemid=' . $itemid);
         JFactory::getApplication()->enqueueMessage($message, 'message');
     }
     
-    function unFeature() {
+    function unFeature() 
+    {
         $cid = JRequest::getInt('cid');
         $itemid = JRequest::getInt('Itemid');
         $user = JFactory::getUser();
@@ -125,22 +133,27 @@ class UAMController extends JControllerLegacy {
         $can_editOwn = $user->authorise('core.edit.own', $asset) && ($user->id == $uam_table->created_by);
         
         $override = false;
-        if(($can_edit || $can_editOwn) && $params->get('user_can_feature'))
+        
+        if (($can_edit || $can_editOwn) && $params->get('user_can_feature'))
         {
             $override = true;
         }
         
-        if($can_publish || $override) {
-            
+        if ($can_publish || $override) 
+        {
             $feature = false;
-            if (is_object($uam_table) && $override && $uam_table->created_by == $user->id && !$can_publish) {
+            
+            if (is_object($uam_table) && $override && $uam_table->created_by == $user->id && !$can_publish)
+            {
                 $feature = true;
             }
-            elseif (is_object($uam_table) && $can_publish) {
+            elseif (is_object($uam_table) && $can_publish) 
+            {
                 $feature = true;
             }
             
-            if ($feature) {
+            if ($feature) 
+            {
 				if ($uam_table->featured == 0)
 				{
 					$uam_table->featured = 1;
@@ -155,11 +168,12 @@ class UAMController extends JControllerLegacy {
             }
         }
         
-        $this->setRedirect("index.php?option=com_uam&view=uam&Itemid=$itemid");
+        $this->setRedirect('index.php?option=com_uam&view=uam&Itemid=' . $itemid);
 		JFactory::getApplication()->enqueueMessage($message, 'message');
     }
     
-    function trash() {
+    function trash() 
+    {
         $cid = JRequest::getInt('cid');
         $itemid = JRequest::getInt('Itemid');
         $user = JFactory::getUser();
@@ -176,7 +190,7 @@ class UAMController extends JControllerLegacy {
         // Now check if edit.own is available.
         $can_edit_own = $user->authorise('core.edit.own', $asset) && ($user->id == $uam_table->created_by);
         
-        if(is_object($uam_table) 
+        if (is_object($uam_table) 
             && ($can_edit || ($can_edit_own))) 
         {
             //change state
@@ -193,11 +207,12 @@ class UAMController extends JControllerLegacy {
             $uam_table->save(array());
         }
         
-        $this->setRedirect("index.php?option=com_uam&view=uam&Itemid=$itemid");
+        $this->setRedirect('index.php?option=com_uam&view=uam&Itemid=' . $itemid);
         JFactory::getApplication()->enqueueMessage($message, 'message');
     }
     
-    function saveAlias() {
+    function saveAlias() 
+    {
         $user = JFactory::getUser();
         $cid = JRequest::getInt('id_article');
         
@@ -213,7 +228,8 @@ class UAMController extends JControllerLegacy {
         // Now check if edit.own is available.
         $can_edit_own = $user->authorise('core.edit.own', $asset) && ($user->id == $uam_table->created_by);
         
-        if(is_object($uam_table) && ($can_edit || ($can_edit_own))) {
+        if (is_object($uam_table) && ($can_edit || ($can_edit_own))) 
+        {
             $uam_table->alias = JRequest::getString('alias');
             $uam_table->save(array());
             
@@ -225,7 +241,8 @@ class UAMController extends JControllerLegacy {
         jexit();
     }
     
-    function copy() {
+    function copy() 
+    {
         $cid = JRequest::getInt('cid');
         $itemid = JRequest::getInt('Itemid');
         $db = JFactory::getDBO();
@@ -262,7 +279,7 @@ class UAMController extends JControllerLegacy {
 			$message = JText::_('COM_UAM_MSG_COPIED_SUCCESSFULLY');
             $uam_table->save(array());
         }
-        $this->setRedirect("index.php?option=com_uam&view=uam&Itemid=$itemid");
+        $this->setRedirect('index.php?option=com_uam&view=uam&Itemid=' . $itemid);
 		JFactory::getApplication()->enqueueMessage($message, 'message');
     }
 }

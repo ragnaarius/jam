@@ -7,14 +7,12 @@
 	<copyright></copyright>
 	<license>GPLv2</license>
 	<!--  The version string is recorded in the components table -->
-	<version>0.19.3</version>
+	<version>0.20</version>
 	<!-- The description is optional and defaults to the name -->
-	<description><![CDATA[The <big>User Article Manager (UAM)</big> component displays an article list, allowing users to edit, copy, publish, trash and have better overall control of their articles.<br />
-<br />
-<br />Project forked from the original Frontend User Article Manager (FUAL v2.0b) by Felipe Quinto Busanello
-<br />
-
-]]></description>
+	<description>
+	<![CDATA[The <strong>Joomla User Article Manager (jUAM)</strong> component displays an article list, allowing users to edit, copy, publish, trash and have better overall control of their articles.
+	]]>
+	</description>
 
 	<scriptfile>script.php</scriptfile>	
 	

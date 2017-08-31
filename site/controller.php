@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     0.19
+ * @version     0.20
  * @package     com_juam
  * @copyright   Copyright (C) 2017. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt

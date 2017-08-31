@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     0.19
+ * @version     0.20
  * @package     com_juam
  * @copyright   Copyright (C) 2017. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -20,6 +20,7 @@ defined('_JEXEC') or die('Restricted access');
 	<ul>
    		<li>Русский язык - Vladimir, JanRUmoN Team, Alexey Gubanov</li>
 	</ul>
+	<h4><?php echo JText::_('COM_UAM_DONATIONS'); ?></h4>
 	<p><?php echo JText::_('COM_UAM_DONATE'); ?></p>
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 		<input type="hidden" name="cmd" value="_s-xclick">

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     0.19
+ * @version     0.20
  * @package     com_juam
  * @copyright   Copyright (C) 2017. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,16 +13,20 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.view');
 jimport ('joomla.html.parameter');
 
-if (!defined('DIRECTORY_SEPARATOR'))
-    define('DIRECTORY_SEPARATOR', DS);
-    
-    if (!function_exists('class_alias')) {
-        function class_alias($original, $alias) {
+if (!defined('DIRECTORY_SEPARATOR')) {
+	define('DIRECTORY_SEPARATOR', DS);
+}
+
+    if (!function_exists('class_alias')) 
+	{
+        function class_alias($original, $alias) 
+		{
             eval('class ' . $alias . ' extends ' . $original . ' {}');
         }
     }
     
-    if (!class_exists('JViewLegacy')) {
+    if (!class_exists('JViewLegacy')) 
+	{
         class_alias('JView', 'JViewLegacy');
     }
     
@@ -84,7 +88,8 @@ if (!defined('DIRECTORY_SEPARATOR'))
             return $item;
         }
         
-        function _canEditOwnOnly() {
+        function _canEditOwnOnly() 
+		{
             
             // get list of categories and check edit capability;
             
@@ -92,9 +97,11 @@ if (!defined('DIRECTORY_SEPARATOR'))
             
             // Remove those categories the user can't see
             $user = JFactory::getUser();
+			
             foreach($c as $i => $option)
             {
-                if ($user->authorise('core.edit', 'com_content.category.'.$option->value) == true ) {
+                if ($user->authorise('core.edit', 'com_content.category.'.$option->value) == true ) 
+				{
                     return false;
                     break;
                 }
@@ -102,7 +109,8 @@ if (!defined('DIRECTORY_SEPARATOR'))
             return true;
         }
         
-        function _getLists() {
+        function _getLists() 
+		{
             $mainframe =  JFactory::getApplication();
             $option = $mainframe->input->get('option');
             $params = $mainframe->getParams($option);
@@ -121,11 +129,13 @@ if (!defined('DIRECTORY_SEPARATOR'))
             $search = $mainframe->getUserStateFromRequest($option.'filter_search', 'filter_search', '', 'string');
             $search = JString::strtolower($search);
             
-            if ($params->get('useallcategories') == 1) {
+            if ($params->get('useallcategories') == 1) 
+			{
                 // get list of categories for dropdown filter
                 $c = JHtml::_('category.options', 'com_content');
             }
-            else {
+            else 
+			{
                 $query = "SELECT a.id as value, a.title as text FROM #__categories AS a WHERE a.parent_id > 0 AND
 						extension = 'com_content' AND
 						a.published = 1 AND
@@ -139,12 +149,14 @@ if (!defined('DIRECTORY_SEPARATOR'))
             
             // Remove those categories the user can't see
             $user = JFactory::getUser();
+			
             foreach($c as $i => $option)
             {
                 // To take save or create in a category you need to have create rights for that category
                 // unless the item is already in that category.
                 // Unset the option if the user isn't authorised for it. In this field assets are always categories.
-                if ($user->authorise('core.create', 'com_content.category.'.$option->value) != true ) {
+                if ($user->authorise('core.create', 'com_content.category.'.$option->value) != true ) 
+				{
                     unset($c[$i]);
                 }
             }
@@ -159,7 +171,8 @@ if (!defined('DIRECTORY_SEPARATOR'))
             if (isset($l))
                 unset($l);
                 
-                if (count($c) > 0) {
+                if (count($c) > 0) 
+				{
                     $l = '';
                     // Convert into "(id1, id2...)" for the query
                     foreach (array_values($c) as $k)
@@ -174,10 +187,12 @@ if (!defined('DIRECTORY_SEPARATOR'))
                     ' WHERE (c.state <> -1' .
                     ' AND c.state <> -2)';
                 
-                if($filter_catid > 0) {
+                if ($filter_catid > 0) 
+				{
                     $query .= ' AND (c.catid = '.$db->Quote($filter_catid) . ')';
                 }
-                else if (isset($l)) {
+                else if (isset($l)) 
+				{
                     $query .= ' AND (c.catid in ' . $l . ')';
                 }
                 else $query .= ' AND 0';	// Can't see any categories so can't see any authors

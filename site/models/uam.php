@@ -1,10 +1,19 @@
 <?php
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+/**
+ * @version     0.20
+ * @package     com_juam
+ * @copyright   Copyright (C) 2017. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @author      Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov
+ * @link        https://github.com/ragnaarius/juam
+ */
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.modeladmin' );
 
-class UAMModelUAM extends JModelAdmin {
+class UAMModelUAM extends JModelAdmin 
+{
 
 	var $_data;
 
@@ -13,7 +22,8 @@ class UAMModelUAM extends JModelAdmin {
 	var $_pagination = null;
 
 
-	function __construct() {
+	function __construct() 
+	{
 		parent::__construct();
 
 		$mainframe = JFactory::getApplication();
@@ -50,9 +60,11 @@ class UAMModelUAM extends JModelAdmin {
 	 * @access public
 	 * @return integer
 	 */
-	function getTotal() {
+	function getTotal() 
+	{
 		// Lets load the content if it doesn't already exist
-		if(empty($this->_total)) {
+		if (empty($this->_total)) 
+		{
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
@@ -66,9 +78,11 @@ class UAMModelUAM extends JModelAdmin {
 	 * @access public
 	 * @return integer
 	 */
-	function getPagination() {
+	function getPagination() 
+	{
 		// Lets load the content if it doesn't already exist
-		if(empty($this->_pagination)) {
+		if(empty($this->_pagination)) 
+		{
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
 		}
@@ -80,7 +94,8 @@ class UAMModelUAM extends JModelAdmin {
 	 * Returns the query
 	 * @return string The query to be used to retrieve the rows from the database
 	 */
-	function _buildQuery() {
+	function _buildQuery() 
+	{
 		// Get the WHERE and ORDER BY clauses for the query
 		$where = $this->_buildContentWhere();
 		$orderby = $this->_buildContentOrderBy();
@@ -97,8 +112,8 @@ class UAMModelUAM extends JModelAdmin {
 		return $query;
 	}
 
-	function _buildContentOrderBy() {
-
+	function _buildContentOrderBy() 
+	{
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getCMD('option'); 
 
@@ -112,8 +127,8 @@ class UAMModelUAM extends JModelAdmin {
 		return $orderby;
 	}
 
-	function _buildContentWhere() {
-
+	function _buildContentWhere() 
+	{
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getCMD('option'); 
 		$uamParams = JComponentHelper::getParams('com_uam');
@@ -121,7 +136,8 @@ class UAMModelUAM extends JModelAdmin {
 
 		$menuParams = new JRegistry;
 
-		if ($menu = $mainframe->getMenu()->getActive()) {
+		if ($menu = $mainframe->getMenu()->getActive()) 
+		{
 			$menuParams->loadString($menu->params);
 		}
 
@@ -143,7 +159,8 @@ class UAMModelUAM extends JModelAdmin {
 		$filter_langid = $mainframe->getUserStateFromRequest($option.'filter_langid', 'filter_langid', '', 'string');
 		$filter_authorid = $mainframe->getUserStateFromRequest($option.'filter_authorid', 'filter_authorid', 0, 'int');
 
-		if(strlen($filter_search) > 0) {
+		if (strlen($filter_search) > 0) 
+		{
 			$where2 = array();
 			$where2[] = "c.title like $filter_search";
 			$where2[] = "c.introtext like $filter_search";
@@ -152,15 +169,19 @@ class UAMModelUAM extends JModelAdmin {
 			$where2[] = "c.metadesc like $filter_search";
 			$where[] = '((' . implode( ') OR (', $where2 ) . '))';
 		}
-		if($filter_state) {
-			if ($filter_state == 'P') {
+		if ($filter_state) 
+		{
+			if ($filter_state == 'P') 
+			{
 				$where[] = 'c.state = 1';
 			}
-			elseif($filter_state == 'U') {
+			elseif($filter_state == 'U') 
+			{
 				$where[] = 'c.state = 0';
 			}
 		}
-		if ($params->get('useallcategories') == 1) {
+		if ($params->get('useallcategories') == 1) 
+		{
 			// Get list of categories
 			$c = JHtml::_('category.options', 'com_content');
 
@@ -170,74 +191,107 @@ class UAMModelUAM extends JModelAdmin {
 				// To take save or create in a category you need to have create rights for that category
 				// unless the item is already in that category.
 				// Unset the option if the user isn't authorised for it. In this field assets are always categories.
-				if ($user->authorise('core.create', 'com_content.category.'.$option->value) != true ) {
+				if ($user->authorise('core.create', 'com_content.category.'.$option->value) != true )
+				{
 					unset($c[$i]);
 				}
-				if ($user->authorise('core.edit', 'com_content.category.'.$option->value) == true ) {
+				if ($user->authorise('core.edit', 'com_content.category.'.$option->value) == true )
+				{
 					$canEditOwnOnly = false;
 				}
 			}
-			if ($params->get('user_can_view')) {
+			if ($params->get('user_can_view'))
+			{
 				if (isset($l))
+				{
 					unset($l);
-					
-				if (count($c) > 0) {
+				}
+				if (count($c) > 0) 
+				{
 					$l = '';
 					// Convert into "(id1, id2...)" for the query
 					foreach (array_values($c) as $k)
+					{
 						// $k is a JObject with ->value = category id
 						$l .= $k->value .', ';
+					}
 					$l = '(' . strrev(substr(strrev($l), 2)) . ')';
 				}
 
-				if($filter_catid > 0) {
+				if($filter_catid > 0)
+				{
 					$where[] = 'c.catid = '.$db->Quote($filter_catid);
 				}
-				else if (isset($l)) {
+				else if (isset($l))
+				{
 					$where[] = 'c.catid in ' . $l;
 				}
 				else $where[] = '0';	// Can't see any categories so can't see any articles
 			}
-			else {
-				if (count($c) > 0) {
+			else
+			{
+				if (count($c) > 0)
+				{
 					// Convert into "(id1, id2...)" for the query
 					$where2 = array();
-					foreach (array_values($c) as $k) {
+					foreach (array_values($c) as $k)
+					{
 						// $k is a JObject with ->value = category id
 						if ($user->authorise('core.edit', 'com_content.category.'.$k->value) == true )
+						{
 							$where2[] = "(c.catid = '$k->value')";
+						}
 						else if ($user->authorise('core.edit.own', 'com_content.category.'.$k->value) == true )
+						{
 							$where2[] = "(c.catid = '$k->value' AND c.created_by = '$user->id')";
+						}
 					}
-                    if (count($where2) > 0) {
+                    if (count($where2) > 0)
+					{
                         $l = '((' . implode( ') OR (', $where2 ) . '))';
                     }		
 				}
 
-				if($filter_catid > 0) {
+				if ($filter_catid > 0)
+				{
 						if ($user->authorise('core.edit', 'com_content.category.'.$filter_catid) == true )
+						{
 							$where[] = "(c.catid = '$filter_catid')";
+						}
 						else if ($user->authorise('core.edit.own', 'com_content.category.'.$filter_catid) == true )
-							$where[] = "(c.catid = '$filter_catid' AND c.created_by = '$user->id')";			
+						{
+							$where[] = "(c.catid = '$filter_catid' AND c.created_by = '$user->id')";
+						}
 				}
-				else if (isset($l)) {
+				else if (isset($l)) 
+				{
 					$where[] = $l;
 				}
-				else $where[] = '0';	// Can't see any categories so can't see any articles
+				else
+				{
+					$where[] = '0';	// Can't see any categories so can't see any articles
+				}
 			}
-		} else {
+		} 
+		else 
+		{
 			// Just use the single category defined by the drop-down
 
-			if ($user->authorise('core.edit', 'com_content.category.'.$params->get('mycategory')) == true ) {
+			if ($user->authorise('core.edit', 'com_content.category.'.$params->get('mycategory')) == true ) 
+			{
 				$canEditOwnOnly = false;
 			}
 			
 			$userquery = "c.created_by = '$user->id'";
 
-            if($filter_catid > 0) {
+            if($filter_catid > 0)
+			{
                 $cats = 'c.catid = '.$filter_catid;
-            } else {
-                if ($params->get('allow_subcategories') == 1) {
+            } 
+			else 
+			{
+                if ($params->get('allow_subcategories') == 1) 
+				{
                     $cats = "catid IN (SELECT id FROM
 								(SELECT a.id FROM #__categories AS a WHERE a.parent_id > 0 AND
 								 extension = 'com_content' AND
@@ -245,25 +299,31 @@ class UAMModelUAM extends JModelAdmin {
 								 a.lft >= (SELECT b.lft FROM #__categories b WHERE b.id = ".$params->get('mycategory'). ") AND
 								 a.rgt <= (SELECT c.rgt FROM #__categories c WHERE c.id = ".$params->get('mycategory'). ")
 								) tmp)";
-                } else {
+                }
+				else 
+				{
                     $cats = 'c.catid = '.$params->get('mycategory');
                 }
             }
 			
-			if ($params->get('user_can_view')) {
+			if ($params->get('user_can_view'))
+			{
 				$where[] = $cats;
 			}
-			else {
+			else
+			{
 				$where[] = $cats . ' AND ' . $userquery;
 			}
 		}
 
 
-		if($filter_authorid) {
+		if($filter_authorid)
+		{
 			$where[] = "c.created_by = '$filter_authorid'";
 		}
 		
-		if($filter_langid) {
+		if($filter_langid)
+		{
 			$where[] = "c.language = '$filter_langid'";
 		}
 		
@@ -276,8 +336,10 @@ class UAMModelUAM extends JModelAdmin {
 	 * Retrieves the data
 	 * @return array Array of objects containing the data from the database
 	 */
-	function getData() {
-		if(empty($this->_data)) {
+	function getData()
+	{
+		if (empty($this->_data)) 
+		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
@@ -285,8 +347,10 @@ class UAMModelUAM extends JModelAdmin {
 		return $this->_data;
 	}
 	
-	function getItem($pk = NULL) {
-		if ($item = parent::getItem($pk)) {
+	function getItem($pk = NULL)
+	{
+		if ($item = parent::getItem($pk))
+		{
 			// Convert the params field to an array.
 			$registry = new JRegistry;
 			$registry->loadJSON($item->attribs);
@@ -312,7 +376,8 @@ class UAMModelUAM extends JModelAdmin {
 	 */
 	public function featured($id, $value = 0)
 	{
-		try {
+		try 
+		{
 			$db = $this->getDbo();
 
 			$db->setQuery(
@@ -320,25 +385,31 @@ class UAMModelUAM extends JModelAdmin {
 				' SET a.featured = '.(int) $value.
 				' WHERE a.id = ' . $id
 			);
-			if (!$db->query()) {
+			if (!$db->query()) 
+			{
 				throw new Exception($db->getErrorMsg());
 			}
 
-			if ((int)$value == 0) {
+			if ((int)$value == 0)
+			{
 				// Adjust the mapping table.
 				// Clear the existing features settings.
 				$db->setQuery(
 					'DELETE FROM #__content_frontpage' .
 					' WHERE content_id = ' . $id
 				);
-				if (!$db->query()) {
+				if (!$db->query()) 
+				{
 					throw new Exception($db->getErrorMsg());
 				}
-			} else {
+			}
+			else
+			{
 				$db->setQuery(
 					'UPDATE #__content_frontpage SET ordering = ordering + 1'
 				);
-				if (!$db->query()) {
+				if (!$db->query()) 
+				{
 					$this->setError($db->getErrorMsg());
 					return false;
 				}
@@ -346,13 +417,16 @@ class UAMModelUAM extends JModelAdmin {
 					'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
 					' VALUES ('. $id . ', 1)'
 				);
-				if (!$db->query()) {
+				if (!$db->query())
+				{
 					$this->setError($db->getErrorMsg());
 					return false;
 				}
 			}
 
-		} catch (Exception $e) {
+		} 
+		catch (Exception $e) 
+		{
 			$this->setError($e->getMessage());
 			return false;
 		}

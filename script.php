@@ -1,5 +1,13 @@
 <?php
-// No direct access to this file
+/**
+ * @version     0.20
+ * @package     com_juam
+ * @copyright   Copyright (C) 2017. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @author      Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov
+ * @link        https://github.com/ragnaarius/juam
+ */
+// No direct access
 defined('_JEXEC') or die('Restricted access');
  
 /**
@@ -102,7 +110,8 @@ class com_uamInstallerScript
         $defaults .= '"user_can_editpublished":"0"';
 		$defaults .= '}';
 
-		if ($type == 'install') {
+		if ($type == 'install') 
+		{
 			$db = JFactory::getDBO();
 			$query	= $db->getQuery(true);
 			$query->update('#__extensions');
@@ -111,7 +120,8 @@ class com_uamInstallerScript
 			$db->setQuery($query);
 			$db->query();
 		}
-		else if ($type == 'update') {
+		else if ($type == 'update') 
+		{
 			$db = JFactory::getDBO();
 			$query	= $db->getQuery(true);
 
@@ -124,12 +134,14 @@ class com_uamInstallerScript
 			$new = json_decode($defaults, true);
 
 			// If options already exist, keep the old ones (except for version number)
-			if ($old) {
+			if ($old) 
+			{
 				$old = array_merge($old, array("version" => "$this->release"));
 				$new = array_merge($new, $old);
 				$options = json_encode($new);
 			}
-			else {
+			else 
+			{
 				$options = $defaults;
 			}
 
@@ -138,9 +150,6 @@ class com_uamInstallerScript
 			$query->where("name = 'com_uam'");
 			$db->setQuery($query);
 			$db->query();
-
-
-
 		}
 	}
 }

@@ -388,7 +388,7 @@ if (!defined('DIRECTORY_SEPARATOR'))
 			$item_txt = JText::_( 'COM_UAM_EDIT' );
 			$class = "";
             
-			if ($article->state > 0) 
+			if ($article->state != -2) 
 			{
 				if (($access->canEdit) 
 					|| ($params->get('user_can_editpublished') && ($access->canEdit || ($access->canEditOwn && ($article->created_by == $user->get('id'))))

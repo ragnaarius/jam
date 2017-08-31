@@ -1,6 +1,9 @@
 .uam_new_article{
 	margin-bottom: 10px;
 }
+.title{
+	color: #666666;
+}
 #filter_catid,
 #filter_authorid,
 #filter_state,

@@ -33,13 +33,23 @@ if (!defined('DIRECTORY_SEPARATOR')) {
     class UAMViewUAM extends JViewLegacy {
         
         function display($tpl = null) {
-            $mainframe = JFactory::getApplication();
-            $params = $mainframe->getParams('com_uam');
+            $app = JFactory::getApplication();
+            $apparams = $app->getParams('com_uam');
             $user = JFactory::getUser();
             $uri = JFactory::getURI();
             
+            // get menu parameters and merge it with component params 
+            $menuparams = new JRegistry;
+            if ($menu = $app->getMenu()->getActive())
+            {
+                $menuparams->loadString($menu->params);
+            }
+            
+            $params = clone $apparams;
+            $params->merge($menuparams);
+            
             // Require the com_content helper library
-            require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_content'.DIRECTORY_SEPARATOR.'helpers'.DIRECTORY_SEPARATOR.'route.php');
+            require_once(JPATH_SITE.DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_content' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'route.php');
             
             //load stylesheet and javascript
             $document = JFactory::getDocument();
@@ -64,9 +74,67 @@ if (!defined('DIRECTORY_SEPARATOR')) {
             $this->assignRef('user', $user);
             $this->assignRef('canEditOwnOnly', $canEditOwnOnly);
             
+            $this->_prepareDocument();
+            
             parent::display($tpl);
         }
         
+        /**
+         * Prepares the document
+         *
+         * @return  void
+         */
+        protected function _prepareDocument()
+        {
+            $app   = JFactory::getApplication();
+            $menus = $app->getMenu();
+            $title = null;
+            
+            // Because the application sets a default page title,
+            // we need to get it from the menu item itself
+            $menu = $menus->getActive();
+            
+            if ($menu)
+            {
+                $this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+            }
+            else
+            {
+                $this->params->def('page_heading', JText::_('JGLOBAL_ARTICLES'));
+            }
+            
+            $title = $this->params->get('page_title', '');
+            
+            if (empty($title))
+            {
+                $title = $app->get('sitename');
+            }
+            elseif ($app->get('sitename_pagetitles', 0) == 1)
+            {
+                $title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+            }
+            elseif ($app->get('sitename_pagetitles', 0) == 2)
+            {
+                $title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+            }
+            
+            $this->document->setTitle($title);
+            
+            if ($this->params->get('menu-meta_description'))
+            {
+                $this->document->setDescription($this->params->get('menu-meta_description'));
+            }
+            
+            if ($this->params->get('menu-meta_keywords'))
+            {
+                $this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+            }
+            
+            if ($this->params->get('robots'))
+            {
+                $this->document->setMetadata('robots', $this->params->get('robots'));
+            }
+        }
         
         function &getItem($index = 0, &$params) {
             $item =& $this->itens[$index];
@@ -90,7 +158,6 @@ if (!defined('DIRECTORY_SEPARATOR')) {
         
         function _canEditOwnOnly() 
 		{
-            
             // get list of categories and check edit capability;
             
             $c = JHtml::_('category.options', 'com_content');
@@ -111,22 +178,21 @@ if (!defined('DIRECTORY_SEPARATOR')) {
         
         function _getLists() 
 		{
-            $mainframe =  JFactory::getApplication();
-            $option = $mainframe->input->get('option');
-            $params = $mainframe->getParams($option);
+            $app =  JFactory::getApplication();
+            $option = $app->input->get('option');
+            $params = $app->getParams($option);
             
-                        
             // Initialize variables
             $db = JFactory::getDBO();
             
             // Get some variables from the request
-            $filter_order = $mainframe->getUserStateFromRequest($option.'filter_order', 'filter_order', 'c.id', 'cmd');
-            $filter_order_Dir = $mainframe->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', '', 'word');
-            $filter_state = $mainframe->getUserStateFromRequest($option.'filter_state', 'filter_state', '', 'word');
-            $filter_catid = $mainframe->getUserStateFromRequest($option.'filter_catid', 'filter_catid', -1, 'int');
-            $filter_langid = $mainframe->getUserStateFromRequest($option.'filter_langid', 'filter_langid', '', 'string');
-            $filter_authorid = $mainframe->getUserStateFromRequest($option.'filter_authorid', 'filter_authorid', 0, 'int');
-            $search = $mainframe->getUserStateFromRequest($option.'filter_search', 'filter_search', '', 'string');
+            $filter_order = $app->getUserStateFromRequest($option.'filter_order', 'filter_order', 'c.id', 'cmd');
+            $filter_order_Dir = $app->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', '', 'word');
+            $filter_state = $app->getUserStateFromRequest($option.'filter_state', 'filter_state', '', 'word');
+            $filter_catid = $app->getUserStateFromRequest($option.'filter_catid', 'filter_catid', -1, 'int');
+            $filter_langid = $app->getUserStateFromRequest($option.'filter_langid', 'filter_langid', '', 'string');
+            $filter_authorid = $app->getUserStateFromRequest($option.'filter_authorid', 'filter_authorid', 0, 'int');
+            $search = $app->getUserStateFromRequest($option.'filter_search', 'filter_search', '', 'string');
             $search = JString::strtolower($search);
             
             if ($params->get('useallcategories') == 1) 

@@ -264,7 +264,7 @@ if (!defined('DIRECTORY_SEPARATOR')) {
                 $nullDate = JFActory::getDBO()->getNullDate();
                 $nowDate = JFactory::getDate()->toUnix();
                 
-                $tz = $user->getTimezone();
+                $tz = new DateTimeZone(JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset')));
                 
                 $publish_up = ($article->publish_up != $nullDate) ? JFactory::getDate($article->publish_up, 'UTC')->setTimeZone($tz) : false;
                 $publish_down = ($article->publish_down != $nullDate) ? JFactory::getDate($article->publish_down, 'UTC')->setTimeZone($tz) : false;
@@ -617,7 +617,7 @@ if (!defined('DIRECTORY_SEPARATOR')) {
             $nullDate = JFActory::getDBO()->getNullDate();
             $nowDate = JFactory::getDate()->toUnix();
                 
-            $tz = $user->getTimezone();
+            $tz = new DateTimeZone(JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset')));
                 
             $publish_up = ($article->publish_up != $nullDate) ? JFactory::getDate($article->publish_up, 'UTC')->setTimeZone($tz) : false;
             $publish_down = ($article->publish_down != $nullDate) ? JFactory::getDate($article->publish_down, 'UTC')->setTimeZone($tz) : false;

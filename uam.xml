@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3" client="site" method="upgrade">
 	<name>com_uam</name>
-	<creationDate>August 2017</creationDate>
+	<creationDate>September 2017</creationDate>
 	<author>Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov</author>
 	<authorEmail>ragnaar@gmail.com</authorEmail>
 	<copyright></copyright>
 	<license>GPLv2</license>
 	<!--  The version string is recorded in the components table -->
-	<version>0.20</version>
+	<version>0.20.1</version>
 	<!-- The description is optional and defaults to the name -->
 	<description>
 	<![CDATA[The <strong>Joomla User Article Manager (jUAM)</strong> component displays an article list, allowing users to edit, copy, publish, trash and have better overall control of their articles.

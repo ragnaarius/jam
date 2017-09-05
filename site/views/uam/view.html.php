@@ -50,11 +50,31 @@ if (!defined('DIRECTORY_SEPARATOR')) {
             
             // Require the com_content helper library
             require_once(JPATH_SITE.DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_content' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'route.php');
-            
+
+			//load frameworks for right sequence in the page header
+			JHtml::_('jquery.framework', true, true);
+			JHtml::_('bootstrap.framework', true, true);
+			
             //load stylesheet and javascript
             $document = JFactory::getDocument();
             $document->addStyleSheet(JURI::base(true).'/components/com_uam/assets/css/style.css');
             $document->addScript(JURI::base(true).'/components/com_uam/assets/javascript/script.js');
+			$document->addScript(JURI::base(true).'/components/com_uam/assets/javascript/confirm-bootstrap.js');
+			$document->addScriptDeclaration("
+				jQuery(function ($){
+					$(function(){
+						$(document).on('click', '.menuitem_lnk', function(e) {
+							e.preventDefault()
+						})
+
+						$('.menuitem_lnk').confirmModal({
+							confirmTitle: '" . JText::_('COM_UAM_CONFIRM_TITLE') . "',
+							confirmOk: '" . JText::_('COM_UAM_BUTTON_OK') . "',
+							confirmCancel: '" . JText::_('COM_UAM_BUTTON_CANCEL') . "'
+						});
+					})
+				});
+			");
             
             // Get data from the model
             $itens = $this->get('Data');

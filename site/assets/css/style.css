@@ -47,11 +47,15 @@
 }
 
 #fual_edit_alias_form {
-    width: 450px;
-    left: 50%;
-    top: 50%;
-    margin-left: -225px;
-    margin-top: -75px;
 	display: none;
 	position: absolute;
+}
+.modal{
+    width: 560px !important;
+    left: 50% !important;
+    top: 10% !important;
+    margin-left: -280px !important;
+}
+.modal-body{
+	padding: 9px 15px !important;
 }

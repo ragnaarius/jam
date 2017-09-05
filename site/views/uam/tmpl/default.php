@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     0.19
+ * @version     0.20
  * @package     com_juam
  * @copyright   Copyright (C) 2017. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -217,7 +217,7 @@ $uam_jversion = new JVersion();
                             if ($this->params->get('copy_column')) :
                                 $copy = $this->getCopy($row, $row->params, $this->access);
                                 echo   "<li class=\"menuitem " . $copy['class'] . "\">
-                                            <a href=\"" . $copy['link'] . "\" onclick=\"if(!confirm('" . $copy['msg_confirm'] . "')) { return false; }\">
+                                            <a  class=\"menuitem_lnk\" href=\"" . $copy['link'] . "\" data-confirm-message=\"" . $copy['msg_confirm'] . "\">
                                                 <span class=\"icon-copy\"></span>" . $copy['item_txt'] . "
                                             </a>
                                         </li>";
@@ -256,7 +256,7 @@ $uam_jversion = new JVersion();
                             if ($this->params->get('trash_column')) :
                                 $trash = $this->getTrash($row, $row->params, $this->access);
                                 echo   "<li class=\"menuitem " . $trash['class'] . "\">
-                                            <a href=\"" . $trash['link'] . "\" onclick=\"if(!confirm('" . $trash['msg_confirm'] . "')) { return false; }\">
+                                            <a class=\"menuitem_lnk\" href=\"" . $trash['link'] . "\" data-confirm-message=\"" . $trash['msg_confirm'] . "\">
                                                 <span class=\"icon-trash\"></span>" . $trash['item_txt'] . "
                                             </a>
                                         </li>";

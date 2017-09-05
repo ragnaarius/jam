@@ -24,7 +24,8 @@
 		
 		<filename>assets/javascript/index.html</filename>
 		<filename>assets/javascript/script.js</filename>
-		
+		<filename>assets/javascript/confirm-bootstrap.js</filename>
+
 		<filename>models/uam.php</filename>
 		<filename>models/index.html</filename>
 		

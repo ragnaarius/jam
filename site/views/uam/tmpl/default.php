@@ -386,7 +386,7 @@ $uam_jversion = new JVersion();
 				    if ($this->params->get('hits_column')) :
                     ?>
                 	<td>
-                    	<span class="badge badge-info"><?php echo $row->hits; ?></span>
+                    	<span class="badge <?php if ($row->hits > 0){echo "badge-info";} ?>"><?php echo $row->hits; ?></span>
                 	</td>
                 	<?php
                     endif;

@@ -26,8 +26,10 @@ class UAMController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		JRequest::setVar( 'view', 'uam');
-		parent::display($cachable, $urlparams);
+        $jinput = JFactory::getApplication()->input;
+	    $jinput->set( 'view', 'uam' );
+	    
+		parent::display( $cachable, $urlparams );
 	}
 }
 ?>

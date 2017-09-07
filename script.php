@@ -92,6 +92,7 @@ class com_uamInstallerScript
 		$defaults .= '"restrict_to_category":"0",';
 		$defaults .= '"featured_column":"0",';
 		$defaults .= '"category_column":"1",';
+		$defaults .= '"category_in_title":"0",';
 		$defaults .= '"author_column":"1",';
 		$defaults .= '"show_alias":"1",';
 		$defaults .= '"language_column":"0",';

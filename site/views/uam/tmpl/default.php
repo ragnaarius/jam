@@ -291,7 +291,18 @@ $uam_jversion = new JVersion();
                         }
                         echo "<input type=\"hidden\" id=\"fual_" . $row->id . "_title\" value=\"" . $row->title . "\" >";
                         echo "<input type=\"hidden\" id=\"fual_" . $row->id . "_alias\" value=\"" . $row->alias . "\" >";
-                    ?>
+						// Category after title
+						if ($this->params->get('category_in_title')) :
+					?>
+						<div class="small">
+							<?php echo JText::_('COM_UAM_CATEGORY') . ":"; ?>
+						    <a href="<?php echo ContentHelperRoute::getCategoryRoute($row->catid); ?>">
+								<?php echo $row->category; ?>
+							</a>
+						</div>
+					<?php
+						endif;
+					?>
                 	</td>
                 	<?php
                     endif;

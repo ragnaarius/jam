@@ -70,6 +70,10 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+		<field name="category_in_title" type="radio" label="COM_UAM_CATEGORY_COLUMN_IN_TITLE" description="COM_UAM_CATEGORY_COLUMN_IN_TITLE_DESC" class="btn-group btn-group-yesno">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 		<field name="author_column" type="radio" default="1" label="COM_UAM_AUTHOR_COLUMN" description="COM_UAM_AUTHOR_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>

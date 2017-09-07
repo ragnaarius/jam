@@ -66,13 +66,46 @@ if (!defined('DIRECTORY_SEPARATOR')) {
 						$(document).on('click', '.menuitem_lnk', function(e) {
 							e.preventDefault()
 						})
-
+			    
 						$('.menuitem_lnk').confirmModal({
 							confirmTitle: '" . JText::_('COM_UAM_CONFIRM_TITLE') . "',
 							confirmOk: '" . JText::_('COM_UAM_BUTTON_OK') . "',
 							confirmCancel: '" . JText::_('COM_UAM_BUTTON_CANCEL') . "'
 						});
-					})
+			    
+                        $(document).on('click', '.menuitem_alias', function(e) {
+
+                            $('#alert-block').css('display', 'none');
+			    
+							var articleId = $(this).data('article-id');
+							var articleAlias = $(this).data('article-alias');
+							var articleTitle = $(this).data('article-title');
+			    
+							$('#feaf_alias').val( articleAlias ).focus();
+							$('#feaf_id_article').text( articleId );
+							$('#feaf_title').text( articleTitle );
+			    
+							$('#fual_edit_alias_form').modal();
+			    
+                            $(document).on('click', '#feaf_bt_save', function(e) {
+                                $.ajax({
+								    type: 'POST',
+                                    dataType: 'json',
+								    url: 'index.php?option=com_uam&task=saveAlias',
+								    data: 'id_article=' + articleId + '&alias=' + $('#feaf_alias').val(),
+								    success: function(data){
+									   if(data.success == true){
+										  //$('#alert-block').css('display', 'block');
+                                            //$('#alert-block').text('Успешно');
+                                            $('#fual_edit_alias_form').modal('hide');
+                                        }
+								    },
+								    error: function(){
+									   alert('failure');
+                                });
+                            });
+						});
+ 					});
 				});
 			");
             

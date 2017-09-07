@@ -233,11 +233,11 @@ class UAMController extends JControllerLegacy {
             $uam_table->alias = JRequest::getString('alias');
             $uam_table->save(array());
             
-            echo 'ok';
+            echo json_encode(array('success' => true));
             jexit();
         }
         
-        echo 'error';
+        echo json_encode(array('success' => false));
         jexit();
     }
     

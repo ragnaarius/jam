@@ -185,7 +185,7 @@ $uam_jversion = new JVersion();
                 // Now check if edit.own is available.
                 $this->access->canEditOwn = $user->authorise('core.edit.own', $asset) && ($this->user->id == $row->created_by);
             ?>
-				<tr>
+				<tr id="article<?php echo $row->id; ?>">
                 	<td align="center">
 					<div class="btn-group">
 						<?php
@@ -226,7 +226,7 @@ $uam_jversion = new JVersion();
                             if ($this->params->get('edit_alias_column')) :
                                 $editalias = $this->getEditAlias($row, $row->params, $this->access);
                                 echo   "<li class=\"menuitem " . $editalias['class'] . "\">
-                                            <a href=\"" . $editalias['link'] . "\" data-toggle=\"modal\" onclick=\"fualEditAlias(" . $editalias['article_id'] . ",event);\">
+                                            <a class=\"menuitem_alias\" href=\"" . $editalias['link'] . "\" data-toggle=\"modal\" data-article-id=\"" . $editalias['article_id'] . "\" data-article-alias=\"" . $row->alias . "\" data-article-title=\"" . $row->title . "\">
                                                 <span class=\"icon-share-alt\"></span>" . $editalias['item_txt'] . "
                                             </a>
                                         </li>";
@@ -289,8 +289,6 @@ $uam_jversion = new JVersion();
                                 echo "<span class=\"title " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" >" . $title['title'] . "</span>";
                             }
                         }
-                        echo "<input type=\"hidden\" id=\"fual_" . $row->id . "_title\" value=\"" . $row->title . "\" >";
-                        echo "<input type=\"hidden\" id=\"fual_" . $row->id . "_alias\" value=\"" . $row->alias . "\" >";
 						// Category after title
 						if ($this->params->get('category_in_title')) :
 					?>
@@ -435,9 +433,9 @@ $uam_jversion = new JVersion();
 </div>
 <!-- Edit alias form code -->
 
-<div id="fual_edit_alias_form" class="modal">
+<div id="fual_edit_alias_form" class="modal hide fade">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="javascript:fualCloseAliasForm();">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3><?php echo JText::_('COM_UAM_EDIT_ALIAS'); ?></h3>
     </div>
     <div class="modal-body">
@@ -459,7 +457,7 @@ $uam_jversion = new JVersion();
         <div id="alert-block" class="alert" style="display: none"></div>
     </div>
     <div class="modal-footer">
-        <button class="btn" type="button" id="feaf_bt_cancel" data-dismiss="modal" aria-hidden="true" onclick="javascript:fualCloseAliasForm();"><?php echo JText::_('COM_UAM_CANCEL'); ?></button>
-        <button class="btn" type="button" id="feaf_bt_save" onclick="javascript:fualSaveAlias();"><?php echo JText::_('COM_UAM_SAVE'); ?></button>
+        <button class="btn" type="button" id="feaf_bt_cancel" data-dismiss="modal" aria-hidden="true"><?php echo JText::_('COM_UAM_CANCEL'); ?></button>
+        <button class="btn" type="button" id="feaf_bt_save"><?php echo JText::_('COM_UAM_SAVE'); ?></button>
     </div>
 </div>

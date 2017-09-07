@@ -10,127 +10,106 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.view');
-jimport ('joomla.html.parameter');
-
-if (!defined('DIRECTORY_SEPARATOR')) {
-	define('DIRECTORY_SEPARATOR', DS);
-}
-
-    if (!function_exists('class_alias')) 
-	{
-        function class_alias($original, $alias) 
-		{
-            eval('class ' . $alias . ' extends ' . $original . ' {}');
+class UAMViewUAM extends JViewLegacy 
+{
+    function display($tpl = null) {
+        $app = JFactory::getApplication();
+        $apparams = $app->getParams('com_uam');
+        $user = JFactory::getUser();
+        $uri = JFactory::getURI();
+            
+        // get menu parameters and merge it with component params 
+        $menuparams = new JRegistry;
+        if ($menu = $app->getMenu()->getActive())
+        {
+            $menuparams->loadString($menu->params);
         }
-    }
-    
-    if (!class_exists('JViewLegacy')) 
-	{
-        class_alias('JView', 'JViewLegacy');
-    }
-    
-    class UAMViewUAM extends JViewLegacy {
-        
-        function display($tpl = null) {
-            $app = JFactory::getApplication();
-            $apparams = $app->getParams('com_uam');
-            $user = JFactory::getUser();
-            $uri = JFactory::getURI();
             
-            // get menu parameters and merge it with component params 
-            $menuparams = new JRegistry;
-            if ($menu = $app->getMenu()->getActive())
-            {
-                $menuparams->loadString($menu->params);
-            }
+        $params = clone $apparams;
+        $params->merge($menuparams);
             
-            $params = clone $apparams;
-            $params->merge($menuparams);
-            
-            // Require the com_content helper library
-            require_once(JPATH_SITE.DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_content' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'route.php');
+        // Require the com_content helper library
+        require_once(JPATH_SITE.DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_content' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'route.php');
 
-			//load frameworks for right sequence in the page header
-			JHtml::_('jquery.framework', true, true);
-			JHtml::_('bootstrap.framework', true, true);
+        //load frameworks for right sequence in the page header
+        JHtml::_('jquery.framework', true, true);
+        JHtml::_('bootstrap.framework', true, true);
 			
-            //load stylesheet and javascript
-            $document = JFactory::getDocument();
-            $document->addStyleSheet(JURI::base(true).'/components/com_uam/assets/css/style.css');
-            $document->addScript(JURI::base(true).'/components/com_uam/assets/javascript/script.js');
-			$document->addScript(JURI::base(true).'/components/com_uam/assets/javascript/confirm-bootstrap.js');
-			$document->addScriptDeclaration("
-				jQuery(function ($){
-					$(function(){
-						$(document).on('click', '.menuitem_lnk', function(e) {
-							e.preventDefault()
-						})
+        //load stylesheet and javascript
+        $document = JFactory::getDocument();
+        $document->addStyleSheet(JURI::base(true).'/components/com_uam/assets/css/style.css');
+        $document->addScript(JURI::base(true).'/components/com_uam/assets/javascript/script.js');
+        $document->addScript(JURI::base(true).'/components/com_uam/assets/javascript/confirm-bootstrap.js');
+        $document->addScriptDeclaration("
+            jQuery(function ($){
+                $(function(){
+					$(document).on('click', '.menuitem_lnk', function(e) {
+						e.preventDefault()
+					})
 			    
-						$('.menuitem_lnk').confirmModal({
-							confirmTitle: '" . JText::_('COM_UAM_CONFIRM_TITLE') . "',
-							confirmOk: '" . JText::_('COM_UAM_BUTTON_OK') . "',
-							confirmCancel: '" . JText::_('COM_UAM_BUTTON_CANCEL') . "'
-						});
+					$('.menuitem_lnk').confirmModal({
+						confirmTitle: '" . JText::_('COM_UAM_CONFIRM_TITLE') . "',
+						confirmOk: '" . JText::_('COM_UAM_BUTTON_OK') . "',
+						confirmCancel: '" . JText::_('COM_UAM_BUTTON_CANCEL') . "'
+					});
+		    
+                    $(document).on('click', '.menuitem_alias', function(e) {
+                        $('#alert-block').css('display', 'none');
 			    
-                        $(document).on('click', '.menuitem_alias', function(e) {
-
-                            $('#alert-block').css('display', 'none');
+                        var articleId = $(this).data('article-id');
+                        var articleAlias = $(this).data('article-alias');
+                        var articleTitle = $(this).data('article-title');
 			    
-							var articleId = $(this).data('article-id');
-							var articleAlias = $(this).data('article-alias');
-							var articleTitle = $(this).data('article-title');
+                        $('#feaf_alias').val( articleAlias ).focus();
+                        $('#feaf_id_article').text( articleId );
+                        $('#feaf_title').text( articleTitle );
 			    
-							$('#feaf_alias').val( articleAlias ).focus();
-							$('#feaf_id_article').text( articleId );
-							$('#feaf_title').text( articleTitle );
+                        $('#fual_edit_alias_form').modal();
 			    
-							$('#fual_edit_alias_form').modal();
-			    
-                            $(document).on('click', '#feaf_bt_save', function(e) {
-                                $.ajax({
-								    type: 'POST',
-                                    dataType: 'json',
-								    url: 'index.php?option=com_uam&task=saveAlias',
-								    data: 'id_article=' + articleId + '&alias=' + $('#feaf_alias').val(),
-								    success: function(data){
-									   if(data.success == true){
-										  //$('#alert-block').css('display', 'block');
-                                            //$('#alert-block').text('Успешно');
-                                            $('#fual_edit_alias_form').modal('hide');
-                                        }
-								    },
-								    error: function(){
-									   alert('failure');
-                                });
+                        $(document).on('click', '#feaf_bt_save', function(e) {
+                            $.ajax({
+                                type: 'POST',
+                                dataType: 'json',
+                                url: 'index.php?option=com_uam&task=saveAlias',
+                                data: 'id_article=' + articleId + '&alias=' + $('#feaf_alias').val(),
+                                success: function(data){
+                                    if(data.success == true){
+                                        //$('#alert-block').css('display', 'block');
+                                        //$('#alert-block').text('Успешно');
+                                        $('#fual_edit_alias_form').modal('hide');
+                                    }
+                                },
+                                error: function(){
+                                    alert('failure');
                             });
-						});
- 					});
-				});
-			");
+                        });
+                    });
+                });
+            });
+        ");
             
-            // Get data from the model
-            $itens = $this->get('Data');
-            $total = $this->get('Total');
-            $pagination = $this->get('Pagination');
-            $access = new stdClass();
-            $canEditOwnOnly = $this->_canEditOwnOnly();
+        // Get data from the model
+        $itens = $this->get('Data');
+        $total = $this->get('Total');
+        $pagination = $this->get('Pagination');
+        $access = new stdClass();
+        $canEditOwnOnly = $this->_canEditOwnOnly();
             
-            $lists = $this->_getLists();
+        $lists = $this->_getLists();
             
-            $this->assign('action', str_replace('&', '&amp;', $uri->toString()));
-            $this->assignRef('params', $params);
-            $this->assignRef('itens', $itens);
-            $this->assignRef('lists', $lists);
-            $this->assignRef('access', $access);
-            $this->assignRef('pagination', $pagination);
-            $this->assignRef('user', $user);
-            $this->assignRef('canEditOwnOnly', $canEditOwnOnly);
+        $this->assign('action', str_replace('&', '&amp;', $uri->toString()));
+        $this->assignRef('params', $params);
+        $this->assignRef('itens', $itens);
+        $this->assignRef('lists', $lists);
+        $this->assignRef('access', $access);
+        $this->assignRef('pagination', $pagination);
+        $this->assignRef('user', $user);
+        $this->assignRef('canEditOwnOnly', $canEditOwnOnly);
             
-            $this->_prepareDocument();
+        $this->_prepareDocument();
             
-            parent::display($tpl);
-        }
+        parent::display($tpl);
+    }
         
         /**
          * Prepares the document

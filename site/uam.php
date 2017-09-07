@@ -10,28 +10,13 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Require the base controller
-jimport('joomla.application.component.controller');
-
-if (!function_exists('class_alias')) 
-{
-    function class_alias($original, $alias) 
-	{
-        eval('class ' . $alias . ' extends ' . $original . ' {}');
-    }
-}
-
-if (!class_exists('JControllerLegacy')) 
-{
-  class_alias('JController', 'JControllerLegacy');
-} 
-
+// Get an instance of the controller
 $controller = JControllerLegacy::getInstance('UAM');
 
 // Perform the Request task
-$controller->execute(JRequest::getCmd('task'));
+$input = JFactory::getApplication()->input;
+$controller->execute($input->getCmd('task'));
 
 // Redirect if set by the controller
 $controller->redirect();
-
 ?>

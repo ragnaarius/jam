@@ -24,7 +24,7 @@ $uam_jversion = new JVersion();
     	<div class="accordion" id="accordion2">
         	<div class="accordion-group">
             	<div class="accordion-heading">
-                	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne"><?php echo JText::_('COM_UAM_FILTER'); ?></a>
+                	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne"><span class="icon-filter"></span><?php echo JText::_('COM_UAM_FILTER'); ?></a>
             	</div>
             	<div id="collapseOne" class="accordion-body collapse">
                 	<div class="accordion-inner">

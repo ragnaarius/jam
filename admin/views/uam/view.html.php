@@ -12,21 +12,19 @@ defined('_JEXEC') or die('Restricted access');
 
 class UAMViewUAM extends JViewLegacy
 {
-	public function display($tpl = null)
-	{
-	    $app = JFactory::getApplication();
-	    $params = $app->getParams('com_uam');
+    public function display($tpl = null)
+    {
+        $params = JComponentHelper::getParams('com_uam');
 
-		$document = JFactory::getDocument();
-		$document->addStyleSheet(JURI::base().'/components/com_uam/assets/css/style.css');
+        $document = JFactory::getDocument();
+        $document->addStyleSheet(JURI::base().'/components/com_uam/assets/css/style.css');
 
-		JToolBarHelper::title(JText::_('User Article Manager'), 'uam');
-		JToolBarHelper::preferences('com_uam', '500', '500');
+        JToolBarHelper::title(JText::_('COM_UAM'), 'uam');
+        JToolBarHelper::preferences('com_uam', '500', '500');
 
-		$this->assignRef('params', $params);
+        $this->assignRef('params', $params);
 
-		parent::display($tpl);
-
-	}
+        parent::display($tpl);
+    }
 }
 ?>

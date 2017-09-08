@@ -1,20 +1,20 @@
 <?php
 /**
- * @version     0.20
- * @package     com_juam
+ * @version     1.0
+ * @package     com_jam
  * @copyright   Copyright (C) 2017. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov
- * @link        https://github.com/ragnaarius/juam
+ * @author      Felipe Quinto Busanello (FUAL), Rob Sykes (UAM), Alexey Gubanov
+ * @link        https://github.com/ragnaarius/jam
  */
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die();
 
-class UAMViewUAM extends JViewLegacy 
+class JAMViewJAM extends JViewLegacy 
 {
     function display($tpl = null) {
         $app = JFactory::getApplication();
-        $apparams = $app->getParams('com_uam');
+        $apparams = $app->getParams('com_jam');
         $user = JFactory::getUser();
         $uri = JFactory::getURI();
             
@@ -37,9 +37,9 @@ class UAMViewUAM extends JViewLegacy
 			
         //load stylesheet and javascript
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::base(true).'/components/com_uam/assets/css/style.css');
-        $document->addScript(JURI::base(true).'/components/com_uam/assets/javascript/script.js');
-        $document->addScript(JURI::base(true).'/components/com_uam/assets/javascript/confirm-bootstrap.js');
+        $document->addStyleSheet(JURI::base(true).'/media/com_jam/css/jam.css');
+        $document->addScript(JURI::base(true).'/media/com_jam/js/jam.js');
+        $document->addScript(JURI::base(true).'/media/com_jam/js/confirm-bootstrap.js');
         $document->addScriptDeclaration("
             jQuery(function ($){
                 $(function(){
@@ -48,9 +48,9 @@ class UAMViewUAM extends JViewLegacy
 					})
 			    
 					$('.menuitem_lnk').confirmModal({
-						confirmTitle: '" . JText::_('COM_UAM_CONFIRM_TITLE') . "',
-						confirmOk: '" . JText::_('COM_UAM_BUTTON_OK') . "',
-						confirmCancel: '" . JText::_('COM_UAM_BUTTON_CANCEL') . "'
+						confirmTitle: '" . JText::_('COM_JAM_CONFIRM_TITLE') . "',
+						confirmOk: '" . JText::_('COM_JAM_BUTTON_OK') . "',
+						confirmCancel: '" . JText::_('COM_JAM_BUTTON_CANCEL') . "'
 					});
 		    
                     $(document).on('click', '.menuitem_alias', function(e) {
@@ -70,7 +70,7 @@ class UAMViewUAM extends JViewLegacy
                             $.ajax({
                                 type: 'POST',
                                 dataType: 'json',
-                                url: 'index.php?option=com_uam&task=saveAlias',
+                                url: 'index.php?option=com_jam&task=saveAlias',
                                 data: 'id_article=' + articleId + '&alias=' + $('#feaf_alias').val(),
                                 success: function(data){
                                     if(data.success == true){
@@ -259,7 +259,7 @@ class UAMViewUAM extends JViewLegacy
                 }
             }
             
-            $cats[] = JHtml::_('select.option', '0', '- '.JText::_('COM_UAM_SELECT_CATEGORY').' -', 'value', 'text');
+            $cats[] = JHtml::_('select.option', '0', '- '.JText::_('COM_JAM_SELECT_CATEGORY').' -', 'value', 'text');
             $cats = array_merge($cats, $c);
             $lists['catid'] = JHTML::_('select.genericlist',  $cats, 'filter_catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid);
             $lists['filter_catid'] = $filter_catid;
@@ -297,7 +297,7 @@ class UAMViewUAM extends JViewLegacy
                 
                 $query .= ' GROUP BY u.name ORDER BY u.name';
                 
-                $authors[] = JHTML::_('select.option', '0', '- '.JText::_('COM_UAM_SELECT_AUTHOR').' -', 'created_by', 'name');
+                $authors[] = JHTML::_('select.option', '0', '- '.JText::_('COM_JAM_SELECT_AUTHOR').' -', 'created_by', 'name');
                 $db->setQuery($query);
                 $authors = array_merge($authors, $db->loadObjectList());
                 $lists['authorid'] = JHTML::_('select.genericlist',  $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
@@ -329,7 +329,7 @@ class UAMViewUAM extends JViewLegacy
             // Initialize variables
             $db =  JFactory::getDBO();
             
-            $categories[] = JHTML::_('select.option', '0', '- '.JText::_('COM_UAM_SELECT_CATEGORY').' -');
+            $categories[] = JHTML::_('select.option', '0', '- '.JText::_('COM_JAM_SELECT_CATEGORY').' -');
             $db->setQuery($query);
             
             $categories = array_merge($categories, $db->loadObjectList());
@@ -408,7 +408,7 @@ class UAMViewUAM extends JViewLegacy
 			{
                 $checkoutUser = JFactory::getUser($article->checked_out);
                 $date = JHTML::_('date',$article->checked_out_time);
-                $tooltip = JText::_('COM_UAM_CHECKED_OUT') . "<br />" . $checkoutUser->name . "<br />" . $date;
+                $tooltip = JText::_('COM_JAM_CHECKED_OUT') . "<br />" . $checkoutUser->name . "<br />" . $date;
                 $class = "hasTooltip";
                 
 				$checkout = true;
@@ -476,7 +476,7 @@ class UAMViewUAM extends JViewLegacy
             }
             else 
             {
-                $button_text = JText::_('COM_UAM_NEW_ARTICLE');
+                $button_text = JText::_('COM_JAM_NEW_ARTICLE');
             }
             
             $output = array(
@@ -500,7 +500,7 @@ class UAMViewUAM extends JViewLegacy
             $ret = $uri->toString();
 			
 			$icon = "icon-edit";
-			$item_txt = JText::_( 'COM_UAM_EDIT' );
+			$item_txt = JText::_( 'COM_JAM_EDIT' );
 			$class = "";
             
 			if ($article->state != -2) 
@@ -536,7 +536,7 @@ class UAMViewUAM extends JViewLegacy
 				$class = "disabled";
 				$icon = "icon-lock";
 				$link = "#";
-				$item_txt = JText::_('COM_UAM_CHECKED_OUT');
+				$item_txt = JText::_('COM_JAM_CHECKED_OUT');
 			}
 			
 			$output = array(
@@ -562,14 +562,14 @@ class UAMViewUAM extends JViewLegacy
             
             $user = JFactory::getUser();
             $class = "";
-            $item_txt = JText::_('COM_UAM_CREATE_A_COPY', true);
+            $item_txt = JText::_('COM_JAM_CREATE_A_COPY', true);
             
             if ($article->state != -2) 
             {
-                $url = "index.php?option=com_uam&controller=&task=copy&cid=" . $article->id . "&Itemid=" . $itemid;
+                $url = "index.php?option=com_jam&controller=&task=copy&cid=" . $article->id . "&Itemid=" . $itemid;
                 $link = JRoute::_($url);
                 
-                $msg_confirm = JText::_('COM_UAM_WOULD_YOU_LIKE_TO_CREATE_AN_ARTICLE_COPY', true);
+                $msg_confirm = JText::_('COM_JAM_WOULD_YOU_LIKE_TO_CREATE_AN_ARTICLE_COPY', true);
             }
             else
             {
@@ -601,7 +601,7 @@ class UAMViewUAM extends JViewLegacy
             $user = JFactory::getUser();
             $class = "";
             $article_id = "";
-            $item_txt = JText::_('COM_UAM_EDIT_ALIAS');
+            $item_txt = JText::_('COM_JAM_EDIT_ALIAS');
             
             if ($article->state != -2 
                 && ($access->canEdit || $access->canEditOwn)) 
@@ -651,8 +651,8 @@ class UAMViewUAM extends JViewLegacy
                     $class = "active";
                     $icon = "icon-featured";
                 }
-                $title = JText::_('COM_UAM_TOOLTIP_FEATURED');
-                $item_txt = JText::_('COM_UAM_UNFEATURE');
+                $title = JText::_('COM_JAM_TOOLTIP_FEATURED');
+                $item_txt = JText::_('COM_JAM_UNFEATURE');
             }
             else
             {
@@ -664,8 +664,8 @@ class UAMViewUAM extends JViewLegacy
                 {
                     $icon = "icon-unfeatured";
                 }
-                $title = JText::_('COM_UAM_TOOLTIP_NOT_FEATURED');
-                $item_txt = JText::_('COM_UAM_FEATURE');
+                $title = JText::_('COM_JAM_TOOLTIP_NOT_FEATURED');
+                $item_txt = JText::_('COM_JAM_FEATURE');
             }
             
             
@@ -677,7 +677,7 @@ class UAMViewUAM extends JViewLegacy
             if (($access->canPublish && $article->state != -2)
                 || ($user->id == $article->created_by && $override))
             {
-                $url = "index.php?option=com_uam&view=uam&task=unFeature&cid=" . $article->id . "&Itemid=" . $itemid;
+                $url = "index.php?option=com_jam&view=jam&task=unFeature&cid=" . $article->id . "&Itemid=" . $itemid;
                 $link = JRoute::_($url);
             }
             else
@@ -737,7 +737,7 @@ class UAMViewUAM extends JViewLegacy
                     else
                     {
                         $icon = "icon-publish";
-                        $title = JText::_('COM_UAM_TOOLTIP_PUBLISHED');
+                        $title = JText::_('COM_JAM_TOOLTIP_PUBLISHED');
                     }
                     $class = "active";
                     $item_txt = "";
@@ -746,7 +746,7 @@ class UAMViewUAM extends JViewLegacy
                 {
                     $icon = "icon-unpublish";
                     $title = "";
-                    $item_txt = JText::_('COM_UAM_UNPUBLISH');
+                    $item_txt = JText::_('COM_JAM_UNPUBLISH');
                 }
             }
             else
@@ -758,8 +758,8 @@ class UAMViewUAM extends JViewLegacy
                 else{
                     $icon = "icon-unpublish";
                 }
-                $title = JText::_('COM_UAM_TOOLTIP_UNPUBLISHED');
-                $item_txt = JText::_('COM_UAM_PUBLISH');
+                $title = JText::_('COM_JAM_TOOLTIP_UNPUBLISHED');
+                $item_txt = JText::_('COM_JAM_PUBLISH');
             }
 
             if (($access->canEdit || $access->canEditOwn) 
@@ -770,7 +770,7 @@ class UAMViewUAM extends JViewLegacy
             if (($access->canPublish && $article->state != -2)
                 || ($user->id == $article->created_by && $override))
             {
-                $url = "index.php?option=com_uam&view=uam&task=unPublish&cid=" . $article->id . "&Itemid=" . $itemid;
+                $url = "index.php?option=com_jam&view=jam&task=unPublish&cid=" . $article->id . "&Itemid=" . $itemid;
                 $link = JRoute::_($url);
             }
             else 
@@ -808,13 +808,13 @@ class UAMViewUAM extends JViewLegacy
 
             if ($article->state == -2) 
             {
-                $msg_confirm = JText::_('COM_UAM_RESTORE_CONFIRM', true);
-                $item_txt = JText::_('COM_UAM_RESTORE_FROM_TRASH');
+                $msg_confirm = JText::_('COM_JAM_RESTORE_CONFIRM', true);
+                $item_txt = JText::_('COM_JAM_RESTORE_FROM_TRASH');
             }
             else 
             {
-                $msg_confirm = JText::_('COM_UAM_TRASH_CONFIRM', true);
-                $item_txt = JText::_('COM_UAM_MOVE_TO_TRASH');
+                $msg_confirm = JText::_('COM_JAM_TRASH_CONFIRM', true);
+                $item_txt = JText::_('COM_JAM_MOVE_TO_TRASH');
             }
             
             if (($access->canEdit || $access->canEditOwn) 
@@ -826,7 +826,7 @@ class UAMViewUAM extends JViewLegacy
             if ($access->canPublish 
                 || ($user->id == $article->created_by && $override))
             {
-                $url = "index.php?option=com_uam&controller=&task=trash&cid=" . $article->id . "&Itemid=" . $itemid;
+                $url = "index.php?option=com_jam&controller=&task=trash&cid=" . $article->id . "&Itemid=" . $itemid;
                 $link = JRoute::_($url);
             }
             

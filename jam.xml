@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3" client="site" method="upgrade">
+	<name>com_jam</name>
+	<creationDate>September 2017</creationDate>
+	<author>Felipe Quinto Busanello (FUAL), Rob Sykes (UAM), Alexey Gubanov</author>
+	<authorEmail>ragnaar@gmail.com</authorEmail>
+	<copyright></copyright>
+	<license>GPLv2</license>
+	<version>1.0</version>
+	<description>
+		<![CDATA[The jArticles Management (jAM) component displays an article list, allowing users to edit, copy, publish, trash and have better overall control of their articles.]]>
+	</description>
+	<scriptfile>script.php</scriptfile>	
+	
+	<media destination="com_jam" folder="media">
+		<filename>index.html</filename>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+	</media>
+	
+	<files folder="site">
+		<folder>views</folder>
+		<folder>models</folder>
+		
+		<filename>controller.php</filename>
+		<filename>jam.php</filename>
+		<filename>index.html</filename>
+	</files>
+	
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB/en-GB.com_jam.ini</language>
+		<language tag="ru-RU">language/ru-RU/ru-RU.com_jam.ini</language>
+	</languages>
+	
+	<administration>
+		<menu img="" link="option=com_jam">COM_JAM</menu>
+		<files folder="admin">
+			<folder>views</folder>
+			<folder>tables</folder>
+			
+			<filename>jam.php</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>LICENSE.txt</filename>
+			<filename>index.html</filename>
+		</files>
+
+		<!-- Administration Language File Copy Section -->
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/en-GB.com_jam.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_jam.sys.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.com_jam.ini</language>
+			<language tag="ru-RU">language/ru-RU/ru-RU.com_jam.sys.ini</language>
+        </languages>
+	</administration>
+</extension>

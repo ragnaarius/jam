@@ -1,158 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="basic" label="COM_UAM_CONFIG_NEW">
+	<fieldset name="basic" label="COM_JAM_CONFIG_NEW">
 		<field name="version" type="hidden" default="" />
-		<field name="new_article_button" type="radio" default="1" label="COM_UAM_NEW_ARTICLE_BUTTON" description="COM_UAM_NEW_ARTICLE_BUTTON_DESC" class="btn-group btn-group-yesno">
+		<field name="new_article_button" type="radio" default="1" label="COM_JAM_NEW_ARTICLE_BUTTON" description="COM_JAM_NEW_ARTICLE_BUTTON_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="new_article_button_custom" type="radio" default="1" label="COM_UAM_NEW_ARTICLE_BUTTON_CUSTOM" description="COM_UAM_NEW_ARTICLE_BUTTON_CUSTOM_DESC" class="btn-group btn-group-yesno">
+		<field name="new_article_button_custom" type="radio" default="1" label="COM_JAM_NEW_ARTICLE_BUTTON_CUSTOM" description="COM_JAM_NEW_ARTICLE_BUTTON_CUSTOM_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-		<field name="new_article_button_text" type="text" default="New article" label="COM_UAM_NEW_ARTICLE_BUTTON_TEXT" description="COM_UAM_NEW_ARTICLE_BUTTON_TEXT_DESC" />
-		<field name="link_new_article_default" type="list" default="1" label="COM_UAM_LINK_FOR_A_NEW_ARTICLE" description="COM_UAM_LINK_FOR_A_NEW_ARTICLE_DESC">
-			<option value="1">COM_UAM_USE_JOOMLA_DEFAULT</option>
-			<option value="0">COM_UAM_USE_CUSTOM_LINK</option>
+		<field name="new_article_button_text" type="text" default="New article" label="COM_JAM_NEW_ARTICLE_BUTTON_TEXT" description="COM_JAM_NEW_ARTICLE_BUTTON_TEXT_DESC" />
+		<field name="link_new_article_default" type="list" default="1" label="COM_JAM_LINK_FOR_A_NEW_ARTICLE" description="COM_JAM_LINK_FOR_A_NEW_ARTICLE_DESC">
+			<option value="1">COM_JAM_USE_JOOMLA_DEFAULT</option>
+			<option value="0">COM_JAM_USE_CUSTOM_LINK</option>
 		</field>
-		<field name="link_new_article" type="text" default="" label="COM_UAM_CUSTOM_LINK" description="COM_UAM_CUSTOM_LINK_DESC" />
-		<field name="copy_uses_todays_date" type="list" default="0" label="COM_UAM_COPY_SET_CREATION_DATE" description="COM_UAM_COPY_SET_CREATION_DATE_DESC">
-			<option value="0">COM_UAM_COPY_USES_ORIGINAL_DATE</option>
-			<option value="1">COM_UAM_COPY_USES_TODAYS_DATE</option>
+		<field name="link_new_article" type="text" default="" label="COM_JAM_CUSTOM_LINK" description="COM_JAM_CUSTOM_LINK_DESC" />
+		<field name="copy_uses_todays_date" type="list" default="0" label="COM_JAM_COPY_SET_CREATION_DATE" description="COM_JAM_COPY_SET_CREATION_DATE_DESC">
+			<option value="0">COM_JAM_COPY_USES_ORIGINAL_DATE</option>
+			<option value="1">COM_JAM_COPY_USES_TODAYS_DATE</option>
 		</field>
-		<field name="copy_uses_current_user" type="list" default="0" label="COM_UAM_COPY_SET_AUTHOR" description="COM_UAM_COPY_SET_AUTHOR_DESC">
-			<option value="0">COM_UAM_COPY_USES_ORIGINAL_AUTHOR</option>
-			<option value="1">COM_UAM_COPY_USES_CURRENT_USER</option>
+		<field name="copy_uses_current_user" type="list" default="0" label="COM_JAM_COPY_SET_AUTHOR" description="COM_JAM_COPY_SET_AUTHOR_DESC">
+			<option value="0">COM_JAM_COPY_USES_ORIGINAL_AUTHOR</option>
+			<option value="1">COM_JAM_COPY_USES_CURRENT_USER</option>
 		</field>
 	</fieldset>
 
-	<fieldset name="filters" label="COM_UAM_CONFIG_FILTERS">
-		<field name="showsearchfilter" type="radio" default="1" label="COM_UAM_SHOW_SEARCH_FILTER" description="COM_UAM_SHOW_SEARCH_FILTER_DESC" class="btn-group btn-group-yesno">
+	<fieldset name="filters" label="COM_JAM_CONFIG_FILTERS">
+		<field name="showsearchfilter" type="radio" default="1" label="COM_JAM_SHOW_SEARCH_FILTER" description="COM_JAM_SHOW_SEARCH_FILTER_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="showcategoryfilter" type="radio" default="1" label="COM_UAM_SHOW_CATEGORY_FILTER" description="COM_UAM_SHOW_CATEGORY_FILTER_DESC" class="btn-group btn-group-yesno">
+		<field name="showcategoryfilter" type="radio" default="1" label="COM_JAM_SHOW_CATEGORY_FILTER" description="COM_JAM_SHOW_CATEGORY_FILTER_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="showauthorfilter" type="radio" default="1" label="COM_UAM_SHOW_AUTHOR_FILTER" description="COM_UAM_SHOW_AUTHOR_FILTER_DESC" class="btn-group btn-group-yesno">
+		<field name="showauthorfilter" type="radio" default="1" label="COM_JAM_SHOW_AUTHOR_FILTER" description="COM_JAM_SHOW_AUTHOR_FILTER_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="showpublishedstatefilter" type="radio" default="1" label="COM_UAM_SHOW_PUBLISHED_STATE_FILTER" description="COM_UAM_SHOW_PUBLISHED_STATE_FILTER_DESC" class="btn-group btn-group-yesno">
+		<field name="showpublishedstatefilter" type="radio" default="1" label="COM_JAM_SHOW_PUBLISHED_STATE_FILTER" description="COM_JAM_SHOW_PUBLISHED_STATE_FILTER_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="showlanguagefilter" type="radio" default="0" label="COM_UAM_SHOW_LANGUAGE_FILTER" description="COM_UAM_SHOW_LANGUAGE_FILTER_DESC" class="btn-group btn-group-yesno">
+		<field name="showlanguagefilter" type="radio" default="0" label="COM_JAM_SHOW_LANGUAGE_FILTER" description="COM_JAM_SHOW_LANGUAGE_FILTER_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 	</fieldset>
 
-	<fieldset name="table" label="COM_UAM_CONFIG_TABLE">
-		<field name="id_column" type="radio" default="1" label="COM_UAM_ID_COLUMN" description="COM_UAM_ID_COLUMN_DESC" class="btn-group btn-group-yesno">
+	<fieldset name="table" label="COM_JAM_CONFIG_TABLE">
+		<field name="id_column" type="radio" default="1" label="COM_JAM_ID_COLUMN" description="COM_JAM_ID_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="title_column" type="radio" default="1" label="COM_UAM_TITLE_COLUMN" description="COM_UAM_TITLE_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="title_column" type="radio" default="1" label="COM_JAM_TITLE_COLUMN" description="COM_JAM_TITLE_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="title_link" type="radio" default="1" label="COM_UAM_TITLE_LINK" description="COM_UAM_TITLE_LINK_DESC" class="btn-group btn-group-yesno">
+		<field name="title_link" type="radio" default="1" label="COM_JAM_TITLE_LINK" description="COM_JAM_TITLE_LINK_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-		<field name="show_content" type="radio" default="0" label="COM_UAM_SHOW_CONTENT" description="COM_UAM_SHOW_CONTENT_DESC" class="btn-group btn-group-yesno">
+		<field name="show_content" type="radio" default="0" label="COM_JAM_SHOW_CONTENT" description="COM_JAM_SHOW_CONTENT_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-		<field name="category_column" type="radio" default="1" label="COM_UAM_CATEGORY_COLUMN" description="COM_UAM_CATEGORY_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="category_column" type="radio" default="1" label="COM_JAM_CATEGORY_COLUMN" description="COM_JAM_CATEGORY_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="category_in_title" type="radio" label="COM_UAM_CATEGORY_IN_TITLE" description="COM_UAM_CATEGORY_IN_TITLE_DESC" class="btn-group btn-group-yesno">
+		<field name="category_in_title" type="radio" label="COM_JAM_CATEGORY_IN_TITLE" description="COM_JAM_CATEGORY_IN_TITLE_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="author_column" type="radio" default="1" label="COM_UAM_AUTHOR_COLUMN" description="COM_UAM_AUTHOR_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="author_column" type="radio" default="1" label="COM_JAM_AUTHOR_COLUMN" description="COM_JAM_AUTHOR_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="show_alias" type="radio" default="1" label="COM_UAM_SHOW_ALIAS" description="COM_UAM_SHOW_ALIAS_DESC" class="btn-group btn-group-yesno">
+		<field name="show_alias" type="radio" default="1" label="COM_JAM_SHOW_ALIAS" description="COM_JAM_SHOW_ALIAS_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="language_column" type="radio" default="0" label="COM_UAM_LANGUAGE_COLUMN" description="COM_UAM_LANGUAGE_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="language_column" type="radio" default="0" label="COM_JAM_LANGUAGE_COLUMN" description="COM_JAM_LANGUAGE_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="created_date_column" type="radio" default="1" label="COM_UAM_CREATED_DATE_COLUMN" description="COM_UAM_CREATED_DATE_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="created_date_column" type="radio" default="1" label="COM_JAM_CREATED_DATE_COLUMN" description="COM_JAM_CREATED_DATE_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="start_publishing_column" type="radio" default="0" label="COM_UAM_START_PUBLISHING_COLUMN" description="COM_UAM_START_PUBLISHING_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="start_publishing_column" type="radio" default="0" label="COM_JAM_START_PUBLISHING_COLUMN" description="COM_JAM_START_PUBLISHING_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="finish_publishing_column" type="radio" default="0" label="COM_UAM_FINISH_PUBLISHING_COLUMN" description="COM_UAM_FINISH_PUBLISHING_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="finish_publishing_column" type="radio" default="0" label="COM_JAM_FINISH_PUBLISHING_COLUMN" description="COM_JAM_FINISH_PUBLISHING_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="hits_column" type="radio" default="1" label="COM_UAM_HITS_COLUMN" description="COM_UAM_HITS_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="hits_column" type="radio" default="1" label="COM_JAM_HITS_COLUMN" description="COM_JAM_HITS_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 	</fieldset>
 	
-	<fieldset name="uam_menu" label="COM_UAM_CONFIG_MENU">
-		<field name="edit_column" type="radio" default="1" label="COM_UAM_EDIT_COLUMN" description="COM_UAM_EDIT_COLUMN_DESC" class="btn-group btn-group-yesno">
+	<fieldset name="jam_menu" label="COM_JAM_CONFIG_MENU">
+		<field name="edit_column" type="radio" default="1" label="COM_JAM_EDIT_COLUMN" description="COM_JAM_EDIT_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>	
-		<field name="copy_column" type="radio" default="0" label="COM_UAM_COPY_COLUMN" description="COM_UAM_COPY_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="copy_column" type="radio" default="0" label="COM_JAM_COPY_COLUMN" description="COM_JAM_COPY_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="edit_alias_column" type="radio" default="0" label="COM_UAM_EDIT_ALIAS_COLUMN" description="COM_UAM_EDIT_ALIAS_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="edit_alias_column" type="radio" default="0" label="COM_JAM_EDIT_ALIAS_COLUMN" description="COM_JAM_EDIT_ALIAS_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="published_column" type="radio" default="1" label="COM_UAM_PUBLISHED_COLUMN" description="COM_UAM_PUBLISHED_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="published_column" type="radio" default="1" label="COM_JAM_PUBLISHED_COLUMN" description="COM_JAM_PUBLISHED_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="featured_column" type="radio" default="0" label="COM_UAM_FEATURED_COLUMN" description="COM_UAM_FEATURED_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="featured_column" type="radio" default="0" label="COM_JAM_FEATURED_COLUMN" description="COM_JAM_FEATURED_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="trash_column" type="radio" default="1" label="COM_UAM_TRASH_COLUMN" description="COM_UAM_TRASH_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="trash_column" type="radio" default="1" label="COM_JAM_TRASH_COLUMN" description="COM_JAM_TRASH_COLUMN_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 	</fieldset>
 	
-	<fieldset name="permission" label="COM_UAM_CONFIG_PERMISSION">
-		<field name="user_can_publish" type="radio" default="0" label="COM_UAM_USER_CAN_PUBLISH" description="COM_UAM_USER_CAN_PUBLISH_DESC" class="btn-group btn-group-yesno">
+	<fieldset name="permission" label="COM_JAM_CONFIG_PERMISSION">
+		<field name="user_can_publish" type="radio" default="0" label="COM_JAM_USER_CAN_PUBLISH" description="COM_JAM_USER_CAN_PUBLISH_DESC" class="btn-group btn-group-yesno">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		<field name="user_can_feature" type="radio" default="0" label="COM_UAM_USER_CAN_FEATURE" description="COM_UAM_USER_CAN_FEATURE_DESC" class="btn-group btn-group-yesno">
+		<field name="user_can_feature" type="radio" default="0" label="COM_JAM_USER_CAN_FEATURE" description="COM_JAM_USER_CAN_FEATURE_DESC" class="btn-group btn-group-yesno">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		<field name="user_can_trash" type="radio" default="0" label="COM_UAM_USER_CAN_TRASH" description="COM_UAM_USER_CAN_TRASH_DESC" class="btn-group btn-group-yesno">
+		<field name="user_can_trash" type="radio" default="0" label="COM_JAM_USER_CAN_TRASH" description="COM_JAM_USER_CAN_TRASH_DESC" class="btn-group btn-group-yesno">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		<field name="user_can_view" type="radio" default="0" label="COM_UAM_USER_CAN_VIEW" description="COM_UAM_USER_CAN_VIEW_DESC" class="btn-group btn-group-yesno">
+		<field name="user_can_view" type="radio" default="0" label="COM_JAM_USER_CAN_VIEW" description="COM_JAM_USER_CAN_VIEW_DESC" class="btn-group btn-group-yesno">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		<field name="user_can_editpublished" type="radio" default="0" label="COM_UAM_USER_CAN_EDIT_PUBLISHED" description="COM_UAM_USER_CAN_EDIT_PUBLISHED_DESC" class="btn-group btn-group-yesno">
+		<field name="user_can_editpublished" type="radio" default="0" label="COM_JAM_USER_CAN_EDIT_PUBLISHED" description="COM_JAM_USER_CAN_EDIT_PUBLISHED_DESC" class="btn-group btn-group-yesno">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-        <field name="utf8_url_fix" type="radio" default="0" label="COM_UAM_BASE64_FIX" description="COM_UAM_BASE64_FIX_DESC" class="btn-group btn-group-yesno">
+        <field name="utf8_url_fix" type="radio" default="0" label="COM_JAM_BASE64_FIX" description="COM_JAM_BASE64_FIX_DESC" class="btn-group btn-group-yesno">
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>

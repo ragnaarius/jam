@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage	Table
  * @since		1.0
  */
-class TableUAM extends JTable
+class TableJAM extends JTable
 {
 	/**
 	 * @param	database	A database connector object

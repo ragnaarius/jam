@@ -1,18 +1,18 @@
 <?php
 /**
- * @version     0.20
- * @package     com_juam
+ * @version    1.0
+ * @package     com_jam
  * @copyright   Copyright (C) 2017. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov
- * @link        https://github.com/ragnaarius/juam
+ * @author      Felipe Quinto Busanello (FUAL), Rob Sykes (UAM), Alexey Gubanov
+ * @link        https://github.com/ragnaarius/jam
  */
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.modeladmin' );
 
-class UAMModelUAM extends JModelAdmin 
+class JAMModelJAM extends JModelAdmin 
 {
 
 	var $_data;
@@ -131,7 +131,7 @@ class UAMModelUAM extends JModelAdmin
 	{
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getCMD('option'); 
-		$uamParams = JComponentHelper::getParams('com_uam');
+		$jamParams = JComponentHelper::getParams('com_jam');
 
 
 		$menuParams = new JRegistry;
@@ -141,7 +141,7 @@ class UAMModelUAM extends JModelAdmin
 			$menuParams->loadString($menu->params);
 		}
 
-		$params = clone $uamParams;
+		$params = clone $jamParams;
 		$params->merge($menuParams);
 		
 		$db = JFactory::getDBO();

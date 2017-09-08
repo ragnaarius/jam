@@ -1,20 +1,20 @@
 <?php
 /**
- * @version     0.20
- * @package     com_juam
+ * @version     1.0
+ * @package     com_jam
  * @copyright   Copyright (C) 2017. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov
- * @link        https://github.com/ragnaarius/juam
+ * @author      Felipe Quinto Busanello (FUAL), Rob Sykes (UAM), Alexey Gubanov
+ * @link        https://github.com/ragnaarius/jam
  */
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die();
 
 $user = JFactory::getUser();
-$uam_jversion = new JVersion();
+$jam_jversion = new JVersion();
 
 ?>
-<div class="uam-page<?php echo $this->params->get('pageclass_sfx'); ?>">
+<div class="jam_page<?php echo $this->params->get('pageclass_sfx'); ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -24,7 +24,7 @@ $uam_jversion = new JVersion();
     	<div class="accordion" id="accordion2">
         	<div class="accordion-group">
             	<div class="accordion-heading">
-                	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne"><span class="icon-filter"></span><?php echo JText::_('COM_UAM_FILTER'); ?></a>
+                	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne"><span class="icon-filter"></span><?php echo JText::_('COM_JAM_FILTER'); ?></a>
             	</div>
             	<div id="collapseOne" class="accordion-body collapse">
                 	<div class="accordion-inner">
@@ -35,10 +35,10 @@ $uam_jversion = new JVersion();
                     	<div class="control-group">
                         	<div class="input-append">
                             	<div class="controls">
-                                	<label class="control-label" for="filter_search"><?php echo JText::_('COM_UAM_FILTER'); ?>: </label>
+                                	<label class="control-label" for="filter_search"><?php echo JText::_('COM_JAM_FILTER'); ?>: </label>
                                 	<input class="input-large" id="filter_search" type="text" name="filter_search" value="<?php echo $this->escape($this->lists['filter_search']);?>" /> 
-                                	<button class="btn" type="submit" onclick="this.form.submit();"><?php echo JText::_('COM_UAM_GO'); ?></button>
-                                	<button class="btn" onclick="document.getElementById('filter_search').value=''; document.getElementById('filter_state').value=''; document.getElementById('filter_catid').value='0'; document.getElementById('filter_authorid').value='0'; document.getElementById('filter_lang').value=''; this.form.submit();"><?php echo JText::_('COM_UAM_RESET'); ?></button>
+                                	<button class="btn" type="submit" onclick="this.form.submit();"><?php echo JText::_('COM_JAM_GO'); ?></button>
+                                	<button class="btn" onclick="document.getElementById('filter_search').value=''; document.getElementById('filter_state').value=''; document.getElementById('filter_catid').value='0'; document.getElementById('filter_authorid').value='0'; document.getElementById('filter_lang').value=''; this.form.submit();"><?php echo JText::_('COM_JAM_RESET'); ?></button>
                             	</div>
                         	</div>
                     	</div>
@@ -77,7 +77,7 @@ $uam_jversion = new JVersion();
         {
             $button = $this->getNewArticleButton($this->params);
         ?>
-    	<div class="uam_new_article">
+    	<div class="jam_new_article">
         	<button class="btn" type="button" id="bt_new_article" onclick="location.href='<?php echo $button['link']; ?>';">
 				<span class="icon-plus"> </span><?php echo $button['text']; ?>
         	</button>
@@ -89,7 +89,7 @@ $uam_jversion = new JVersion();
         //without article
         if (!$count_itens) 
         { 
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_UAM_NO_ARTICLES_FOUND'), 'warning');
+            JFactory::getApplication()->enqueueMessage(JText::_('COM_JAM_NO_ARTICLES_FOUND'), 'warning');
         }
         else 
         {
@@ -101,28 +101,28 @@ $uam_jversion = new JVersion();
                 if ($this->params->get('published_column')) :
                 ?>
 					<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_UAM_STATE', 'c.state', $this->lists['order_Dir'], $this->lists['order']); ?>
+                	<?php echo JHTML::_('grid.sort', 'COM_JAM_STATE', 'c.state', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
             	<?php
                 endif;
                 if ($this->params->get('title_column')) :
                 ?>
                 	<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_UAM_TITLE', 'c.title', $this->lists['order_Dir'], $this->lists['order']); ?>
+                	<?php echo JHTML::_('grid.sort', 'COM_JAM_TITLE', 'c.title', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
             	<?php
                 endif;
                 if ($this->params->get('category_column')) :
                 ?>
                 	<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_UAM_CATEGORY', 'category', $this->lists['order_Dir'], $this->lists['order']); ?>
+                	<?php echo JHTML::_('grid.sort', 'COM_JAM_CATEGORY', 'category', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
             	<?php
                 endif;
                 if ($this->params->get('author_column')) :
                 ?>
                 	<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_UAM_AUTHOR', 'author', $this->lists['order_Dir'], $this->lists['order']); ?>
+                	<?php echo JHTML::_('grid.sort', 'COM_JAM_AUTHOR', 'author', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
             	<?php
                 endif;
@@ -136,35 +136,35 @@ $uam_jversion = new JVersion();
                 if ($this->params->get('created_date_column')) :
                 ?>
                 	<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_UAM_CREATED_DATE', 'c.created', $this->lists['order_Dir'], $this->lists['order']); ?>
+                	<?php echo JHTML::_('grid.sort', 'COM_JAM_CREATED_DATE', 'c.created', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
             	<?php
                 endif;
                 if ($this->params->get('start_publishing_column')) :
                 ?>
                 	<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_UAM_START_PUBLISHING', 'c.publish_up', $this->lists['order_Dir'], $this->lists['order']); ?>
+                	<?php echo JHTML::_('grid.sort', 'COM_JAM_START_PUBLISHING', 'c.publish_up', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
             	<?php
                 endif;
                 if ($this->params->get('finish_publishing_column')) :
                 ?>
                 	<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_UAM_FINISH_PUBLISHING', 'c.publish_down', $this->lists['order_Dir'], $this->lists['order']); ?>
+                	<?php echo JHTML::_('grid.sort', 'COM_JAM_FINISH_PUBLISHING', 'c.publish_down', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
             	<?php
                 endif;
                 if ($this->params->get('hits_column')) :
                 ?>
                 	<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_UAM_HITS', 'c.hits', $this->lists['order_Dir'], $this->lists['order']); ?>
+                	<?php echo JHTML::_('grid.sort', 'COM_JAM_HITS', 'c.hits', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
             	<?php
                 endif;
                 if ($this->params->get('id_column')) :
                 ?>
                 	<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_UAM_ID', 'c.id', $this->lists['order_Dir'], $this->lists['order']); ?>
+                	<?php echo JHTML::_('grid.sort', 'COM_JAM_ID', 'c.id', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
             	<?php
                 endif;
@@ -249,13 +249,11 @@ $uam_jversion = new JVersion();
                                             </a>
                                         </li>";
                             endif;          
-                            ?>
-                            	<li class="divider"></li>
-                        	<?php
                             // Trash / Restore Item
                             if ($this->params->get('trash_column')) :
                                 $trash = $this->getTrash($row, $row->params, $this->access);
-                                echo   "<li class=\"menuitem " . $trash['class'] . "\">
+                                echo   "<li class=\"divider\"></li>
+										<li class=\"menuitem " . $trash['class'] . "\">
                                             <a class=\"menuitem_lnk\" href=\"" . $trash['link'] . "\" data-confirm-message=\"" . $trash['msg_confirm'] . "\">
                                                 <span class=\"icon-trash\"></span>" . $trash['item_txt'] . "
                                             </a>
@@ -293,7 +291,7 @@ $uam_jversion = new JVersion();
 						if ($this->params->get('category_in_title')) :
 					?>
 						<div class="small">
-							<?php echo JText::_('COM_UAM_CATEGORY') . ":"; ?>
+							<?php echo JText::_('COM_JAM_CATEGORY') . ":"; ?>
 						    <a href="<?php echo ContentHelperRoute::getCategoryRoute($row->catid); ?>">
 								<?php echo $row->category; ?>
 							</a>
@@ -364,7 +362,7 @@ $uam_jversion = new JVersion();
                 	<?php
                         if ($row->publish_up == '0000-00-00 00:00:00') 
                         {
-                            echo JText::_('COM_UAM_NEVER_PUBLISHED');
+                            echo JText::_('COM_JAM_NEVER_PUBLISHED');
                         }
                         else 
                         {
@@ -381,7 +379,7 @@ $uam_jversion = new JVersion();
                 	<?php
                         if ($row->publish_down == '0000-00-00 00:00:00') 
                         {
-                            echo JText::_('COM_UAM_NEVER');
+                            echo JText::_('COM_JAM_NEVER');
                         }
                         else 
                         {
@@ -419,9 +417,9 @@ $uam_jversion = new JVersion();
   
     	<?php echo $this->pagination->getListFooter(); ?>
 
-    	<input type="hidden" name="option" value="com_uam" />
+    	<input type="hidden" name="option" value="com_jam" />
     	<input type="hidden" name="task" value="" />
-    	<input type="hidden" name="view" value="uam" />
+    	<input type="hidden" name="view" value="jam" />
     	<input type="hidden" name="controller" value="" />
     	<input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid'); ?>" />
     	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
@@ -436,28 +434,28 @@ $uam_jversion = new JVersion();
 <div id="fual_edit_alias_form" class="modal hide fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3><?php echo JText::_('COM_UAM_EDIT_ALIAS'); ?></h3>
+        <h3><?php echo JText::_('COM_JAM_EDIT_ALIAS'); ?></h3>
     </div>
     <div class="modal-body">
-        <input type="hidden" id="feaf_txt_saving" value="<?php echo JText::_('COM_UAM_SAVING'); ?>" />
-        <input type="hidden" id="feaf_txt_save" value="<?php echo JText::_('COM_UAM_SAVE'); ?>" />
-        <input type="hidden" id="feaf_txt_error" value="<?php echo JText::_('COM_UAM_INVALID_ALIAS', true); ?>" />
-        <input type="hidden" id="feaf_txt_error_save" value="<?php echo JText::_('COM_UAM_ERROR_SAVING_ALIAS', true); ?>" />
-        <input type="hidden" id="feaf_txt_ok_save" value="<?php echo JText::_('COM_UAM_ALIAS_SAVED', true); ?>" />
-        <input type="hidden" id="feaf_txt_edit_alias" value="<?php echo JText::_('COM_UAM_EDIT_ALIAS'); ?>" />
+        <input type="hidden" id="feaf_txt_saving" value="<?php echo JText::_('COM_JAM_SAVING'); ?>" />
+        <input type="hidden" id="feaf_txt_save" value="<?php echo JText::_('COM_JAM_SAVE'); ?>" />
+        <input type="hidden" id="feaf_txt_error" value="<?php echo JText::_('COM_JAM_INVALID_ALIAS', true); ?>" />
+        <input type="hidden" id="feaf_txt_error_save" value="<?php echo JText::_('COM_JAM_ERROR_SAVING_ALIAS', true); ?>" />
+        <input type="hidden" id="feaf_txt_ok_save" value="<?php echo JText::_('COM_JAM_ALIAS_SAVED', true); ?>" />
+        <input type="hidden" id="feaf_txt_edit_alias" value="<?php echo JText::_('COM_JAM_EDIT_ALIAS'); ?>" />
         <input type="hidden" id="feaf_txt_close" value="Close" />
         <dl class="dl-horizontal">
             <dt>ID:</dt>
                 <dd id="feaf_id_article"></dd>
-            <dt><?php echo JText::_('COM_UAM_TITLE'); ?>:</dt>
+            <dt><?php echo JText::_('COM_JAM_TITLE'); ?>:</dt>
                 <dd id="feaf_title"></dd>
-            <dt><?php echo JText::_('COM_UAM_ALIAS'); ?>:</dt>
+            <dt><?php echo JText::_('COM_JAM_ALIAS'); ?>:</dt>
                 <dd><input type="text" id="feaf_alias" class="input-large" maxlength="255" /></dd>
         </dl>
         <div id="alert-block" class="alert" style="display: none"></div>
     </div>
     <div class="modal-footer">
-        <button class="btn" type="button" id="feaf_bt_cancel" data-dismiss="modal" aria-hidden="true"><?php echo JText::_('COM_UAM_CANCEL'); ?></button>
-        <button class="btn" type="button" id="feaf_bt_save"><?php echo JText::_('COM_UAM_SAVE'); ?></button>
+        <button class="btn" type="button" id="feaf_bt_cancel" data-dismiss="modal" aria-hidden="true"><?php echo JText::_('COM_JAM_CANCEL'); ?></button>
+        <button class="btn" type="button" id="feaf_bt_save"><?php echo JText::_('COM_JAM_SAVE'); ?></button>
     </div>
 </div>

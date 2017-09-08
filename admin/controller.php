@@ -1,16 +1,16 @@
 <?php
 /**
- * @version     0.20
- * @package     com_juam
+ * @version     1.0
+ * @package     com_jam
  * @copyright   Copyright (C) 2017. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov
- * @link        https://github.com/ragnaarius/juam
+ * @author      Felipe Quinto Busanello (FUAL), Rob Sykes (UAM), Alexey Gubanov
+ * @link        https://github.com/ragnaarius/jam
  */
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die();
 
-class UAMController extends JControllerLegacy
+class JAMController extends JControllerLegacy
 {
 	/**
 	 * Custom Constructor
@@ -27,7 +27,7 @@ class UAMController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = array())
 	{
         $jinput = JFactory::getApplication()->input;
-	    $jinput->set( 'view', 'uam' );
+	    $jinput->set( 'view', 'jam' );
 	    
 		parent::display( $cachable, $urlparams );
 	}

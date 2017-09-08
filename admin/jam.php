@@ -1,14 +1,14 @@
 <?php
 /**
- * @version     0.20
- * @package     com_juam
+ * @version     1.0
+ * @package     com_jam
  * @copyright   Copyright (C) 2017. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov
- * @link        https://github.com/ragnaarius/juam
+ * @author      Felipe Quinto Busanello (FUAL), Rob Sykes (UAM), Alexey Gubanov
+ * @link        https://github.com/ragnaarius/jam
  */
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die();
 
 if (!defined('DIRECTORY_SEPARATOR'))
 {
@@ -25,7 +25,7 @@ if($controller = JRequest::getVar('controller'))
 }
 
 // Create the controller
-$classname = 'UAMController' . $controller;
+$classname = 'JAMController' . $controller;
 $controller = new $classname();
 
 // Perform the Request task

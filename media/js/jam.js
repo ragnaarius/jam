@@ -46,7 +46,7 @@ function fualCloseAliasForm() {
 function fualSaveAlias() {
 	if(fualValidateAlias()) {
 		var httpRequest;
-		var url = 'index.php?option=com_uam&task=saveAlias';
+		var url = 'index.php?option=com_jam&task=saveAlias';
 		var parametros = 'id_article=' + document.getElementById('feaf_id_article').innerHTML;
 		parametros += '&alias=' + document.getElementById('feaf_alias').value;
 		if(window.XMLHttpRequest) { // Mozilla, etc, ...

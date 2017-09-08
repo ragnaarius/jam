@@ -1,19 +1,19 @@
 <?php
 /**
- * @version     0.20
- * @package     com_juam
+ * @version     1.0
+ * @package     com_jam
  * @copyright   Copyright (C) 2017. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @author      Felipe Quinto Busanello, Rob Sykes, Alexey Gubanov
- * @link        https://github.com/ragnaarius/juam
+ * @author      Felipe Quinto Busanello (FUAL), Rob Sykes (UAM), Alexey Gubanov
+ * @link        https://github.com/ragnaarius/jam
  */
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die();
  
 /**
  * Script file of HelloWorld component
  */
-class com_uamInstallerScript
+class com_jamInstallerScript
 {
 	/**
 	 * method to install the component
@@ -117,7 +117,7 @@ class com_uamInstallerScript
 			$query	= $db->getQuery(true);
 			$query->update('#__extensions');
 			$query->set("params = " . "'".$defaults."'");
-			$query->where("name = 'com_uam'");
+			$query->where("name = 'com_jam'");
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -128,7 +128,7 @@ class com_uamInstallerScript
 
 			$query->select('params');
 			$query->from('#__extensions');
-			$query->where("name = 'com_uam'");
+			$query->where("name = 'com_jam'");
 			$db->setQuery($query);
 			$saved = $db->loadAssoc();
 			$old = json_decode($saved['params'], true);
@@ -148,7 +148,7 @@ class com_uamInstallerScript
 
 			$query->update('#__extensions');
 			$query->set("params = " . "'".$options."'");
-			$query->where("name = 'com_uam'");
+			$query->where("name = 'com_jam'");
 			$db->setQuery($query);
 			$db->query();
 		}

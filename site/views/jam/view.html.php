@@ -79,9 +79,12 @@ class JAMViewJAM extends JViewLegacy
 								data: 'id_article=' + articleId + '&alias=' + $('#feaf_alias').val(),
 								success: function(data){
 									if (data.success == true){ 
-										//$('#alert-block').css('display', 'block');
-										//$('#alert-block').text('Успешно');
 										$('#fual_edit_alias_form').modal('hide');
+                                        var jmsgs = [data.message];
+                                        var messages = { 'message': jmsgs };
+										Joomla.renderMessages(messages);
+										
+										window.scrollTo(0, 0);
                                         
 									} 
 								},

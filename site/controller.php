@@ -217,7 +217,10 @@ class JAMController extends JControllerLegacy {
             $jam_table->alias = JRequest::getString('alias');
             $jam_table->save(array());
             
-            echo json_encode(array('success' => true));
+            echo json_encode(array(
+              'success' => true, 
+              'message' => JText::_('COM_JAM_ALIAS_SAVED'))
+			);
             jexit();
         }
         

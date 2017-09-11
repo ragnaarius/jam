@@ -17,7 +17,7 @@ class JAMViewJAM extends JViewLegacy
         $params = JComponentHelper::getParams('com_jam');
 
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::base().'/media/com_jam/css/admin.style.css');
+        JHTML::stylesheet( 'media/com_jam/css/admin.style.css' ); 
 
         JToolBarHelper::title(JText::_('COM_JAM'), 'jam');
         JToolBarHelper::preferences('com_jam', '500', '500');

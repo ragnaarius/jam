@@ -23,12 +23,12 @@ class JAMModelJAM extends JModelAdmin
     {
         parent::__construct();
 
-        $mainframe = JFactory::getApplication();
-        $option = JRequest::getCMD('option');
+        $app = JFactory::getApplication();
+        $option = $app->input->getCmd('option', '');
 
 		// Get the pagination request variables
-        $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-        $limitstart = $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
+        $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+        $limitstart = $app->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
         // In case limit has been changed, adjust limitstart accordingly
         $limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
@@ -111,13 +111,13 @@ class JAMModelJAM extends JModelAdmin
 
     function _buildContentOrderBy() 
     {
-        $mainframe = JFactory::getApplication();
-        $option = JRequest::getCMD('option'); 
+        $app = JFactory::getApplication();
+        $option = $app->input->getCmd('option', '');
 
-        $filter_order = $mainframe->getUserStateFromRequest($option.'filter_order', 'filter_order', 'c.created', 'cmd');
+        $filter_order = $app->getUserStateFromRequest($option.'filter_order', 'filter_order', 'c.created', 'cmd');
         ///TODO: resolver essa gambi (um dia ou nunca iauhaiuhaiu)
         $filter_order = ($filter_order == "c.ordering") ? "c.created" : $filter_order; //afffff
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', 'desc', 'word');
+        $filter_order_Dir = $app->getUserStateFromRequest($option.'filter_order_Dir', 'filter_order_Dir', 'desc', 'word');
 
         $orderby = "ORDER BY $filter_order $filter_order_Dir";
 
@@ -126,19 +126,19 @@ class JAMModelJAM extends JModelAdmin
 
     function _buildContentWhere() 
     {
-        $mainframe = JFactory::getApplication();
-        $option = JRequest::getCMD('option'); 
-        $jamParams = JComponentHelper::getParams('com_jam');
+        $app = JFactory::getApplication();
+        $option = $app->input->getCmd('option', '');
+        $apparams = $app->getParams('com_jam');
 
-        $menuParams = new JRegistry;
-
-        if ($menu = $mainframe->getMenu()->getActive()) 
+        $menuparams = new JRegistry;
+        
+        if ($menu = $app->getMenu()->getActive())
         {
-            $menuParams->loadString($menu->params);
+            $menuparams->loadString($menu->params);
         }
-
-        $params = clone $jamParams;
-        $params->merge($menuParams);
+        
+        $params = clone $apparams;
+        $params->merge($menuparams);
 		
         $db = JFactory::getDBO();
         $user = JFactory::getUser();
@@ -147,13 +147,13 @@ class JAMModelJAM extends JModelAdmin
 
         $where = array();
 
-        $filter_search = $mainframe->getUserStateFromRequest($option.'filter_search', 'filter_search', strtolower(JRequest::getString('filter_search')), 'string');
+        $filter_search = $app->getUserStateFromRequest($option.'filter_search', 'filter_search', strtolower($app->input->getString('filter_search', '')), 'string');
         $filter_search = $db->Quote( '%'.$db->getEscaped($filter_search, true ).'%', false );
 
-        $filter_state = $mainframe->getUserStateFromRequest($option.'filter_state', 'filter_state', '', 'word');
-        $filter_catid = $mainframe->getUserStateFromRequest($option.'filter_catid', 'filter_catid', -1, 'int');
-        $filter_langid = $mainframe->getUserStateFromRequest($option.'filter_langid', 'filter_langid', '', 'string');
-        $filter_authorid = $mainframe->getUserStateFromRequest($option.'filter_authorid', 'filter_authorid', 0, 'int');
+        $filter_state = $app->getUserStateFromRequest($option.'filter_state', 'filter_state', '', 'word');
+        $filter_catid = $app->getUserStateFromRequest($option.'filter_catid', 'filter_catid', -1, 'int');
+        $filter_langid = $app->getUserStateFromRequest($option.'filter_langid', 'filter_langid', '', 'string');
+        $filter_authorid = $app->getUserStateFromRequest($option.'filter_authorid', 'filter_authorid', 0, 'int');
 
         if (strlen($filter_search) > 0) 
         {

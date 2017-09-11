@@ -11,7 +11,6 @@
 defined('_JEXEC') or die();
 ?>
 <div class="container jam_info">
-	<img class="jam_logo" src="/media/com_jam/images/jam_logo.png" alt="<?php echo JText::_('COM_JAM'); ?>" />
   	<h3>
 		<?php echo JText::_('COM_JAM_WELCOME') . " " . $this->params->get('version'); ?>
 	</h3>

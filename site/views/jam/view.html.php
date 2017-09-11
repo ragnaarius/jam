@@ -37,56 +37,63 @@ class JAMViewJAM extends JViewLegacy
 			
         //load stylesheet and javascript
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::base(true).'/media/com_jam/css/jam.css');
-        $document->addScript(JURI::base(true).'/media/com_jam/js/jam.js');
+        $document->addStyleSheet(JURI::base(true).'/media/com_jam/css/style.css');
+        $document->addScript(JURI::base(true).'/media/com_jam/js/script.js');
         $document->addScript(JURI::base(true).'/media/com_jam/js/confirm-bootstrap.js');
-        $document->addScriptDeclaration("
-            jQuery(function ($){
-                $(function(){
-					$(document).on('click', '.menuitem_lnk', function(e) {
+		$document->addScriptDeclaration("
+			jQuery(function ($){
+				$(function(){
+					/*$(document).on('click', '.menuitem_lnk', function(e) {
 						e.preventDefault()
 					})
-			    
+
 					$('.menuitem_lnk').confirmModal({
 						confirmTitle: '" . JText::_('COM_JAM_CONFIRM_TITLE') . "',
 						confirmOk: '" . JText::_('COM_JAM_BUTTON_OK') . "',
 						confirmCancel: '" . JText::_('COM_JAM_BUTTON_CANCEL') . "'
-					});
-		    
-                    $(document).on('click', '.menuitem_alias', function(e) {
-                        $('#alert-block').css('display', 'none');
-			    
-                        var articleId = $(this).data('article-id');
-                        var articleAlias = $(this).data('article-alias');
-                        var articleTitle = $(this).data('article-title');
-			    
-                        $('#feaf_alias').val( articleAlias ).focus();
+					});*/
+                        
+					$(document).on('click', '.menuitem_alias', function(e) {
+						/*$('#alert-block').css('display', 'none');*/
+	
+						var articleId = $(this).data('article-id');
+						var articleAlias = $(this).data('article-alias');
+						var articleTitle = $(this).data('article-title');
+                        
                         $('#feaf_id_article').text( articleId );
-                        $('#feaf_title').text( articleTitle );
-			    
-                        $('#fual_edit_alias_form').modal();
-			    
-                        $(document).on('click', '#feaf_bt_save', function(e) {
-                            $.ajax({
-                                type: 'POST',
-                                dataType: 'json',
-                                url: 'index.php?option=com_jam&task=saveAlias',
-                                data: 'id_article=' + articleId + '&alias=' + $('#feaf_alias').val(),
-                                success: function(data){
-                                    if(data.success == true){
-                                        //$('#alert-block').css('display', 'block');
-                                        //$('#alert-block').text('Успешно');
-                                        $('#fual_edit_alias_form').modal('hide');
-                                    }
-                                },
-                                error: function(){
-                                    alert('failure');
-                            });
-                        });
-                    });
-                });
-            });
-        ");
+						$('#feaf_title').text( articleTitle );	
+						$('#feaf_alias').val( articleAlias );
+                        
+                        $('#fual_edit_alias_form').on('shown', function () {
+    						$('#feaf_alias').delay(1000).focus();
+						})  
+                        
+						$('#fual_edit_alias_form').modal();
+ 
+                            
+						$(document).on('click', '#feaf_bt_save', function(e) {
+							$.ajax({
+								type: 'POST',
+								dataType: 'json',
+								url: 'index.php?option=com_jam&task=saveAlias',
+								data: 'id_article=' + articleId + '&alias=' + $('#feaf_alias').val(),
+								success: function(data){
+									if (data.success == true){ 
+										//$('#alert-block').css('display', 'block');
+										//$('#alert-block').text('Успешно');
+										$('#fual_edit_alias_form').modal('hide');
+                                        
+									} 
+								},
+								error: function(){
+									alert('failure');
+								}
+							});
+						});
+					});
+				})
+			});
+		");
             
         // Get data from the model
         $itens = $this->get('Data');

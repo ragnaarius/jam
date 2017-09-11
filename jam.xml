@@ -13,10 +13,12 @@
 	<scriptfile>script.php</scriptfile>	
 	
 	<media destination="com_jam" folder="media">
-		<filename>index.html</filename>
 		<folder>css</folder>
 		<folder>images</folder>
 		<folder>js</folder>
+		<folder>font</folder>
+
+		<filename>index.html</filename>
 	</media>
 	
 	<files folder="site">

@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'jam';
+  src: url('/media/com_jam/font/jam.eot?12423746');
+  src: url('/media/com_jam/font/jam.eot?12423746#iefix') format('embedded-opentype'),
+       url('/media/com_jam/font/jam.woff2?12423746') format('woff2'),
+       url('/media/com_jam/font/jam.woff?12423746') format('woff'),
+       url('/media/com_jam/font/jam.ttf?12423746') format('truetype'),
+       url('/media/com_jam/font/jam.svg?12423746#jam') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+ 
+.icon-jam:before {
+    font-family: "jam" !important;
+    font-weight: normal;
+	content: '\e800'; 
+    display: inline-block;
+    text-decoration: inherit;
+	margin-right: 16px;
+	line-height: 14px;
+}
+
+.jam_info p {
+	clear: both;
+}
+.jam_info {
+	background: url('/media/com_jam/images/jam_logo.png') right top no-repeat;
+}

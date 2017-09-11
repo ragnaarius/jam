@@ -456,6 +456,6 @@ $jam_jversion = new JVersion();
     </div>
     <div class="modal-footer">
         <button class="btn" type="button" id="feaf_bt_cancel" data-dismiss="modal" aria-hidden="true"><?php echo JText::_('COM_JAM_CANCEL'); ?></button>
-        <button class="btn" type="button" id="feaf_bt_save"><?php echo JText::_('COM_JAM_SAVE'); ?></button>
+        <button class="btn btn-primary" type="button" id="feaf_bt_save"><?php echo JText::_('COM_JAM_SAVE'); ?></button>
     </div>
 </div>

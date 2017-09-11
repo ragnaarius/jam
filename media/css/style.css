@@ -45,11 +45,6 @@
 .menuitem.disabled:hover .icon-featured::before{
 	color: #999999;
 }
-
-#fual_edit_alias_form {
-	display: none;
-	position: absolute;
-}
 .modal{
     width: 560px !important;
     left: 50% !important;

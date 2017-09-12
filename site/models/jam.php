@@ -10,11 +10,8 @@
 // No direct access
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.modeladmin' );
-
 class JAMModelJAM extends JModelAdmin 
 {
-
 	var $_data;
 	var $_total = null;
 	var $_pagination = null;
@@ -38,25 +35,25 @@ class JAMModelJAM extends JModelAdmin
     }
 
     /**
-    * Method to get the record form.
-    *
-    * @param	array	$data		Data for the form.
-    * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-    *
-    * @return	mixed	A JForm object on success, false on failure
-    * @since	1.6
-    */
+     * Method to get the record form.
+     *
+     * @param	array	$data		Data for the form.
+     * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+     *
+     * @return	mixed	A JForm object on success, false on failure
+     * @since	1.6
+     */
     public function getForm($data = array(), $loadData = true)
     {
         return parent::getForm($data, $loadData);
     }
 
     /**
-    * Method to get the total number of items
-    *
-    * @access public
-    * @return integer
-    */
+     * Method to get the total number of items
+     *
+     * @access public
+     * @return integer
+     */
     function getTotal() 
     {
         // Lets load the content if it doesn't already exist
@@ -70,27 +67,26 @@ class JAMModelJAM extends JModelAdmin
     }
 
     /**
-    * Method to get a pagination object
-    *
-    * @access public
-    * @return integer
-    */
-    function getPagination() 
+     * Method to get a pagination object
+     *
+     * @access public
+     * @return  integer
+     */
+    public function getPagination()
     {
         // Lets load the content if it doesn't already exist
-        if (empty($this->_pagination)) 
-		{
-            jimport('joomla.html.pagination');
-            $this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+        if (empty($this->_pagination))
+        {
+            $this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
         }
-
+        
         return $this->_pagination;
     }
 
     /**
-    * Returns the query
-    * @return string The query to be used to retrieve the rows from the database
-    */
+     * Returns the query
+     * @return string The query to be used to retrieve the rows from the database
+     */
     function _buildQuery() 
     {
         // Get the WHERE and ORDER BY clauses for the query
@@ -332,9 +328,9 @@ class JAMModelJAM extends JModelAdmin
     }
 
     /**
-    * Retrieves the data
-    * @return array Array of objects containing the data from the database
-    */
+     * Retrieves the data
+     * @return array Array of objects containing the data from the database
+     */
     function getData()
     {
         if (empty($this->_data)) 
@@ -366,13 +362,13 @@ class JAMModelJAM extends JModelAdmin
         return $item;
     }
     /**
-    * Method to toggle the featured setting of an article.
-    *
-    * @param	int		The id of the item to toggle.
-    * @param	int		The value to toggle to.
-    *
-    * @return	boolean	True on success.
-    */
+     * Method to toggle the featured setting of an article.
+     *
+     * @param	int		The id of the item to toggle.
+     * @param	int		The value to toggle to.
+     *
+     * @return	boolean	True on success.
+     */
     public function featured($id, $value = 0)
     {
         try 

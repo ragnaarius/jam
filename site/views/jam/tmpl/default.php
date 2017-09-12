@@ -12,6 +12,7 @@ defined('_JEXEC') or die();
 
 $user = JFactory::getUser();
 $jam_jversion = new JVersion();
+$app = JFactory::getApplication();
 
 ?>
 <div class="jam_page<?php echo $this->params->get('pageclass_sfx'); ?>">
@@ -89,7 +90,7 @@ $jam_jversion = new JVersion();
         //without article
         if (!$count_itens) 
         { 
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_JAM_NO_ARTICLES_FOUND'), 'warning');
+            $app->enqueueMessage(JText::_('COM_JAM_NO_ARTICLES_FOUND'), 'warning');
         }
         else 
         {
@@ -421,7 +422,7 @@ $jam_jversion = new JVersion();
     	<input type="hidden" name="task" value="" />
     	<input type="hidden" name="view" value="jam" />
     	<input type="hidden" name="controller" value="" />
-    	<input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid'); ?>" />
+    	<input type="hidden" name="Itemid" value="<?php echo $app->input->getInt('Itemid', ''); ?>" />
     	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
     	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 
@@ -437,13 +438,6 @@ $jam_jversion = new JVersion();
         <h3><?php echo JText::_('COM_JAM_EDIT_ALIAS'); ?></h3>
     </div>
     <div class="modal-body">
-        <input type="hidden" id="feaf_txt_saving" value="<?php echo JText::_('COM_JAM_SAVING'); ?>" />
-        <input type="hidden" id="feaf_txt_save" value="<?php echo JText::_('COM_JAM_SAVE'); ?>" />
-        <input type="hidden" id="feaf_txt_error" value="<?php echo JText::_('COM_JAM_INVALID_ALIAS', true); ?>" />
-        <input type="hidden" id="feaf_txt_error_save" value="<?php echo JText::_('COM_JAM_ERROR_SAVING_ALIAS', true); ?>" />
-        <input type="hidden" id="feaf_txt_ok_save" value="<?php echo JText::_('COM_JAM_ALIAS_SAVED', true); ?>" />
-        <input type="hidden" id="feaf_txt_edit_alias" value="<?php echo JText::_('COM_JAM_EDIT_ALIAS'); ?>" />
-        <input type="hidden" id="feaf_txt_close" value="Close" />
         <dl class="dl-horizontal">
             <dt>ID:</dt>
                 <dd id="feaf_id_article"></dd>

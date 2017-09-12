@@ -33,8 +33,9 @@ class JAMController extends JControllerLegacy {
     
     function unPublish() 
     {
-        $cid = JRequest::getInt('cid');
-        $itemid = JRequest::getInt('Itemid');
+        $app = JFactory::getApplication();
+        $cid = $app->input->getInt('cid', '');
+        $itemid = $app->input->getInt('Itemid', '');
         $user = JFactory::getUser();
         $params = JComponentHelper::getParams('com_jam');
         
@@ -42,7 +43,7 @@ class JAMController extends JControllerLegacy {
         $jam_table = $jam_model->getTable();
         $jam_table->load($cid);
 
-        $asset	= 'com_content.article.'.$cid;
+        $asset	= 'com_content.article.' . $cid;
         // Check general edit permission first.
         $can_publish = $user->authorise('core.edit.state', $asset);
         // Check general edit permission first.
@@ -94,13 +95,14 @@ class JAMController extends JControllerLegacy {
             }
         }
         $this->setRedirect('index.php?option=com_jam&view=jam&Itemid=' . $itemid);
-        JFactory::getApplication()->enqueueMessage($message, 'message');
+        $app->enqueueMessage($message, 'message');
     }
     
     function unFeature() 
     {
-        $cid = JRequest::getInt('cid');
-        $itemid = JRequest::getInt('Itemid');
+        $app = JFactory::getApplication();
+        $cid = $app->input->getInt('cid', '');
+        $itemid = $app->input->getInt('Itemid', '');
         $user = JFactory::getUser();
         $params = JComponentHelper::getParams('com_jam');
         
@@ -108,7 +110,7 @@ class JAMController extends JControllerLegacy {
         $jam_table = $jam_model->getTable();
         $jam_table->load($cid);
         
-        $asset	= 'com_content.article.'.$cid;
+        $asset	= 'com_content.article.' . $cid;
         // Check general edit permission first.
         $can_publish = $user->authorise('core.edit.state', $asset);
         // Check general edit permission first.
@@ -153,20 +155,21 @@ class JAMController extends JControllerLegacy {
         }
         
         $this->setRedirect('index.php?option=com_jam&view=jam&Itemid=' . $itemid);
-		JFactory::getApplication()->enqueueMessage($message, 'message');
+		$app->enqueueMessage($message, 'message');
     }
     
     function trash() 
     {
-        $cid = JRequest::getInt('cid');
-        $itemid = JRequest::getInt('Itemid');
+        $app = JFactory::getApplication();
+        $cid = $app->input->getInt('cid', '');
+        $itemid = $app->input->getInt('Itemid', '');
         $user = JFactory::getUser();
         
         $jam_model = $this->getModel();
         $jam_table = $jam_model->getTable();
         $jam_table->load($cid);
         
-        $asset	= 'com_content.article.'.$cid;
+        $asset	= 'com_content.article.' . $cid;
         // Check general edit permission first.
         $can_publish = $user->authorise('core.edit.state', $asset);
         // Check general edit permission first.
@@ -192,19 +195,20 @@ class JAMController extends JControllerLegacy {
         }
         
         $this->setRedirect('index.php?option=com_jam&view=jam&Itemid=' . $itemid);
-        JFactory::getApplication()->enqueueMessage($message, 'message');
+        $app->enqueueMessage($message, 'message');
     }
     
     function saveAlias() 
     {
+        $app = JFactory::getApplication();
+        $idarticle = $app->input->getInt('id_article', '');
         $user = JFactory::getUser();
-        $cid = JRequest::getInt('id_article');
         
         $jam_model = $this->getModel();
         $jam_table = $jam_model->getTable();
-        $jam_table->load($cid);
+        $jam_table->load($idarticle);
         
-        $asset	= 'com_content.article.'.$cid;
+        $asset	= 'com_content.article.' . $idarticle;
         // Check general edit permission first.
         $can_publish = $user->authorise('core.edit.state', $asset);
         // Check general edit permission first.
@@ -214,7 +218,7 @@ class JAMController extends JControllerLegacy {
         
         if (is_object($jam_table) && ($can_edit || ($can_edit_own))) 
         {
-            $jam_table->alias = JRequest::getString('alias');
+            $jam_table->alias = $app->input->getString('alias');
             $jam_table->save(array());
             
             echo json_encode(array(
@@ -230,8 +234,9 @@ class JAMController extends JControllerLegacy {
     
     function copy() 
     {
-        $cid = JRequest::getInt('cid');
-        $itemid = JRequest::getInt('Itemid');
+        $app = JFactory::getApplication();
+        $cid = $app->input->getInt('cid', '');
+        $itemid = $app->input->getInt('Itemid', '');
         $db = JFactory::getDBO();
         $user = JFactory::getUser();
         $params = JComponentHelper::getParams('com_jam');
@@ -240,7 +245,7 @@ class JAMController extends JControllerLegacy {
         $jam_table = $jam_model->getTable();
         $jam_table->load($cid);
         
-        $asset	= 'com_content.article.'.$cid;
+        $asset	= 'com_content.article.' . $cid;
         // Check general edit permission first.
         $can_publish = $user->authorise('core.edit.state', $asset);
         // Check general edit permission first.
@@ -267,7 +272,7 @@ class JAMController extends JControllerLegacy {
             $jam_table->save(array());
         }
         $this->setRedirect('index.php?option=com_jam&view=jam&Itemid=' . $itemid);
-		JFactory::getApplication()->enqueueMessage($message, 'message');
+		$app->enqueueMessage($message, 'message');
     }
 }
 ?>

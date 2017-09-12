@@ -3,7 +3,20 @@
 }
 .jam_new_article{
 	margin-bottom: 5px;
+	float: left;
 }
+.jam_toolbar{
+	position: relative;
+}
+.clear{
+	clear: both;
+}
+.control-group{
+	position: absolute;
+	right: 0;
+	margin: 0 !important;
+}
+
 .title{
 	color: #666666;
 }
@@ -59,7 +72,4 @@
 	border: 1px solid #e5e5e5;
 	border-radius: 4px;
 	padding: 15px !important;
-}
-.control-group{
-	margin: 0 !important;
 }

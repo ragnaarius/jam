@@ -22,42 +22,49 @@ $app = JFactory::getApplication();
 	</div>
 	<?php endif; ?>
 	<form class="form-inline" name="adminForm" id="adminForm" method="post" action="<?php echo $this->action; ?>">
-    	<?php
-        if ($this->params->get('new_article_button')) 
-        {
-            $button = $this->getNewArticleButton($this->params);
-        ?>
-    	<div class="jam_new_article">
-        	<button class="btn" type="button" id="bt_new_article" onclick="location.href='<?php echo $button['link']; ?>';">
-				<span class="icon-plus"> </span><?php echo $button['text']; ?>
-        	</button>
-            <button class="btn" type="button" id="bt_filters" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-				<span class="icon-filter"> </span><?php echo JText::_('COM_JAM_FILTER'); ?>
-        	</button>
-    	</div>
-		<?php
-        }
-        ?>
+		<div class="jam_toolbar">
+			<div class="jam_new_article">
+    		<?php
+            if ($this->params->get('new_article_button')) 
+            {
+                $button = $this->getNewArticleButton($this->params);
+            ?>
+        		<button class="btn" type="button" id="bt_new_article" onclick="location.href='<?php echo $button['link']; ?>';">
+					<span class="icon-plus"> </span><?php echo $button['text']; ?>
+        		</button>
+			<?php
+            }
+            ?>       		
+            	<button class="btn" type="button" id="bt_filters" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+					<span class="icon-filter"> </span><?php echo JText::_('COM_JAM_FILTER'); ?>
+        		</button>
+			</div>
+   			<?php
+            if ($this->params->get('showsearchfilter') == 1) 
+            {
+            ?>
+			<div class="control-group">
+				<div class="input-append">
+					<div class="controls">
+						<input class="input-large" id="filter_search" type="text" name="filter_search" placeholder="<?php echo JText::_('COM_JAM_SEARCH_PLACEHOLDER'); ?>" value="<?php echo $this->escape($this->lists['filter_search']);?>" /> 
+						<button class="btn" type="submit" onclick="this.form.submit();">
+							<span class="icon-search"> </span><?php echo JText::_('COM_JAM_GO'); ?>
+						</button>
+						<button class="btn" onclick="document.getElementById('filter_search').value=''; document.getElementById('filter_state').value=''; document.getElementById('filter_catid').value='0'; document.getElementById('filter_authorid').value='0'; document.getElementById('filter_lang').value=''; this.form.submit();">
+							<span class="icon-remove"> </span><?php echo JText::_('COM_JAM_RESET'); ?>
+						</button>
+					</div>
+				</div>
+			</div>    	
+		</div>
+			<?php
+            }
+            ?>
+        <div class="clear"></div>
 		<div class="accordion" id="accordion">
 			<div id="collapseOne" class="accordion-body collapse">
 				<div class="accordion-inner">
-				<?php
-                    if ($this->params->get('showsearchfilter') == 1) 
-                    {
-                    ?>
-					<div class="control-group">
-						<div class="input-append">
-							<div class="controls">
-								<input class="input-large" id="filter_search" type="text" name="filter_search" placeholder="<?php echo JText::_('COM_JAM_SEARCH_PLACEHOLDER'); ?>" value="<?php echo $this->escape($this->lists['filter_search']);?>" /> 
-								<button class="btn" type="submit" onclick="this.form.submit();"><span class="icon-search"> </span><?php echo JText::_('COM_JAM_GO'); ?></button>
-								<button class="btn" onclick="document.getElementById('filter_search').value=''; document.getElementById('filter_state').value=''; document.getElementById('filter_catid').value='0'; document.getElementById('filter_authorid').value='0'; document.getElementById('filter_lang').value=''; this.form.submit();"><?php echo JText::_('COM_JAM_RESET'); ?></button>
-							</div>
-						</div>
-					</div>
-					<?php
-                    }
-                    ?>
-					<div class="control-group">
+					<div class="lists">
 					<?php
                     if ((($this->params->get('useallcategories') == 1) 
                         || ($this->params->get('allow_subcategories') == 1)) 
@@ -82,7 +89,7 @@ $app = JFactory::getApplication();
 					</div>
 				</div>
 			</div>
-    	</div>
+        </div>
     	<?php
         $count_itens = count($this->itens);
 

@@ -48,7 +48,7 @@ $app = JFactory::getApplication();
 					<div class="control-group">
 						<div class="input-append">
 							<div class="controls">
-								<input class="input-large" id="filter_search" type="text" name="filter_search" value="<?php echo $this->escape($this->lists['filter_search']);?>" /> 
+								<input class="input-large" id="filter_search" type="text" name="filter_search" placeholder="<?php echo JText::_('COM_JAM_SEARCH_PLACEHOLDER'); ?>" value="<?php echo $this->escape($this->lists['filter_search']);?>" /> 
 								<button class="btn" type="submit" onclick="this.form.submit();"><?php echo JText::_('COM_JAM_GO'); ?></button>
 								<button class="btn" onclick="document.getElementById('filter_search').value=''; document.getElementById('filter_state').value=''; document.getElementById('filter_catid').value='0'; document.getElementById('filter_authorid').value='0'; document.getElementById('filter_lang').value=''; this.form.submit();"><?php echo JText::_('COM_JAM_RESET'); ?></button>
 							</div>

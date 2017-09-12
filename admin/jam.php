@@ -10,13 +10,13 @@
 // No direct access
 defined('_JEXEC') or die();
 
-// Create the controller
-$controller = JControllerLegacy::getInstance( 'jam' );
+// Get an instance of the controller
+$controller = JControllerLegacy::getInstance('JAM');
 
 // Perform the Request task
-$controller->execute( JFactory::getApplication()->input->get( 'task' ) );
+$input = JFactory::getApplication()->input;
+$controller->execute($input->getCmd('task'));
 
 // Redirect if set by the controller
 $controller->redirect();
-
-?>
+?

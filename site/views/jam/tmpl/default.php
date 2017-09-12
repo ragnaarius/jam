@@ -22,57 +22,6 @@ $app = JFactory::getApplication();
 	</div>
 	<?php endif; ?>
 	<form class="form-inline" name="adminForm" id="adminForm" method="post" action="<?php echo $this->action; ?>">
-    	<div class="accordion" id="accordion2">
-        	<div class="accordion-group">
-            	<div class="accordion-heading">
-                	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne"><span class="icon-filter"></span><?php echo JText::_('COM_JAM_FILTER'); ?></a>
-            	</div>
-            	<div id="collapseOne" class="accordion-body collapse">
-                	<div class="accordion-inner">
-                    	<?php
-                        if ($this->params->get('showsearchfilter') == 1) 
-					   {
-                        ?>
-                    	<div class="control-group">
-                        	<div class="input-append">
-                            	<div class="controls">
-                                	<label class="control-label" for="filter_search"><?php echo JText::_('COM_JAM_FILTER'); ?>: </label>
-                                	<input class="input-large" id="filter_search" type="text" name="filter_search" value="<?php echo $this->escape($this->lists['filter_search']);?>" /> 
-                                	<button class="btn" type="submit" onclick="this.form.submit();"><?php echo JText::_('COM_JAM_GO'); ?></button>
-                                	<button class="btn" onclick="document.getElementById('filter_search').value=''; document.getElementById('filter_state').value=''; document.getElementById('filter_catid').value='0'; document.getElementById('filter_authorid').value='0'; document.getElementById('filter_lang').value=''; this.form.submit();"><?php echo JText::_('COM_JAM_RESET'); ?></button>
-                            	</div>
-                        	</div>
-                    	</div>
-						<?php
-                        }
-                        ?>
-                    	<div class="control-group">
-                    	<?php
-                        if ((($this->params->get('useallcategories') == 1) 
-						  || ($this->params->get('allow_subcategories') == 1)) 
-						  && ($this->params->get('showcategoryfilter') == 1)) 
-                        {
-                            echo $this->lists['catid'];
-                        }
-                        if (($this->canEditOwnOnly == false) 
-						  && ($this->params->get('showauthorfilter') == 1)) 
-                        {
-                            echo $this->lists['authorid'];
-                        }
-                        if ($this->params->get('showpublishedstatefilter') == 1) 
-                        {
-                            echo $this->lists['state'];
-                        }
-                        if ($this->params->get('showlanguagefilter') == 1) 
-                        {
-                            echo $this->lists['langs'];
-                        }
-                        ?>
-                    	</div>
-                	</div>
-            	</div>
-        	</div>
-    	</div>
     	<?php
         if ($this->params->get('new_article_button')) 
         {
@@ -82,9 +31,59 @@ $app = JFactory::getApplication();
         	<button class="btn" type="button" id="bt_new_article" onclick="location.href='<?php echo $button['link']; ?>';">
 				<span class="icon-plus"> </span><?php echo $button['text']; ?>
         	</button>
+            <button class="btn" type="button" id="bt_filters" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+				<span class="icon-filter"> </span><?php echo JText::_('COM_JAM_FILTER'); ?>
+        	</button>
     	</div>
 		<?php
         }
+        ?>
+		<div class="accordion" id="accordion">
+			<div id="collapseOne" class="accordion-body collapse">
+				<div class="accordion-inner">
+				<?php
+                    if ($this->params->get('showsearchfilter') == 1) 
+                    {
+                    ?>
+					<div class="control-group">
+						<div class="input-append">
+							<div class="controls">
+								<input class="input-large" id="filter_search" type="text" name="filter_search" value="<?php echo $this->escape($this->lists['filter_search']);?>" /> 
+								<button class="btn" type="submit" onclick="this.form.submit();"><?php echo JText::_('COM_JAM_GO'); ?></button>
+								<button class="btn" onclick="document.getElementById('filter_search').value=''; document.getElementById('filter_state').value=''; document.getElementById('filter_catid').value='0'; document.getElementById('filter_authorid').value='0'; document.getElementById('filter_lang').value=''; this.form.submit();"><?php echo JText::_('COM_JAM_RESET'); ?></button>
+							</div>
+						</div>
+					</div>
+					<?php
+                    }
+                    ?>
+					<div class="control-group">
+					<?php
+                    if ((($this->params->get('useallcategories') == 1) 
+                        || ($this->params->get('allow_subcategories') == 1)) 
+                        && ($this->params->get('showcategoryfilter') == 1)) 
+                    {
+                        echo $this->lists['catid'];
+                    }
+                    if (($this->canEditOwnOnly == false) 
+                        && ($this->params->get('showauthorfilter') == 1)) 
+                    {
+                        echo $this->lists['authorid'];
+                    }
+                    if ($this->params->get('showpublishedstatefilter') == 1) 
+                    {
+                        echo $this->lists['state'];
+                    }
+                    if ($this->params->get('showlanguagefilter') == 1) 
+                        {
+                        echo $this->lists['langs'];
+                    }
+                    ?>
+					</div>
+				</div>
+			</div>
+    	</div>
+    	<?php
         $count_itens = count($this->itens);
 
         //without article

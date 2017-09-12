@@ -27,7 +27,7 @@
 	</fieldset>
 
 	<fieldset name="filters" label="COM_JAM_CONFIG_FILTERS">
-		<field name="showsearchfilter" type="radio" default="1" label="COM_JAM_SHOW_SEARCH_FILTER" description="COM_JAM_SHOW_SEARCH_FILTER_DESC" class="btn-group btn-group-yesno">
+		<field name="showsearchfilter" type="radio" default="0" label="COM_JAM_SHOW_SEARCH_FILTER" description="COM_JAM_SHOW_SEARCH_FILTER_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -50,14 +50,6 @@
 	</fieldset>
 
 	<fieldset name="table" label="COM_JAM_CONFIG_TABLE">
-		<field name="id_column" type="radio" default="1" label="COM_JAM_ID_COLUMN" description="COM_JAM_ID_COLUMN_DESC" class="btn-group btn-group-yesno">
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-		<field name="title_column" type="radio" default="1" label="COM_JAM_TITLE_COLUMN" description="COM_JAM_TITLE_COLUMN_DESC" class="btn-group btn-group-yesno">
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
 		<field name="title_link" type="radio" default="1" label="COM_JAM_TITLE_LINK" description="COM_JAM_TITLE_LINK_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -102,30 +94,34 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+		<field name="id_column" type="radio" default="1" label="COM_JAM_ID_COLUMN" description="COM_JAM_ID_COLUMN_DESC" class="btn-group btn-group-yesno">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 	</fieldset>
 	
 	<fieldset name="jam_menu" label="COM_JAM_CONFIG_MENU">
-		<field name="edit_column" type="radio" default="1" label="COM_JAM_EDIT_COLUMN" description="COM_JAM_EDIT_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="edit_menuitem" type="radio" default="1" label="COM_JAM_EDIT_MENUITEM" description="COM_JAM_EDIT_MENUITEM_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>	
-		<field name="copy_column" type="radio" default="0" label="COM_JAM_COPY_COLUMN" description="COM_JAM_COPY_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="copy_menuitem" type="radio" default="0" label="COM_JAM_COPY_MENUITEM" description="COM_JAM_COPY_MENUITEM_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="edit_alias_column" type="radio" default="0" label="COM_JAM_EDIT_ALIAS_COLUMN" description="COM_JAM_EDIT_ALIAS_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="edit_alias_menuitem" type="radio" default="0" label="COM_JAM_EDIT_ALIAS_MENUITEM" description="COM_JAM_EDIT_ALIAS_MENUITEM_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="published_column" type="radio" default="1" label="COM_JAM_PUBLISHED_COLUMN" description="COM_JAM_PUBLISHED_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="published_menuitem" type="radio" default="1" label="COM_JAM_PUBLISHED_MENUITEM" description="COM_JAM_PUBLISHED_MENUITEM_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="featured_column" type="radio" default="0" label="COM_JAM_FEATURED_COLUMN" description="COM_JAM_FEATURED_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="featured_menuitem" type="radio" default="0" label="COM_JAM_FEATURED_MENUITEM" description="COM_JAM_FEATURED_MENUITEM_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="trash_column" type="radio" default="1" label="COM_JAM_TRASH_COLUMN" description="COM_JAM_TRASH_COLUMN_DESC" class="btn-group btn-group-yesno">
+		<field name="trash_menuitem" type="radio" default="1" label="COM_JAM_TRASH_MENUITEM" description="COM_JAM_TRASH_MENUITEM_DESC" class="btn-group btn-group-yesno">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>

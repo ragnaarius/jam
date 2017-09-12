@@ -104,21 +104,13 @@ $app = JFactory::getApplication();
     	<table class="table table-striped">
         	<thead>
             	<tr>
-            	<?php
-                if ($this->params->get('published_column')) :
-                ?>
-					<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_JAM_STATE', 'c.state', $this->lists['order_Dir'], $this->lists['order']); ?>
+				<th class="nowrap">
+                		<?php echo JHTML::_('grid.sort', 'COM_JAM_STATE', 'c.state', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
-            	<?php
-                endif;
-                if ($this->params->get('title_column')) :
-                ?>
                 	<th class="nowrap">
-                	<?php echo JHTML::_('grid.sort', 'COM_JAM_TITLE', 'c.title', $this->lists['order_Dir'], $this->lists['order']); ?>
+                		<?php echo JHTML::_('grid.sort', 'COM_JAM_TITLE', 'c.title', $this->lists['order_Dir'], $this->lists['order']); ?>
                 	</th>
             	<?php
-                endif;
                 if ($this->params->get('category_column')) :
                 ?>
                 	<th class="nowrap">
@@ -212,7 +204,7 @@ $app = JFactory::getApplication();
                         	<ul class="dropdown-menu">
                         	<?php
                             // Edit Item     
-                            if ($this->params->get('edit_column')) :
+                            if ($this->params->get('edit_menuitem')) :
                                 $edit = $this->getEdit($row, $row->params, $this->access);
                                 echo   "<li class=\"menuitem " . $edit['class'] . "\">
                                             <a href=\"" . $edit['link'] . "\">
@@ -221,7 +213,7 @@ $app = JFactory::getApplication();
                                         </li>";
                             endif;
                             // Copy Item
-                            if ($this->params->get('copy_column')) :
+                            if ($this->params->get('copy_menuitem')) :
                                 $copy = $this->getCopy($row, $row->params, $this->access);
                                 echo   "<li class=\"menuitem " . $copy['class'] . "\">
                                             <a  class=\"menuitem_lnk\" href=\"" . $copy['link'] . "\" data-confirm-message=\"" . $copy['msg_confirm'] . "\">
@@ -230,7 +222,7 @@ $app = JFactory::getApplication();
                                         </li>";
                             endif;
                             // Edit alias Item
-                            if ($this->params->get('edit_alias_column')) :
+                            if ($this->params->get('edit_alias_menuitem')) :
                                 $editalias = $this->getEditAlias($row, $row->params, $this->access);
                                 echo   "<li class=\"menuitem " . $editalias['class'] . "\">
                                             <a class=\"menuitem_alias\" href=\"#edit_alias_form\" data-toggle=\"modal\" data-article-id=\"" . $editalias['article_id'] . "\" data-article-alias=\"" . $row->alias . "\" data-article-title=\"" . $row->title . "\">
@@ -239,7 +231,7 @@ $app = JFactory::getApplication();
                                         </li>";
                             endif;          
                             // Public Item
-                            if ($this->params->get('published_column')) :
+                            if ($this->params->get('published_menuitem')) :
                                 $published = $this->getPublished($row, $row->params, $this->access, 'menuitem');
                                 echo   "<li class=\"menuitem " . $published['class'] . "\">
                                             <a href=\"" . $published['link'] . "\">
@@ -248,7 +240,7 @@ $app = JFactory::getApplication();
                                         </li>";
                             endif;
                             // Featured Item
-                            if ($this->params->get('featured_column')) :
+                            if ($this->params->get('featured_menuitem')) :
                                 $featured = $this->getFeatured($row, $row->params, $this->access, 'menuitem');
                                 echo   "<li class=\"menuitem " . $featured['class'] . "\">
                                             <a href=\"" . $featured['link'] . "\">
@@ -257,7 +249,7 @@ $app = JFactory::getApplication();
                                         </li>";
                             endif;          
                             // Trash / Restore Item
-                            if ($this->params->get('trash_column')) :
+                            if ($this->params->get('trash_menuitem')) :
                                 $trash = $this->getTrash($row, $row->params, $this->access);
                                 echo   "<li class=\"divider\"></li>
 										<li class=\"menuitem " . $trash['class'] . "\">
@@ -270,42 +262,37 @@ $app = JFactory::getApplication();
                         	</ul>
                     	</div>        
                 	</td>
-					<?php
-				    // Title column
-                    if ($this->params->get('title_column')) :
-                    ?>
                 	<td>
                 	<?php
-                        $title = $this->getTitle($row, $row->params, $this->access);
-                        if ($title['linked'])
+                	// Title column
+                    $title = $this->getTitle($row, $row->params, $this->access);
+
+                    if ($title['linked'])
+                    {
+                        echo   "<a href=\"" . $title['link'] . "\">
+                                    <span class=\"title " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" >" . $title['title'] . "</span>
+                                </a>";
+                    }
+                    else
+                    {
+                        if ($title['checkout'])
                         {
-                            echo   "<a href=\"" . $title['link'] . "\">
-									   <span class=\"title " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" >" . $title['title'] . "</span>
-								    </a>";
+                            echo "<span class=\"btn btn-micro icon-lock " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" ></span><span class=\"title\">" . $title['title'] . "</span>";
                         }
-                        else
+                        else 
                         {
-                            if ($title['checkout'])
-                            {
-                                echo "<span class=\"btn btn-micro icon-lock " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" ></span><span class=\"title\">" . $title['title'] . "</span>";
-                            }
-                            else 
-                            {
-                                echo "<span class=\"title " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" >" . $title['title'] . "</span>";
-                            }
+                            echo "<span class=\"title " . $title['class'] . "\" title=\"" . $title['tooltip'] . "\" >" . $title['title'] . "</span>";
                         }
-						// Category after title
-						if ($this->params->get('category_in_title')) :
-					?>
-						<div class="small">
-							<?php echo JText::_('COM_JAM_CATEGORY') . ":"; ?>
-						    <a href="<?php echo ContentHelperRoute::getCategoryRoute($row->catid); ?>">
-								<?php echo $row->category; ?>
-							</a>
-						</div>
-					<?php
-						endif;
-					?>
+                    }
+                    // Category after title
+                    if ($this->params->get('category_in_title')) :
+                ?>
+					<div class="small">
+						<?php echo JText::_('COM_JAM_CATEGORY') . ":"; ?>
+						<a href="<?php echo ContentHelperRoute::getCategoryRoute($row->catid); ?>">
+							<?php echo $row->category; ?>
+						</a>
+					</div>
                 	</td>
                 	<?php
                     endif;

@@ -74,16 +74,6 @@
 		</fieldset>
 
 		<fieldset name="table" label="COM_JAM_CONFIG_TABLE">
-			<field name="id_column" type="list" label="COM_JAM_ID_COLUMN" description="COM_JAM_ID_COLUMN_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-			<field name="title_column" type="list" label="COM_JAM_TITLE_COLUMN" description="COM_JAM_TITLE_COLUMN_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
 			<field name="title_link" type="list" label="COM_JAM_TITLE_LINK" description="COM_JAM_TITLE_LINK_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNO</option>
@@ -139,35 +129,40 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+			<field name="id_column" type="list" label="COM_JAM_ID_COLUMN" description="COM_JAM_ID_COLUMN_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 		</fieldset>
 
 		<fieldset name="jam_menu" label="COM_JAM_CONFIG_MENU">
-			<field name="edit_column" type="list" label="COM_JAM_EDIT_COLUMN" description="COM_JAM_EDIT_COLUMN_DESC">
+			<field name="edit_menuitem" type="list" label="COM_JAM_EDIT_MENUITEM" description="COM_JAM_EDIT_MENUITEM_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>		
-			<field name="copy_column" type="list" label="COM_JAM_COPY_COLUMN" description="COM_JAM_COPY_COLUMN_DESC">
+			<field name="copy_menuitem" type="list" label="COM_JAM_COPY_MENUITEM" description="COM_JAM_COPY_MENUITEM_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>		
-			<field name="edit_alias_column" type="list" label="COM_JAM_EDIT_ALIAS_COLUMN" description="COM_JAM_EDIT_ALIAS_COLUMN">
+			<field name="edit_alias_menuitem" type="list" label="COM_JAM_EDIT_ALIAS_MENUITEM" description="COM_JAM_EDIT_ALIAS_MENUITEM_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>		
-			<field name="published_column" type="list" label="COM_JAM_PUBLISHED_COLUMN" description="COM_JAM_PUBLISHED_COLUMN_DESC">
+			<field name="published_menuitem" type="list" label="COM_JAM_PUBLISHED_MENUITEM" description="COM_JAM_PUBLISHED_MENUITEM_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field name="featured_column" type="list" label="COM_JAM_FEATURED_COLUMN" description="COM_JAM_FEATURED_COLUMN_DESC">
+			<field name="featured_menuitem" type="list" label="COM_JAM_FEATURED_MENUITEM" description="COM_JAM_FEATURED_MENUITEM_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field name="trash_column" type="list" label="COM_JAM_TRASH_COLUMN" description="COM_JAM_TRASH_COLUMN_DESC">
+			<field name="trash_menuitem" type="list" label="COM_JAM_TRASH_MENUITEM" description="COM_JAM_TRASH_MENUITEM_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

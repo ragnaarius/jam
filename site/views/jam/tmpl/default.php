@@ -233,7 +233,7 @@ $app = JFactory::getApplication();
                             if ($this->params->get('edit_alias_column')) :
                                 $editalias = $this->getEditAlias($row, $row->params, $this->access);
                                 echo   "<li class=\"menuitem " . $editalias['class'] . "\">
-                                            <a class=\"menuitem_alias\" href=\"" . $editalias['link'] . "\" data-toggle=\"modal\" data-article-id=\"" . $editalias['article_id'] . "\" data-article-alias=\"" . $row->alias . "\" data-article-title=\"" . $row->title . "\">
+                                            <a class=\"menuitem_alias\" href=\"#edit_alias_form\" data-toggle=\"modal\" data-article-id=\"" . $editalias['article_id'] . "\" data-article-alias=\"" . $row->alias . "\" data-article-title=\"" . $row->title . "\">
                                                 <span class=\"icon-share-alt\"></span>" . $editalias['item_txt'] . "
                                             </a>
                                         </li>";
@@ -438,7 +438,7 @@ $app = JFactory::getApplication();
 </div>
 <!-- Edit alias form code -->
 
-<div id="fual_edit_alias_form" class="modal hide fade">
+<div id="edit_alias_form" class="modal hide fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3><?php echo JText::_('COM_JAM_EDIT_ALIAS'); ?></h3>
@@ -446,16 +446,16 @@ $app = JFactory::getApplication();
     <div class="modal-body">
         <dl class="dl-horizontal">
             <dt>ID:</dt>
-                <dd id="feaf_id_article"></dd>
+                <dd id="eaf_id_article"></dd>
             <dt><?php echo JText::_('COM_JAM_TITLE'); ?>:</dt>
-                <dd id="feaf_title"></dd>
+                <dd id="eaf_title"></dd>
             <dt><?php echo JText::_('COM_JAM_ALIAS'); ?>:</dt>
-                <dd><input type="text" id="feaf_alias" class="input-large" maxlength="255" /></dd>
+                <dd><input type="text" id="eaf_alias" class="input-large" maxlength="255" /></dd>
         </dl>
         <div id="alert-block" class="alert" style="display: none"></div>
     </div>
     <div class="modal-footer">
-        <button class="btn" type="button" id="feaf_bt_cancel" data-dismiss="modal" aria-hidden="true"><?php echo JText::_('COM_JAM_CANCEL'); ?></button>
-        <button class="btn btn-primary" type="button" id="feaf_bt_save"><?php echo JText::_('COM_JAM_SAVE'); ?></button>
+        <button class="btn" type="button" id="eaf_btn_cancel" data-dismiss="modal" aria-hidden="true"><?php echo JText::_('COM_JAM_CANCEL'); ?></button>
+        <button class="btn btn-primary" type="button" id="eaf_btn_save"><?php echo JText::_('COM_JAM_SAVE'); ?></button>
     </div>
 </div>

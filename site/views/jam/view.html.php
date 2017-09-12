@@ -29,7 +29,7 @@ class JAMViewJAM extends JViewLegacy
         $params->merge($menuparams);
             
         // Require the com_content helper library
-        require_once(JPATH_SITE.DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_content' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'route.php');
+        JHtml::addIncludePath(JPATH_ROOT . '/components/com_content/helpers');
 
         //load frameworks for right sequence in the page header
         JHtml::_('jquery.framework', true, true);
@@ -40,64 +40,7 @@ class JAMViewJAM extends JViewLegacy
         $document->addStyleSheet(JURI::base(true).'/media/com_jam/css/style.css');
         $document->addScript(JURI::base(true).'/media/com_jam/js/script.js');
         $document->addScript(JURI::base(true).'/media/com_jam/js/confirm-bootstrap.js');
-		$document->addScriptDeclaration("
-			jQuery(function ($){
-				$(function(){
-					/*$(document).on('click', '.menuitem_lnk', function(e) {
-						e.preventDefault()
-					})
-
-					$('.menuitem_lnk').confirmModal({
-						confirmTitle: '" . JText::_('COM_JAM_CONFIRM_TITLE') . "',
-						confirmOk: '" . JText::_('COM_JAM_BUTTON_OK') . "',
-						confirmCancel: '" . JText::_('COM_JAM_BUTTON_CANCEL') . "'
-					});*/
-                        
-					$(document).on('click', '.menuitem_alias', function(e) {
-						/*$('#alert-block').css('display', 'none');*/
-	
-						var articleId = $(this).data('article-id');
-						var articleAlias = $(this).data('article-alias');
-						var articleTitle = $(this).data('article-title');
-                        
-                        $('#feaf_id_article').text( articleId );
-						$('#feaf_title').text( articleTitle );	
-						$('#feaf_alias').val( articleAlias );
-                        
-                        $('#fual_edit_alias_form').on('shown', function () {
-    						$('#feaf_alias').delay(1000).focus();
-						})  
-                        
-						$('#fual_edit_alias_form').modal();
  
-                            
-						$(document).on('click', '#feaf_bt_save', function(e) {
-							$.ajax({
-								type: 'POST',
-								dataType: 'json',
-								url: 'index.php?option=com_jam&task=saveAlias',
-								data: 'id_article=' + articleId + '&alias=' + $('#feaf_alias').val(),
-								success: function(data){
-									if (data.success == true){ 
-										$('#fual_edit_alias_form').modal('hide');
-                                        var jmsgs = [data.message];
-                                        var messages = { 'message': jmsgs };
-										Joomla.renderMessages(messages);
-										
-										window.scrollTo(0, 0);
-                                        
-									} 
-								},
-								error: function(){
-									alert('failure');
-								}
-							});
-						});
-					});
-				})
-			});
-		");
-            
         // Get data from the model
         $itens = $this->get('Data');
         $total = $this->get('Total');
@@ -617,19 +560,16 @@ class JAMViewJAM extends JViewLegacy
                 && ($access->canEdit || $access->canEditOwn)) 
             {
                 $article_id = $article->id;
-                $link = "#fual_edit_alias_form";
             }
             else 
             {
                 $class = "disabled";
-                $link = "#";
             }
             
             $output = array(
                 'item_txt' => $item_txt,
                 'article_id' => $article_id,
                 'class' => $class,
-                'link' => $link
             );
             
             return $output;

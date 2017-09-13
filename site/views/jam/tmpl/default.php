@@ -185,7 +185,7 @@ $app = JFactory::getApplication();
                 $this->access->canEditOwn = $user->authorise('core.edit.own', $asset) && ($this->user->id == $row->created_by);
             ?>
 				<tr id="article<?php echo $row->id; ?>">
-                	<td align="center">
+                	<td class="nowrap">
 					<div class="btn-group">
 						<?php
                             $published = $this->getPublished($row, $row->params, $this->access, 'button');

@@ -19,4 +19,4 @@ $controller->execute($input->getCmd('task'));
 
 // Redirect if set by the controller
 $controller->redirect();
-?
+?>

@@ -29,7 +29,7 @@ class JAMViewJAM extends JViewLegacy
         $params->merge($menuparams);
             
         // Require the com_content helper library
-        JHtml::addIncludePath(JPATH_ROOT . '/components/com_content/helpers');
+        require_once(JPATH_ROOT . '/components/com_content/helpers/route.php');
 
         //load frameworks for right sequence in the page header
         JHtml::_('jquery.framework', true, true);
